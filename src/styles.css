@@ -22,3 +22,10 @@ button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line
 .now{margin:0;font-size:28px;font-weight:700;text-align:center;min-height:42px}
 footer{text-align:center;color:var(--muted);font-size:13px;padding:24px}
 @media (max-width:720px){.app{grid-template-columns:1fr}.viewer{aspect-ratio:4/3;min-height:280px}}
+
+.marquee{overflow:hidden;border-block:1px solid var(--line);margin:8px 0;padding:14px 0}
+.marquee-track{display:flex;width:max-content;animation:marquee 40s linear infinite}
+.marquee-set{display:flex;flex-shrink:0;align-items:center;gap:32px;padding-right:32px;font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--muted);white-space:nowrap}
+.marquee-set b{color:var(--accent)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.marquee-track{animation:none}}
