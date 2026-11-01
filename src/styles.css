@@ -128,3 +128,4 @@ section[id]{scroll-margin-top:100px}
 .stage3d canvas{display:block;width:100%;height:100%}
 .stage-loading{position:absolute;inset:0;margin:0;display:grid;place-items:center;color:#fff;font-size:12px;letter-spacing:.08em;opacity:.8}
 .result-stage .stage3d{position:relative;inset:auto;width:100%;aspect-ratio:4/5;max-height:560px}
+.result-caption .in-dict{text-decoration:underline;text-decoration-color:var(--orange,#c39b78);text-underline-offset:3px}
