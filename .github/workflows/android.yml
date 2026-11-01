@@ -11,6 +11,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'scripts/build.mjs'
+      - 'scripts/android-signing.mjs'
       - '.github/workflows/android.yml'
   pull_request:
     paths:
@@ -21,6 +22,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'scripts/build.mjs'
+      - 'scripts/android-signing.mjs'
       - '.github/workflows/android.yml'
   workflow_dispatch:
 
@@ -60,6 +62,7 @@ jobs:
         run: |
           npx cap add android
           npm run android:assets
+          node scripts/android-signing.mjs
           npx cap sync android
 
       - name: Set version
@@ -68,17 +71,18 @@ jobs:
           sed -i "s/versionName \"1.0\"/versionName \"2.0.${{ github.run_number }}\"/" android/app/build.gradle
           grep -n "versionCode\|versionName" android/app/build.gradle
 
-      - name: Use fixed signing key
-        run: |
-          mkdir -p ~/.android
-          cp android-signing/debug.keystore ~/.android/debug.keystore
-
       - name: Build APK
         working-directory: android
         run: ./gradlew assembleDebug --no-daemon
 
       - name: Collect APK
-        run: cp android/app/build/outputs/apk/debug/app-debug.apk qol-ai.apk
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk qol-ai.apk
+          # проверка: APK подписан ключом из android-signing/
+          expected=$(keytool -list -v -keystore android-signing/debug.keystore -storepass android | grep -m1 'SHA256:' | awk '{print $2}')
+          actual=$(keytool -printcert -jarfile qol-ai.apk | grep -m1 'SHA256:' | awk '{print $2}')
+          echo "expected $expected"; echo "actual   $actual"
+          test "$expected" = "$actual"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

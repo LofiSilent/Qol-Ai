@@ -10,7 +10,7 @@
     "preview": "node scripts/serve.mjs dist",
     "start": "npm run dev",
     "build:app": "APP=1 node scripts/build.mjs",
-    "android:init": "npx cap add android && npm run android:assets",
+    "android:init": "npx cap add android && npm run android:assets && node scripts/android-signing.mjs",
     "android:assets": "npx capacitor-assets generate --android --iconBackgroundColor \"#101D27\" --iconBackgroundColorDark \"#101D27\" --splashBackgroundColor \"#101D27\" --splashBackgroundColorDark \"#101D27\"",
     "android:sync": "npm run build:app && npx cap sync android",
     "android:apk": "npm run android:sync && cd android && ./gradlew assembleDebug"
