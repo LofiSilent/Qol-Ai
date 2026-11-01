@@ -18,7 +18,7 @@ const OUTFITS = {
   business: ['Qol_Business_'],
   base: ['Fitted_formal_jacket_and_top'],
 };
-const OUTFIT = 'casual';
+const OUTFIT = 'academic';
 
 function applyOutfit(root, outfit = OUTFIT) {
   const hidden = Object.entries(OUTFITS).filter(([k]) => k !== outfit).flatMap(([, p]) => p);
