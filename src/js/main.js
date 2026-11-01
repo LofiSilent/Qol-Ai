@@ -102,20 +102,24 @@ function setHeroButton() {
   heroPlay.textContent = isPlaying() ? 'Ⅱ' : '▶';
   heroPlay.setAttribute('aria-label', isPlaying() ? 'Pause' : 'Play');
 }
+const progress = { onFrame: (_, p) => { heroTrack.style.width = (p * 100) + '%'; setHeroButton(); },
+                   onEnd: () => { heroTrack.style.width = '0'; setHeroButton(); } };
+
+// Студия: слова из словаря задают форму руки поверх анимации, остальные — по буквам.
 async function sign(text, stage) {
   await dictionaryReady;
   mount(stage);
   const { frames, words } = textToFrames(text);
-  play(frames, {
-    onFrame: (_, i, n) => { heroTrack.style.width = ((i + 1) / n * 100) + '%'; setHeroButton(); },
-    onEnd: () => { heroTrack.style.width = '0'; setHeroButton(); },
-  });
+  play(frames, progress);
   setHeroButton();
   return words;
 }
+// Первый экран: анимация модели целиком.
 heroPlay.addEventListener('click', () => {
-  if (isPlaying()) { stop(); setHeroButton(); return; }
-  sign($('.caption').textContent.replace(/[«»“”"]/g, ''), heroStage);
+  if (isPlaying()) { stop(); progress.onEnd(); return; }
+  mount(heroStage);
+  play([], progress);
+  setHeroButton();
 });
 
 // ---------- студия ----------
