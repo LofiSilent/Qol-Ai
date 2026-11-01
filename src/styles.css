@@ -15,7 +15,7 @@ body{background-image:radial-gradient(circle at 8% 12%,color-mix(in srgb,var(--t
 .btn.primary,.generate-btn,.mini-play,.segmented button.active,.lang-switch button.active,.toast{background:var(--terracotta);color:#fff;border-color:var(--terracotta)}
 .btn.primary{box-shadow:0 16px 48px color-mix(in srgb,var(--terracotta) 25%,transparent)}
 .avatar-card{border-radius:18px;transform:rotate(.6deg)}
-.avatar-scene,.result-stage{background:linear-gradient(145deg,#C69F7A 0%,#527B91 38%,#102E41 100%)}
+.avatar-scene,.result-stage{background:linear-gradient(165deg,#F7F5EF 0%,#EADFD1 50%,#D6B998 100%)}
 .quality,.track i,.progress i,.scan-line{color:var(--terracotta);background:var(--terracotta)}
 .orbit-two{border-color:color-mix(in srgb,var(--terracotta) 38%,transparent)}
 .studio-section,.impact-section{background:color-mix(in srgb,var(--surface) 94%,var(--terracotta) 6%)}
