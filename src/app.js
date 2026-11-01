@@ -30,11 +30,11 @@ new GLTFLoader().load('assets/model/avatar.glb', gltf => {
   Object.values(bones).forEach(b => { b.userData.rest = b.quaternion.clone(); });
   const box = new THREE.Box3().setFromObject(avatar);
   const h = box.max.y - box.min.y;
-  target.set(0, box.min.y + h * 0.7, 0);
-  dist = h * 0.72;
+  target.set(0, box.min.y + h * 0.76, 0);
+  dist = h * 0.92;
   loadEl.remove();
   window.__ready = true;
-}, undefined, () => { loadEl.textContent = 'Не удалось загрузить модель'; });
+}, xhr => { if (xhr.total) loadEl.textContent = `Загрузка модели… ${Math.round(xhr.loaded / xhr.total * 100)}%`; }, () => { loadEl.textContent = 'Не удалось загрузить модель'; });
 
 // поворот кости относительно позы покоя (локальные оси кости)
 const tmp = new THREE.Quaternion(), e = new THREE.Euler();
@@ -106,11 +106,11 @@ viewer.addEventListener('pointermove', e => {
   lx = e.clientX; ly = e.clientY;
 });
 viewer.addEventListener('pointerup', () => { dragging = false; });
-viewer.addEventListener('wheel', e => { e.preventDefault(); dist = Math.max(0.6, Math.min(5, dist * (1 + e.deltaY * 0.001))); }, { passive: false });
+viewer.addEventListener('pointercancel', () => { dragging = false; });
 
 function resize() {
   const w = viewer.clientWidth, h = viewer.clientHeight;
-  renderer.setSize(w, h);
+  renderer.setSize(w, h, false);
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
 }
