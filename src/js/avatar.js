@@ -12,20 +12,34 @@ const CURL_SCALE = { Thumb: 0.45, other: 1.0 };
 
 // В модели несколько комплектов одежды, надетых друг на друга. Показываем только один,
 // иначе ткань одного комплекта проступает сквозь другой.
+// Каждый комплект — список мешей, которые нужно показать (по началу имени).
 const OUTFITS = {
-  casual: ['Qol_Casual_Knit', 'Qol_casual_'],                     // синий свитер
-  academic: ['Qol_Academic_', 'Qol_academic_'],                   // жилет и белая блузка
-  business: ['Qol_Business_'],
+  // классика: чёрный пиджак, белая рубашка с манжетами, рукава пиджака — из повседневного комплекта
+  classic: ['Qol_Business_', 'Qol_casual_Sleeve_'],
+  casual: ['Qol_Casual_Knit', 'Qol_casual_'],
+  academic: ['Qol_Academic_', 'Qol_academic_'],
   base: ['Fitted_formal_jacket_and_top'],
 };
-const OUTFIT = 'academic';
+const ALL_CLOTHES = [...new Set(Object.values(OUTFITS).flat())];
+const OUTFIT = 'classic';
+// Цвета ткани (sRGB) для выбранного комплекта.
+const CLOTH_COLORS = {
+  'Qol tailored collar': '#151517',   // пиджак
+  'Qol casual knit': '#151517',       // рукава пиджака
+  'Qol ivory blouse': '#f4f3f0',      // рубашка и манжеты
+  'Qol academic vest': '#151517',
+};
 
 function applyOutfit(root, outfit = OUTFIT) {
-  const hidden = Object.entries(OUTFITS).filter(([k]) => k !== outfit).flatMap(([, p]) => p);
+  const shown = OUTFITS[outfit];
   root.traverse(o => {
     if (!o.isMesh) return;
     const names = [o.name, o.parent?.name || ''];
-    if (hidden.some(p => names.some(n => n.startsWith(p)))) o.visible = false;
+    const is = list => list.some(p => names.some(n => n.startsWith(p)));
+    if (is(ALL_CLOTHES) && !is(shown)) o.visible = false;
+    for (const m of [o.material].flat()) {
+      if (m && CLOTH_COLORS[m.name]) m.color.set(CLOTH_COLORS[m.name]);
+    }
   });
 }
 
