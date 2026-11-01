@@ -41,7 +41,9 @@ $$('[data-lang]').forEach(btn => btn.addEventListener('click', () => setLang(btn
 setLang(lang);
 
 // ---------- тема ----------
-if (!telegram) html.dataset.theme = storage.get('qolai-theme') || 'light';
+// в приложении по умолчанию — тема телефона, на сайте — светлая
+const systemTheme = html.classList.contains('native-app') && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+if (!telegram) html.dataset.theme = storage.get('qolai-theme') || systemTheme;
 $('#themeToggle').addEventListener('click', () => {
   html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
   storage.set('qolai-theme', html.dataset.theme);

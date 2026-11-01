@@ -16,6 +16,24 @@ npm run preview   # просмотр dist/
 
 Сайт публикуется на GitHub Pages автоматически при пуше в `main` (`.github/workflows/deploy-pages.yml`).
 
+## Android-приложение
+
+Готовый APK: [Releases → android-latest](https://github.com/LofiSilent/Qol-Ai/releases/tag/android-latest).
+Собирается автоматически (`.github/workflows/android.yml`) после каждого изменения сайта в `main`.
+
+Приложение — это сайт внутри Capacitor (`kz.qolai.app`). three.js, шрифты и 3D-модель лежат внутри APK,
+поэтому приложение работает без интернета. Иконка и заставка генерируются из `assets/`.
+
+Собрать локально (нужны Android Studio / Android SDK и JDK 21):
+
+```bash
+npm install
+npm run android:init   # один раз: создать android/ и иконки
+npm run android:apk    # APK: android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+Если на телефоне стоит старая версия Qol AI, её нужно удалить перед установкой: она подписана другим ключом.
+
 ## Структура
 
 | Путь | Что внутри |
@@ -29,6 +47,8 @@ npm run preview   # просмотр dist/
 | `src/data/gestures.json` | словарь жестов (формы руки и слова) |
 | `src/assets/model/avatar.glb` | модель персонажа |
 | `scripts/` | Telegram-бот и сборка |
+| `assets/` | иконка и заставка приложения |
+| `capacitor.config.json` | настройки Android-приложения |
 
 ## Как развивать
 

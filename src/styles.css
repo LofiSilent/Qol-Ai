@@ -135,3 +135,8 @@ section[id]{scroll-margin-top:100px}
 .result-stage{background:var(--stage)}
 .result-stage .stage3d{background:transparent}
 .avatar-scene .halo{border-color:rgba(198,159,122,.18);box-shadow:0 0 90px rgba(198,159,122,.08)}
+/* мобильное приложение (Capacitor) */
+.native-app body{-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
+.native-app .nav-wrap{padding-top:env(safe-area-inset-top)}
+.native-app footer{padding-bottom:env(safe-area-inset-bottom)}
+.native-app .cursor-glow{display:none}
