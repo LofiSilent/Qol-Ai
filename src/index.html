@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=5" />
+  <link rel="stylesheet" href="styles.css?v=__BUILD__" />
   <script src="https://telegram.org/js/telegram-web-app.js?63"></script>
   <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
@@ -59,7 +59,7 @@
           <div class="card-top"><span>3D AVATAR / 01</span><span class="quality">3D</span></div>
           <div class="avatar-scene">
             <div class="halo"></div>
-            <div class="stage3d" id="heroStage"><p class="stage-loading" id="loading">Загрузка 3D…</p></div>
+            <div class="stage3d" id="heroStage"><p class="stage-loading" id="loading" data-i18n="loading">3D жүктелуде…</p></div>
             <div class="caption" data-i18n="caption">«Добро пожаловать в мир без барьеров»</div>
           </div>
           <div class="timeline"><button class="mini-play">▶</button><div class="track"><i></i></div><span id="heroTime">3D</span></div>
@@ -72,12 +72,12 @@
     <section class="impact-proof" id="impact-proof">
       <div class="container impact-proof-grid">
         <div class="impact-proof-copy reveal">
-          <span class="kicker">04 / ҚОҒАМҒА ӘСЕРІ</span>
-          <h2>Ақпаратты түсіну әр адамға қолжетімді болуы керек</h2>
-          <p>Қазақстанда есту қабілеті бұзылған шамамен <strong>37 000 адам</strong> бар деген 2025 жылғы мәлімет айтылды. Qol AI осы адамдарға оқу, қызмет және күнделікті ақпаратты ым тілінде 3D-кейіпкер арқылы қабылдауға қосымша мүмкіндік беруді көздейді.</p>
+          <span class="kicker" data-i18n="proofKicker">01 / ҚОҒАМҒА ӘСЕРІ</span>
+          <h2 data-i18n="proofTitle">Ақпаратты түсіну әр адамға қолжетімді болуы керек</h2>
+          <p data-i18n-html="proofText">Қазақстанда есту қабілеті бұзылған шамамен <strong>37 000 адам</strong> бар деген 2025 жылғы мәлімет айтылды. Qol AI осы адамдарға оқу, қызмет және күнделікті ақпаратты ым тілінде 3D-кейіпкер арқылы қабылдауға қосымша мүмкіндік беруді көздейді.</p>
         </div>
         <div class="impact-proof-number reveal delay-1" data-tilt>
-          <span>ҚАЗАҚСТАН</span><strong>37 000<sup>+</sup></strong><em>есту қабілеті бұзылған адам</em>
+          <span data-i18n="proofCountry">ҚАЗАҚСТАН</span><strong>37 000<sup>+</sup></strong><em data-i18n="proofUnit">есту қабілеті бұзылған адам</em>
           <div class="number-orbit" aria-hidden="true"></div>
         </div>
       </div>
@@ -85,7 +85,7 @@
 
     <section class="studio-section" id="studio">
       <div class="container">
-        <div class="section-heading reveal"><span class="kicker">01 / STUDIO</span><h2 data-i18n="studioTitle">Попробуйте сами</h2><p data-i18n="studioText">Введите текст — 3D-персонаж покажет его жестами.</p></div>
+        <div class="section-heading reveal"><span class="kicker">02 / STUDIO</span><h2 data-i18n="studioTitle">Попробуйте сами</h2><p data-i18n="studioText">Введите текст — 3D-персонаж покажет его жестами.</p></div>
         <div class="studio-grid reveal">
           <div class="composer">
             <div class="composer-head"><span data-i18n="yourText">Ваш текст</span><button id="sampleBtn" type="button" aria-expanded="false" aria-controls="examplesPanel" data-i18n="example">Примеры</button></div>
@@ -104,7 +104,7 @@
     </section>
 
     <section class="how-section container" id="how">
-      <div class="section-heading reveal"><span class="kicker">02 / PROCESS</span><h2 data-i18n="howTitle">От мысли до жеста</h2></div>
+      <div class="section-heading reveal"><span class="kicker">03 / PROCESS</span><h2 data-i18n="howTitle">От мысли до жеста</h2></div>
       <div class="steps">
         <article class="step reveal"><span class="step-no">01</span><div class="step-icon">Aa</div><h3 data-i18n="step1Title">Введите текст</h3><p data-i18n="step1Text">Любая фраза, объявление или целая история.</p></article>
         <div class="connector"><i></i></div>
@@ -116,7 +116,7 @@
 
     <section class="impact-section" id="impact">
       <div class="container impact-grid">
-        <div class="impact-copy reveal"><span class="kicker">03 / IMPACT</span><h2><span data-i18n="impactLine1">Один текст.</span><br><em data-i18n="impactLine2">Тысячи понятых.</em></h2><p data-i18n="impactText">Делайте образование и повседневное общение доступнее для каждого.</p><a class="btn ghost" href="#studio"><span data-i18n="startFree">Начать</span> ↗</a></div>
+        <div class="impact-copy reveal"><span class="kicker">04 / IMPACT</span><h2><span data-i18n="impactLine1">Один текст.</span><br><em data-i18n="impactLine2">Тысячи понятых.</em></h2><p data-i18n="impactText">Делайте образование и повседневное общение доступнее для каждого.</p><a class="btn ghost" href="#studio"><span data-i18n="startFree">Начать</span> ↗</a></div>
         <div class="stat-cards reveal delay-1">
           <div class="stat-card lime"><span>01</span><strong>3×</strong><p data-i18n="stat1">быстрее обычной записи</p><div class="stat-art">↗</div></div>
           <div class="stat-card dark"><span>02</span><strong>24/7</strong><p data-i18n="stat2">доступно без переводчика</p><div class="wave"><i></i><i></i><i></i><i></i><i></i></div></div>
@@ -128,6 +128,6 @@
 
   <footer><div class="container footer-grid"><div><a class="brand" href="#top"><span class="brand-mark"><span></span><span></span><span></span></span><span>Qol <span>AI</span></span></a><p data-i18n="footerText">Технология, которая делает мир понятнее.</p></div><div class="footer-cta"><span data-i18n="footerReady">Готовы говорить без барьеров?</span><a href="#studio" data-i18n="createVideo">Попробовать ↗</a></div></div><div class="container footer-bottom"><span>© 2026 Qol AI</span></div></footer>
   <div class="toast" id="toast"><span>✓</span><span data-i18n="toastText">Жесты готовы!</span></div>
-  <script type="module" src="app.js?v=5"></script>
+  <script type="module" src="js/main.js?v=__BUILD__"></script>
 </body>
 </html>
