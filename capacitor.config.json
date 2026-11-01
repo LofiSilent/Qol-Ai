@@ -1,0 +1,11 @@
+{
+  "appId": "kz.qolai.app",
+  "appName": "Qol AI",
+  "webDir": "dist",
+  "android": {
+    "backgroundColor": "#101D27",
+    "allowMixedContent": false,
+    "webContentsDebuggingEnabled": false,
+    "adjustMarginsForEdgeToEdge": "auto"
+  }
+}
