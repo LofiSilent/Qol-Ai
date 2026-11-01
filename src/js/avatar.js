@@ -87,6 +87,7 @@ export function loadAvatar(url, { onProgress, onReady, onError } = {}) {
     });
     clipDuration = Math.max(0, ...gltf.animations.map(c => c.duration));
     mixer.setTime(0);
+    if (OUTFIT === 'classic') addJacketDetails(model);
 
     const box = new THREE.Box3().setFromObject(model);
     const h = box.max.y - box.min.y;
@@ -95,6 +96,145 @@ export function loadAvatar(url, { onProgress, onReady, onError } = {}) {
     onReady?.();
   }, xhr => { if (xhr.total) onProgress?.(xhr.loaded / xhr.total); }, err => onError?.(err));
 }
+
+// ---------- детали пиджака ----------
+// В модели нет настоящего пиджака, поэтому поверх чёрного переда дорисовываем
+// лацканы вдоль V-выреза, линию борта и пуговицы. Край выреза находим лучами при загрузке,
+// детали крепим к костям груди, чтобы они двигались вместе с телом.
+const JACKET = {
+  body: 'Qol_Business_Jacket_Body',
+  shirt: 'Qol_Business_Ivory_Blouse',
+  lapelWidth: 0.06,
+  lapelColor: '#303036',
+  lapelEdge: '#6a6a72',
+  seamColor: '#060607',
+  buttonColor: '#0b0b0c',
+};
+
+function addJacketDetails(root) {
+  const find = name => { let m = null; root.traverse(o => { if (o.isMesh && o.name === name) m = o; }); return m; };
+  const body = find(JACKET.body), shirt = find(JACKET.shirt);
+  const chest = bones.CC_Base_Spine02, waist = bones.CC_Base_Spine01 || chest;
+  if (!body || !shirt || !chest) return;
+  shirt.material = shirt.material.clone();
+  shirt.material.onBeforeCompile = shader => {
+    shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\n  transformed -= objectNormal * 0.012;');
+  };
+  root.updateMatrixWorld(true);
+
+  // неподвижные копии пиджака и рубашки в текущей позе — лучи по ним в десятки раз быстрее
+  const bake = mesh => {
+    const src = mesh.geometry, n = src.attributes.position.count, v = new THREE.Vector3();
+    const pos = new Float32Array(n * 3);
+    for (let i = 0; i < n; i++) { mesh.getVertexPosition(i, v); v.applyMatrix4(mesh.matrixWorld); v.toArray(pos, i * 3); }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    if (src.index) g.setIndex(src.index);
+    return new THREE.Mesh(g, new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }));
+  };
+  const bodyStatic = bake(body), shirtStatic = bake(shirt);
+  const ray = new THREE.Raycaster();
+  const dir = new THREE.Vector3(0, 0, -1);
+  const hit = (x, y) => {
+    ray.set(new THREE.Vector3(x, y, 1), dir);
+    const h = ray.intersectObjects([bodyStatic, shirtStatic], false)[0];
+    return h ? { onShirt: h.object === shirtStatic, point: h.point } : null;
+  };
+
+  // нижняя точка выреза: идём по центру вниз, пока рубашка не сменится пиджаком
+  const box = new THREE.Box3().setFromObject(shirtStatic);
+  const cx = (box.min.x + box.max.x) / 2;
+  let yTop = null, yV = null;
+  for (let y = box.max.y; y > box.min.y; y -= 0.004) {
+    const h = hit(cx, y);
+    if (!h) continue;
+    if (h.onShirt && yTop === null) yTop = y;
+    if (yTop !== null && !h.onShirt) { yV = y; break; }
+  }
+  if (yTop === null || yV === null) return;
+
+  // край выреза на каждой высоте: двоичный поиск от центра (рубашка) наружу (пиджак)
+  const edge = (y, side) => {
+    let inner = cx, outer = null;
+    for (let x = cx; Math.abs(x - cx) < 0.3; x += side * 0.006) {
+      const h = hit(x, y);
+      if (h && !h.onShirt) { outer = x; break; }
+      if (h && h.onShirt) inner = x;
+    }
+    if (outer === null) return null;
+    for (let k = 0; k < 10; k++) {
+      const mid = (inner + outer) / 2, h = hit(mid, y);
+      if (h && h.onShirt) inner = mid; else outer = mid;
+    }
+    return hit(outer + side * 0.001, y)?.point || null;
+  };
+
+  const lapelMat = new THREE.MeshStandardMaterial({ color: JACKET.lapelColor, roughness: 0.35, metalness: 0.05, side: THREE.DoubleSide });
+  const edgeMat = new THREE.MeshStandardMaterial({ color: JACKET.lapelEdge, roughness: 0.4 });
+  const lift = 0.004;
+  for (const side of [-1, 1]) {
+    const inner = [], outer = [];
+    const yStart = yTop - 0.01;
+    for (let y = yStart; y >= yV - 0.004; y -= 0.008) {
+      const p = edge(y, side);
+      if (!p) continue;
+      // ширина лацкана сужается к низу выреза
+      const t = (yStart - y) / Math.max(0.001, yStart - yV);
+      const w = JACKET.lapelWidth * (1 - 0.75 * t);
+      const q = hit(p.x + side * w, y)?.point;
+      if (!q) continue;
+      inner.push(p.clone().setZ(p.z + lift));
+      outer.push(q.clone().setZ(q.z + lift));
+    }
+    if (inner.length < 2) continue;
+    const pos = [];
+    for (let i = 0; i < inner.length - 1; i++) {
+      pos.push(...inner[i].toArray(), ...outer[i].toArray(), ...inner[i + 1].toArray());
+      pos.push(...outer[i].toArray(), ...outer[i + 1].toArray(), ...inner[i + 1].toArray());
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    geo.computeVertexNormals();
+    const lapel = new THREE.Mesh(geo, lapelMat);
+    lapel.frustumCulled = false;
+    scene.add(lapel);
+    chest.attach(lapel);
+    // тонкая кромка по внешнему краю лацкана
+    const rim = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(outer.map(v => v.clone().setZ(v.z + 0.001))), outer.length * 2, 0.0012, 4, false), edgeMat);
+    rim.frustumCulled = false;
+    scene.add(rim);
+    chest.attach(rim);
+  }
+
+  // линия борта и пуговицы ниже выреза
+  const bodyBox = new THREE.Box3().setFromObject(bodyStatic);
+  const seamPts = [];
+  for (let y = yV - 0.004; y > bodyBox.min.y + 0.01; y -= 0.01) {
+    const h = hit(cx, y);
+    if (h && !h.onShirt) seamPts.push(h.point.clone().setZ(h.point.z + lift));
+  }
+  if (seamPts.length > 1) {
+    const curve = new THREE.CatmullRomCurve3(seamPts);
+    const seam = new THREE.Mesh(new THREE.TubeGeometry(curve, seamPts.length * 2, 0.0016, 4, false),
+      new THREE.MeshStandardMaterial({ color: JACKET.seamColor, roughness: 0.6 }));
+    seam.frustumCulled = false;
+    scene.add(seam);
+    waist.attach(seam);
+  }
+  const btnGeo = new THREE.CylinderGeometry(0.0085, 0.0085, 0.004, 20).rotateX(Math.PI / 2);
+  const btnMat = new THREE.MeshStandardMaterial({ color: JACKET.buttonColor, roughness: 0.25, metalness: 0.2 });
+  for (const dy of [0.05, 0.13]) {
+    const h = hit(cx, yV - dy);
+    if (!h || h.onShirt) continue;
+    const b = new THREE.Mesh(btnGeo, btnMat);
+    b.position.copy(h.point).setZ(h.point.z + 0.004);
+    scene.add(b);
+    waist.attach(b);
+  }
+}
+
+// для отладки кадра
+export function debugView(d, y) { dist = d; target.y = y; }
 
 export function mount(el) {
   if (!el || slot === el) return;
