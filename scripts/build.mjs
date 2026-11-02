@@ -30,7 +30,7 @@ if (APP) {
   const need = path => { if (!existsSync(path)) throw new Error(`Нет ${path}. Выполните npm install.`); return path; };
   const three = need('node_modules/three');
   // three.js и загрузчик моделей
-  for (const file of ['build/three.module.js', 'examples/jsm/loaders/GLTFLoader.js', 'examples/jsm/utils/BufferGeometryUtils.js']) {
+  for (const file of ['build/three.module.js', 'examples/jsm/loaders/GLTFLoader.js', 'examples/jsm/utils/BufferGeometryUtils.js', 'examples/jsm/environments/RoomEnvironment.js']) {
     await cp(join(three, file), `dist/vendor/three/${file}`);
   }
   // шрифты
