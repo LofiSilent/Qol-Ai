@@ -119,14 +119,18 @@ export function loadAvatar(url, { onProgress, onReady, onError } = {}) {
     tuneMaterials(model);
     model.traverse(o => { if (o.morphTargetDictionary && 'Eye_Blink' in o.morphTargetDictionary) faces.push(o); });
     mixer = new THREE.AnimationMixer(model);
-    actions = gltf.animations.map(clip => {
+    // The original full-body clip contains a bow. Use the same standing segment
+    // as the main Qol AI site, preserving the model and finger overlays.
+    const full = new THREE.AnimationClip('all', -1, gltf.animations.flatMap(clip => clip.tracks));
+    const standing = THREE.AnimationUtils.subclip(full, 'standing-idle', 299, 312, 30);
+    actions = [standing].map(clip => {
       const a = mixer.clipAction(clip);
       a.setLoop(THREE.LoopRepeat, Infinity);
       a.play();
       a.paused = true;
       return a;
     });
-    clipDuration = Math.max(0, ...gltf.animations.map(c => c.duration));
+    clipDuration = standing.duration;
     mixer.setTime(0);
     if (OUTFIT === 'classic') addJacketDetails(model);
 
