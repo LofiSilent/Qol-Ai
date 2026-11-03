@@ -143,5 +143,9 @@ section[id]{scroll-margin-top:100px}
 
 /* Light theme: warm sand surfaces and blue actions. */
 [data-theme="light"] .btn.primary,[data-theme="light"] .lang-switch button.active{background:#104675;color:#fff}
-[data-theme="light"] .brand>span:last-child>span,[data-theme="light"] .hero h1 em,[data-theme="light"] .section-heading .kicker,[data-theme="light"] .text-link{color:#104675}
-[data-theme="light"] .brand-mark span{background:#104675}
+[data-theme="light"] .hero h1 em,[data-theme="light"] .section-heading .kicker,[data-theme="light"] .text-link{color:#104675}
+
+/* Keep the brand mark identical in light and dark themes. */
+.brand-mark{background:linear-gradient(90deg,#104675 50%,#C69F7A 50%);border-color:#C69F7A}
+.brand-mark span{background:#F7F5EF}.brand-mark span:nth-child(2){background:#527B91}
+.brand>span:last-child>span{color:#C69F7A}
