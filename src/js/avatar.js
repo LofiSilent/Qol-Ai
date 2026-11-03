@@ -127,11 +127,11 @@ export function loadAvatar(url, { onProgress, onReady, onError } = {}) {
       const a = mixer.clipAction(clip);
       a.setLoop(THREE.LoopRepeat, Infinity);
       a.play();
-      a.paused = true;
       return a;
     });
     clipDuration = standing.duration;
-    mixer.setTime(0);
+    mixer.update(0);
+    actions.forEach(a => { a.paused = true; });
     if (OUTFIT === 'classic') addJacketDetails(model);
 
     const box = new THREE.Box3().setFromObject(model);
