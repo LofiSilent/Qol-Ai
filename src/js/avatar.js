@@ -98,7 +98,7 @@ function tuneMaterials(root) {
 const clock = new THREE.Clock();
 const faces = [];   // меши с морфами лица (моргание, улыбка)
 const bones = {};
-let model = null, mixer = null, actions = [], clipDuration = 0;
+let model = null, mixer = null, actions = [], clipDuration = 0, standingClip = null, motionAction = null;
 let slot = null;
 const target = new THREE.Vector3(0, 1.3, 0);
 let dist = 2.4, yaw = 0, pitch = 0.04;
@@ -122,7 +122,7 @@ export function loadAvatar(url, { onProgress, onReady, onError } = {}) {
     // The original full-body clip contains a bow. Use the same standing segment
     // as the main Qol AI site, preserving the model and finger overlays.
     const full = new THREE.AnimationClip('all', -1, gltf.animations.flatMap(clip => clip.tracks));
-    const standing = THREE.AnimationUtils.subclip(full, 'standing-idle', 299, 312, 30);
+    const standing = THREE.AnimationUtils.subclip(full, 'standing-idle', 299, 312, 30); standingClip = standing;
     actions = [standing].map(clip => {
       const a = mixer.clipAction(clip);
       a.setLoop(THREE.LoopRepeat, Infinity);
@@ -336,6 +336,28 @@ function runClip(on) {
   else { actions.forEach(a => { a.paused = true; }); mixer.setTime(0); }
 }
 
+// Play source clips transferred from qol-ai.app; no invented fingerspelling.
+export async function playSourceMotions(ids, callbacks = {}) {
+  const clips = await Promise.all(ids.map(async id => {
+    const response = await fetch('data/motions/' + id + '.json?v=__BUILD__');
+    if (!response.ok) throw new Error('motion_unavailable');
+    return THREE.AnimationClip.parse(await response.json());
+  }));
+  stop(); playing = true;
+  actions.forEach(a => { a.paused = true; a.stop(); });
+  const total = clips.reduce((n, clip) => n + clip.duration, 0); let elapsed = 0, index = 0;
+  const next = () => {
+    if (index >= clips.length) { stop(); callbacks.onEnd?.(); return; }
+    motionAction?.stop(); const clip = clips[index++];
+    const names = new Set(clip.tracks.map(track => track.name));
+    const merged = new THREE.AnimationClip(clip.name, clip.duration, [...clip.tracks, ...standingClip.tracks.filter(track => !names.has(track.name))]);
+    motionAction = mixer.clipAction(merged); motionAction.setLoop(THREE.LoopOnce, 1); motionAction.clampWhenFinished = true; motionAction.reset().play();
+    callbacks.onFrame?.(null, elapsed / total); elapsed += clip.duration;
+    playTimer = setTimeout(next, clip.duration * 1000);
+  };
+  next();
+}
+
 // Проиграть жест. frames: [{ curl?: [5 чисел], ms }] — форма руки поверх анимации.
 // Без кадров проигрывается анимация модели целиком.
 export function play(frames = [], { onFrame, onEnd } = {}) {
@@ -367,6 +389,7 @@ export function stop() {
   clearTimeout(playTimer); clearInterval(playTimer); clearTimeout(endTimer);
   playing = false;
   curlTarget = null;
+  if (motionAction) { motionAction.stop(); motionAction = null; actions.forEach(a => a.reset().play()); }
   runClip(false);
 }
 
