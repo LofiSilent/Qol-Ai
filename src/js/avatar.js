@@ -343,6 +343,7 @@ export async function playSourceMotions(ids, callbacks = {}) {
     if (!response.ok) throw new Error('motion_unavailable');
     return THREE.AnimationClip.parse(await response.json());
   }));
+  if (callbacks.shouldStart && !callbacks.shouldStart()) return false;
   stop(); playing = true;
   actions.forEach(a => { a.paused = true; a.stop(); });
   const total = clips.reduce((n, clip) => n + clip.duration, 0); let elapsed = 0, index = 0;
@@ -357,6 +358,7 @@ export async function playSourceMotions(ids, callbacks = {}) {
     playTimer = setTimeout(next, clip.duration * 1000);
   };
   next();
+  return true;
 }
 
 // Проиграть жест. frames: [{ curl?: [5 чисел], ms }] — форма руки поверх анимации.
