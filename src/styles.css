@@ -149,3 +149,5 @@ section[id]{scroll-margin-top:100px}
 .brand-mark{background:linear-gradient(90deg,#101D27 50%,#C69F7A 50%);border-color:color-mix(in srgb,#C69F7A 55%,var(--line))}
 .brand-mark span{background:#F7F5EF}.brand-mark span:nth-child(2){background:#527B91}
 .brand>span:last-child>span{color:#C69F7A}
+
+.prototype-note{margin:10px 0 14px;color:var(--muted);font-size:12px;line-height:1.5}
