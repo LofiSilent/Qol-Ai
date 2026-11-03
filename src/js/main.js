@@ -106,15 +106,16 @@ const progress = { onFrame: (_, p) => { heroTrack.style.width = (p * 100) + '%';
                    onEnd: () => { heroTrack.style.width = '0'; setHeroButton(); } };
 
 const SOURCE_EXAMPLES = [
-  {ids:['hello'], texts:['Сәлем!', 'Привет!', 'Hello!']},
-  {ids:['welcome'], texts:['Қош келдіңіз!', 'Добро пожаловать!', 'Welcome!']},
-  {ids:['yes','good'], texts:['Иә, жақсы.', 'Да, хорошо.', 'Yes, good.']},
-  {ids:['no'], texts:['Жоқ.', 'Нет.', 'No.']},
-  {ids:['water'], texts:['Су.', 'Вода.', 'Water.']},
+  {ids:['me','water','need'], texts:['Маған су керек.', 'Мне нужна вода.', 'I need water.']},
+  {ids:['me','help','need'], texts:['Маған көмек керек.', 'Мне нужна помощь.', 'I need help.']},
+  {ids:['me','good'], texts:['Мен жақсымын.', 'У меня всё хорошо.', 'I am well.']},
+  {ids:['you','how'], texts:['Қалыңыз қалай?', 'Как ваши дела?', 'How are you?']},
+  {ids:['me','understand'], texts:['Мен түсіндім.', 'Я понимаю.', 'I understand.']},
 ];
+const WELCOME_EXAMPLE = {ids:['welcome'], texts:['Қош келдіңіз!', 'Добро пожаловать!', 'Welcome!']};
 const normalizeExample = value => value.normalize('NFC').toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
 async function sign(text, stage) {
-  const example = SOURCE_EXAMPLES.find(e => e.texts.some(value => normalizeExample(value) === normalizeExample(text)));
+  const example = [...SOURCE_EXAMPLES, WELCOME_EXAMPLE].find(e => e.texts.some(value => normalizeExample(value) === normalizeExample(text)));
   if (!example) throw new Error('example_only');
   await avatarReady; mount(stage); await playSourceMotions(example.ids, progress); setHeroButton();
   return [{text, found:true}];
