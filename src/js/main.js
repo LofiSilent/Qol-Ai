@@ -1,7 +1,6 @@
 // Интерфейс страницы: язык, тема, анимации, примеры, студия.
 import { translations, LANGUAGES, DEFAULT_LANGUAGE } from './i18n.js?v=__BUILD__';
-import { loadAvatar, mount, followVisible, enableOrbit, play, stop, isPlaying } from './avatar.js?v=__BUILD__';
-import { loadDictionary, textToFrames } from './signing.js?v=__BUILD__';
+import { loadAvatar, mount, followVisible, enableOrbit, playSourceMotions, stop, isPlaying } from './avatar.js?v=__BUILD__';
 
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -92,12 +91,11 @@ mount(heroStage);
 enableOrbit([heroStage, studioStage]);
 followVisible([heroStage, studioStage], el => el !== studioStage || studioActive);
 
-loadAvatar('assets/model/avatar.glb?v=__BUILD__', {
+const avatarReady = new Promise((resolve, reject) => loadAvatar('assets/model/avatar.glb?v=__BUILD__', {
   onProgress: p => { const l = $('#loading'); if (l) l.textContent = `${t('loading')} ${Math.round(p * 100)}%`; },
-  onReady: () => { $('#loading')?.remove(); window.__ready = true; },
-  onError: () => { const l = $('#loading'); if (l) l.textContent = t('loadError'); },
-});
-const dictionaryReady = loadDictionary('data/gestures.json?v=__BUILD__').catch(err => console.warn(err));
+  onReady: () => { $('#loading')?.remove(); window.__ready = true; resolve(); },
+  onError: err => { const l = $('#loading'); if (l) l.textContent = t('loadError'); reject(err); },
+}));
 
 const heroPlay = $('.mini-play'), heroTrack = $('.track i');
 function setHeroButton() {
@@ -107,28 +105,30 @@ function setHeroButton() {
 const progress = { onFrame: (_, p) => { heroTrack.style.width = (p * 100) + '%'; setHeroButton(); },
                    onEnd: () => { heroTrack.style.width = '0'; setHeroButton(); } };
 
-// Студия: слова из словаря задают форму руки поверх анимации, остальные — по буквам.
+const SOURCE_EXAMPLES = [
+  {ids:['hello'], texts:['Сәлем!', 'Привет!', 'Hello!']},
+  {ids:['welcome'], texts:['Қош келдіңіз!', 'Добро пожаловать!', 'Welcome!']},
+  {ids:['yes','good'], texts:['Иә, жақсы.', 'Да, хорошо.', 'Yes, good.']},
+  {ids:['no'], texts:['Жоқ.', 'Нет.', 'No.']},
+  {ids:['water'], texts:['Су.', 'Вода.', 'Water.']},
+];
+const normalizeExample = value => value.normalize('NFC').toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
 async function sign(text, stage) {
-  await dictionaryReady;
-  mount(stage);
-  const { frames, words } = textToFrames(text);
-  play(frames, progress);
-  setHeroButton();
-  return words;
+  const example = SOURCE_EXAMPLES.find(e => e.texts.some(value => normalizeExample(value) === normalizeExample(text)));
+  if (!example) throw new Error('example_only');
+  await avatarReady; mount(stage); await playSourceMotions(example.ids, progress); setHeroButton();
+  return [{text, found:true}];
 }
-// Первый экран: анимация модели целиком.
-heroPlay.addEventListener('click', () => {
+heroPlay.addEventListener('click', async () => {
   if (isPlaying()) { stop(); progress.onEnd(); return; }
-  mount(heroStage);
-  play([], progress);
-  setHeroButton();
+  try { await sign('Қош келдіңіз!', heroStage); } catch { progress.onEnd(); }
 });
 
 // ---------- студия ----------
 const DEMO_PHRASES = {
-  'Қазақша': ['Сәлем! Қалыңыз қалай?', 'Менің атым Алия.', 'Су беріңізші.', 'Маған көмек керек.', 'Көп рақмет!'],
-  'Русский': ['Здравствуйте! Как ваши дела?', 'Меня зовут Алия.', 'Дайте мне воды, пожалуйста.', 'Мне нужна помощь.', 'Большое спасибо!'],
-  'English': ['Hello! How are you?', 'My name is Aliya.', 'Water, please.', 'I need help.', 'Thank you very much!'],
+  'Қазақша': SOURCE_EXAMPLES.map(e => e.texts[0]),
+  'Русский': SOURCE_EXAMPLES.map(e => e.texts[1]),
+  'English': SOURCE_EXAMPLES.map(e => e.texts[2]),
 };
 
 const input = $('#textInput');
@@ -178,31 +178,15 @@ function showStudio(state) {
   $('#result').style.display = state === 'result' ? 'block' : 'none';
 }
 
-function generate() {
-  const text = input.value.trim();
-  if (!text) {
-    input.focus();
-    input.style.borderColor = 'var(--orange)';
-    setTimeout(() => { input.style.borderColor = ''; }, 900);
-    return;
+async function generate() {
+  const text = input.value.trim(); if (!text) { input.focus(); return; }
+  if (!SOURCE_EXAMPLES.some(e => e.texts.some(value => normalizeExample(value) === normalizeExample(text)))) {
+    sampleBtn.setAttribute('aria-expanded', 'true'); examplesPanel.hidden = false;
+    $('#prototypeStatus').textContent = t('choosePrepared'); return;
   }
-  showStudio('generating');
-  const bar = $('.progress i'), label = $('#progressText');
-  let p = 0;
-  bar.style.width = '0';
-  label.textContent = '0%';
-  const ticker = setInterval(async () => {
-    p = Math.min(100, p + Math.ceil(Math.random() * 12));
-    bar.style.width = p + '%';
-    label.textContent = p + '%';
-    if (p < 100) return;
-    clearInterval(ticker);
-    showStudio('result');
-    studioActive = true;
-    renderCaption(await sign(text, studioStage));
-    $('#toast').classList.add('show');
-    setTimeout(() => $('#toast').classList.remove('show'), 2600);
-  }, 90);
+  $('#prototypeStatus').textContent = ''; showStudio('generating');
+  try { await avatarReady; studioActive = true; showStudio('result'); renderCaption(await sign(text, studioStage)); }
+  catch { showStudio('empty'); $('#prototypeStatus').textContent = t('motionError'); }
 }
 $('#generateBtn').addEventListener('click', generate);
-$('#replayBtn').addEventListener('click', () => sign(input.value, studioStage));
+$('#replayBtn').addEventListener('click', () => sign(input.value, studioStage).catch(()=>{ $('#prototypeStatus').textContent=t('motionError'); }));
