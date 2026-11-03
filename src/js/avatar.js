@@ -350,7 +350,8 @@ export async function playSourceMotions(ids, callbacks = {}) {
     if (index >= clips.length) { stop(); callbacks.onEnd?.(); return; }
     motionAction?.stop(); const clip = clips[index++];
     const names = new Set(clip.tracks.map(track => track.name));
-    const merged = new THREE.AnimationClip(clip.name, clip.duration, [...clip.tracks, ...standingClip.tracks.filter(track => !names.has(track.name))]);
+    const resting = standingClip.tracks.filter(track => !names.has(track.name)).map(track => { const copy = track.clone(), size = track.getValueSize(), first = track.values.slice(0, size); copy.times = new Float32Array([0, clip.duration]); copy.values = new track.values.constructor([...first, ...first]); return copy; });
+    const merged = new THREE.AnimationClip(clip.name, clip.duration, [...clip.tracks, ...resting]);
     motionAction = mixer.clipAction(merged); motionAction.setLoop(THREE.LoopOnce, 1); motionAction.clampWhenFinished = true; motionAction.reset().play();
     callbacks.onFrame?.(null, elapsed / total); elapsed += clip.duration;
     playTimer = setTimeout(next, clip.duration * 1000);
@@ -411,7 +412,7 @@ function applyFingers(dt) {
 
 // «Жизнь» в покое: моргание, дыхание и лёгкая улыбка поверх анимации.
 let nextBlink = 2, blinkT = -1, lifeTime = 0;
-const breathQ = new THREE.Quaternion(), breathE = new THREE.Euler();
+const breathQ = new THREE.Quaternion(), breathE = new THREE.Euler(), chestPose = new THREE.Quaternion();
 function applyLife(dt) {
   lifeTime += dt;
   // моргание раз в 2.5–5 секунд, 160 мс
@@ -440,6 +441,8 @@ function applyLife(dt) {
   if (mixer) {
     mixer.update(playing ? dt : 0);
     applyFingers(dt);
+    const chest = bones.CC_Base_Spine02;
+    if (chest) chestPose.copy(chest.quaternion);
     applyLife(dt);
   }
   camera.position.set(
@@ -448,4 +451,6 @@ function applyLife(dt) {
     target.z + Math.cos(yaw) * Math.cos(pitch) * dist);
   camera.lookAt(target);
   renderer.render(scene, camera);
+  // Breathing is an overlay; never accumulate it into the next frame.
+  if (mixer && bones.CC_Base_Spine02) bones.CC_Base_Spine02.quaternion.copy(chestPose);
 })();
