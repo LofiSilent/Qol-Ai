@@ -328,3 +328,27 @@ html.i18n-pending .nav-wrap .lang-switch button,html.i18n-pending .nav-wrap .the
 .studio-section .cam-stage{background:color-mix(in srgb,var(--studio-preview) 70%,var(--surface));border-color:var(--studio-edge)}
 @media(max-width:900px){.studio-section .studio-grid{grid-template-columns:1fr}.studio-section .composer{min-height:450px;border-right:0;border-bottom:1px solid var(--studio-edge)}.studio-section .preview-panel{min-height:330px}.studio-section .cam-side{border-left:0;border-top:1px solid var(--studio-edge)}}
 @media(max-width:600px){.studio-section .section-heading{margin-bottom:26px}.studio-section .section-heading h2{font-size:32px}.studio-section .mode-tabs{width:100%;margin-bottom:16px}.studio-section .mode-tab{flex:1;padding:10px 12px;font-size:12px}.studio-section .studio-grid{border-radius:14px}.studio-section .composer{padding:22px;min-height:440px}.studio-section .composer textarea{min-height:190px;padding:16px;font-size:16px}.studio-section .composer-head{margin-bottom:16px}.studio-section .prototype-note{font-size:11px;margin-bottom:18px}.studio-section .preview-panel{min-height:290px}.studio-section .cam-side{padding:22px}}
+
+/* ---------- крупнее мелкий текст и заметный плюс у числа ---------- */
+.impact-proof-number sup{font-size:.55em;top:.12em;margin-left:.04em;font-weight:700}
+.impact-proof-copy p{font-size:20px;line-height:1.7}
+.impact-proof-note{font-size:15px!important}
+.hero-copy>p,.section-heading p{font-size:19px}
+.step p{font-size:15px;line-height:1.65}
+.stat-card p{font-size:15px;max-width:190px}
+.stat-card>span,.step-no{font-size:11px}
+.prototype-note{font-size:14px}
+.composer-head{font-size:14px}.composer-head button{font-size:13px}
+.count{font-size:12px}
+.settings label{font-size:13px}
+.preview-empty h3{font-size:19px}.preview-empty p{font-size:14px}
+.caption{font-size:13px}
+.eyebrow,.kicker{font-size:12px}
+.nav-links a{font-size:14px}
+.lang-switch button{font-size:11px;padding:8px 10px}
+.footer-grid p,.footer-cta span{font-size:14px}.footer-bottom{font-size:12px}
+.cam-chip{font-size:15px}.cam-off strong{font-size:17px}.cam-btn{font-size:14px}
+.examples-panel button{font-size:15px}
+@media(max-width:700px){.impact-proof-copy p{font-size:17px}}
+.impact-proof-number strong{white-space:nowrap;font-size:clamp(52px,6.6vw,100px)}
+.impact-proof-number sup{color:#E0B98F}
