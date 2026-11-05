@@ -291,3 +291,40 @@ html.i18n-pending .nav-wrap .lang-switch button,html.i18n-pending .nav-wrap .the
 @media(max-width:560px){.mode-tab{padding:14px 8px;font-size:13px}}
 .cam-off .hand-icon{margin:0}
 .cam-off .hand-icon{border-color:var(--frame)}
+
+/* Studio: quiet surfaces, restrained controls and a clear editor/preview hierarchy. */
+.studio-section{--studio-panel:color-mix(in srgb,var(--surface) 72%,var(--bg));--studio-preview:color-mix(in srgb,var(--bg) 84%,var(--surface));--studio-edge:color-mix(in srgb,var(--text) 12%,transparent);--studio-action:var(--lime);--studio-action-ink:var(--navy);background:var(--bg)}
+[data-theme="light"] .studio-section{--studio-action:var(--navy);--studio-action-ink:var(--cream);background:var(--bg)}
+.studio-section .section-heading{max-width:700px;margin-bottom:32px}
+.studio-section .section-heading h2{font-family:Manrope,sans-serif;font-size:clamp(32px,3.5vw,48px);font-weight:600;letter-spacing:-.045em;line-height:1.2;margin:16px 0}
+.studio-section .section-heading>p{font-size:15px;line-height:1.7}
+.studio-section .mode-tabs{width:fit-content;max-width:100%;padding:4px;margin:0 0 20px;gap:4px;border:1px solid var(--studio-edge);border-radius:12px;background:color-mix(in srgb,var(--surface) 60%,transparent)}
+.studio-section .mode-tab{flex:0 1 auto;padding:11px 23px;border:0;border-radius:8px;font-size:13px;font-weight:600;line-height:1.5;color:var(--muted);background:transparent;min-height:44px}
+.studio-section .mode-tab.active{background:var(--studio-panel);color:var(--text);box-shadow:0 1px 4px color-mix(in srgb,var(--navy) 9%,transparent)!important}
+.studio-section .studio-grid{grid-template-columns:1fr 1fr;min-height:500px;border:1px solid var(--studio-edge);border-radius:18px;background:var(--studio-panel);box-shadow:0 16px 48px color-mix(in srgb,var(--navy) 6%,transparent)}
+.studio-section .composer{min-height:500px;padding:32px;border-right:1px solid var(--studio-edge);border-bottom:0;background:var(--studio-panel)}
+.studio-section .composer-head{align-items:center;gap:16px;margin:0 0 20px;font-size:13px;font-weight:600;letter-spacing:0}
+.studio-section .composer-head button{min-height:36px;padding:6px 12px;border:1px solid var(--studio-edge);border-radius:8px;color:var(--muted);background:transparent;font-size:12px;font-weight:500}
+.studio-section .composer-head button:hover{color:var(--text);background:var(--studio-preview)}
+.studio-section .prototype-note{font-size:12px;line-height:1.7;margin:0 0 20px;color:var(--muted);max-width:52ch}
+.studio-section #prototypeStatus:empty{display:none}
+.studio-section .composer textarea{min-height:200px;height:230px;padding:20px;border:1px solid var(--studio-edge);border-radius:10px;background:var(--surface);font-size:15px;font-weight:400;line-height:1.75}
+.studio-section .composer textarea::placeholder{color:color-mix(in srgb,var(--muted) 80%,transparent)}
+.studio-section .composer textarea:focus{border-color:var(--muted);box-shadow:0 0 0 3px color-mix(in srgb,var(--text) 5%,transparent)}
+.studio-section .count{margin:10px 0 22px;font-size:11px;color:var(--muted)}
+.studio-section .generate-btn{height:50px;min-height:50px;margin-top:auto;border-radius:10px;background:var(--studio-action);color:var(--studio-action-ink);font-size:13px;font-weight:600;letter-spacing:0;box-shadow:0 2px 5px color-mix(in srgb,var(--navy) 7%,transparent);transition:filter .2s,transform .2s}
+.studio-section .generate-btn:hover{filter:brightness(1.07)}
+.studio-section .generate-btn:active{transform:translateY(1px)}
+.studio-section .generate-btn .sparkle,.studio-section .generate-btn .btn-meta{display:none}
+.studio-section .preview-panel{min-height:500px;background:var(--studio-preview)}
+.studio-section .preview-panel:before{display:none}
+.studio-section .preview-empty{max-width:330px;margin:auto;padding:32px}
+.studio-section .preview-empty .hand-icon{width:56px;height:56px;margin:0 auto 24px;border:1px solid var(--studio-edge);border-radius:16px;background:color-mix(in srgb,var(--surface) 72%,transparent);color:var(--muted)}
+.studio-section .preview-empty .ui-icon{width:23px;height:23px;stroke-width:1.4}
+.studio-section .preview-empty h3{margin:0 0 10px;font-size:16px;font-weight:500;letter-spacing:-.025em;line-height:1.5}
+.studio-section .preview-empty p{margin:0;font-size:13px;line-height:1.7;color:var(--muted)}
+.studio-section .cam-main{background:var(--studio-preview);padding:24px}
+.studio-section .cam-side{padding:32px;background:var(--studio-panel);border-left:1px solid var(--studio-edge)}
+.studio-section .cam-stage{background:color-mix(in srgb,var(--studio-preview) 70%,var(--surface));border-color:var(--studio-edge)}
+@media(max-width:900px){.studio-section .studio-grid{grid-template-columns:1fr}.studio-section .composer{min-height:450px;border-right:0;border-bottom:1px solid var(--studio-edge)}.studio-section .preview-panel{min-height:330px}.studio-section .cam-side{border-left:0;border-top:1px solid var(--studio-edge)}}
+@media(max-width:600px){.studio-section .section-heading{margin-bottom:26px}.studio-section .section-heading h2{font-size:32px}.studio-section .mode-tabs{width:100%;margin-bottom:16px}.studio-section .mode-tab{flex:1;padding:10px 12px;font-size:12px}.studio-section .studio-grid{border-radius:14px}.studio-section .composer{padding:22px;min-height:440px}.studio-section .composer textarea{min-height:190px;padding:16px;font-size:16px}.studio-section .composer-head{margin-bottom:16px}.studio-section .prototype-note{font-size:11px;margin-bottom:18px}.studio-section .preview-panel{min-height:290px}.studio-section .cam-side{padding:22px}}
