@@ -135,11 +135,17 @@ if (matchMedia('(hover:hover) and (pointer:fine)').matches) {
 const reveal = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.14 });
 $$('.reveal').forEach(el => reveal.observe(el));
 
-addEventListener('scroll', () => {
+// Шапка и полоса прокрутки должны быть верны и после обновления, когда браузер восстановил позицию без события scroll.
+function syncScroll() {
   $('.nav-wrap').classList.toggle('scrolled', scrollY > 25);
   const max = html.scrollHeight - innerHeight;
   $('#scrollProgress i').style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
-}, { passive: true });
+}
+addEventListener('scroll', syncScroll, { passive: true });
+addEventListener('resize', syncScroll);
+addEventListener('pageshow', syncScroll);
+addEventListener('load', () => { syncScroll(); setTimeout(syncScroll, 400); });
+syncScroll();
 
 const glow = $('.cursor-glow');
 addEventListener('pointermove', e => { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px'; });
