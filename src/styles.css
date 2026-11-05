@@ -169,7 +169,6 @@ section[id]{scroll-margin-top:100px}
 .cam-chip:hover{border-color:var(--lime);transform:translateX(3px)}
 .cam-chip.active{border-color:var(--lime);background:color-mix(in srgb,var(--lime) 16%,var(--surface))}.cam-chip.active b{background:var(--lime);color:#142B3A}
 .cam-reply{align-self:flex-start;min-width:0;border-radius:10px}
-[data-theme="light"] .cam-btn{color:#F7F5EF}
 @media(max-width:900px){.cam-grid{grid-template-columns:1fr}.cam-side{border-left:0;border-top:1px solid var(--line);padding:24px}.cam-stage{min-height:260px}}
 
 /* плавная смена языка */
@@ -236,7 +235,6 @@ html.theme-soft-change *{transition:background-color .5s,color .5s,border-color 
 [data-theme="light"] .impact-section{background:#FFFCF7}
 [data-theme="light"] .studio-section{background:#FFFCF7}
 [data-theme="light"] .how-section{background:transparent}
-[data-theme="light"] .cam-main{background:linear-gradient(145deg,#19547F,#104675)}
 
 /* ---------- плавная смена языка: мягкое затухание текста, без скачков ---------- */
 main,footer,.nav-links,.nav-actions .lang-switch button{transition:opacity .4s ease,filter .4s ease,background .35s ease,color .35s ease}
@@ -265,30 +263,30 @@ html.i18n-pending .nav-wrap .lang-switch button,html.i18n-pending .nav-wrap .the
 .avatar-card .caption{bottom:20px;background:rgba(9,38,64,.62);font-size:13px;padding:10px 16px;border-radius:12px}
 
 /* ---------- вкладки на всю ширину, вплотную к панели ---------- */
-.mode-tabs{display:flex;width:100%;gap:0;padding:0;margin:0;border:1.5px solid var(--frame);border-bottom:0;border-radius:18px 18px 0 0;overflow:hidden;background:var(--surface)}
+.mode-tabs{display:flex;width:100%;gap:0;padding:0;margin:0;border:1px solid var(--frame);border-bottom:0;border-radius:18px 18px 0 0;overflow:hidden;background:var(--surface)}
 .mode-tab{flex:1;border-radius:0;padding:18px 20px;font:700 15px Manrope;box-shadow:none!important;border-right:1px solid var(--frame)}
 .mode-tab:last-child{border-right:0}
 .mode-tab.active{background:var(--lime);color:#0E3D66}
 .studio-grid,.cam-grid{border-radius:0 0 18px 18px}
 
-/* ---------- выразительные рамы, чтобы окна не сливались с фоном ---------- */
-:root{--frame:rgba(247,245,239,.34)}
-[data-theme="light"]{--frame:rgba(16,70,117,.42)}
-.studio-grid,.cam-grid{border:1.5px solid var(--frame);box-shadow:0 34px 80px rgba(16,70,117,.22)}
-[data-theme="light"] .studio-grid,[data-theme="light"] .cam-grid{box-shadow:0 34px 80px rgba(16,70,117,.2),0 0 0 6px rgba(198,159,122,.18)}
-.avatar-card .avatar-scene{border:2px solid var(--frame);box-shadow:0 30px 70px rgba(16,70,117,.32),0 0 0 8px rgba(198,159,122,.22)}
-.step,.stat-card.outline,.impact-proof-number{border:1.5px solid var(--frame)}
-[data-theme="light"] .step{background:#FFFCF7;box-shadow:0 14px 34px rgba(16,70,117,.1)}
-.composer{border-right:1.5px solid var(--frame)}
-[data-theme="light"] .composer{background:#FFFCF7}
-[data-theme="light"] .preview-panel{background:radial-gradient(circle at center,rgba(198,159,122,.22),transparent 55%),#EADBC4}
-[data-theme="light"] .composer textarea{border:1.5px solid rgba(16,70,117,.3);background:#fff}
-.cam-side{border-left:1.5px solid var(--frame)}
-[data-theme="light"] .cam-main{background:linear-gradient(145deg,#EADBC4,#F3E7D3)}
-[data-theme="light"] .cam-stage{background:#173C5E;border:1.5px solid rgba(16,70,117,.45)}
-[data-theme="light"] .cam-side{background:#FFFCF7}
-[data-theme="light"] .cam-btn:not(.primary){background:#fff;color:#104675;border-color:rgba(16,70,117,.4)}
-[data-theme="light"] .cam-chip{border:1.5px solid rgba(16,70,117,.3)}
+/* ---------- спокойные рамы: тонкая линия и мягкая тень, без толстых обводок ---------- */
+:root{--frame:rgba(247,245,239,.24);--stage:radial-gradient(ellipse 70% 55% at 50% 38%,#2D678F 0%,#205F8D 45%,#104675 100%);--stage-ink:#F7F5EF}
+[data-theme="light"]{--frame:rgba(16,70,117,.24);--stage:radial-gradient(ellipse 75% 60% at 50% 38%,#FFFCF7 0%,#F4E9D8 55%,#E9D9C0 100%);--stage-ink:#104675}
+.studio-grid,.cam-grid{border:1px solid var(--frame)}
+.cam-side{border-left:1px solid var(--frame)}
+.composer{border-right:1px solid var(--frame)}
+
+/* фон окон персонажа и камеры подстраивается под тему */
+.avatar-card .avatar-scene{border:0;box-shadow:0 26px 60px rgba(16,70,117,.2)}
+[data-theme="light"] .avatar-card .avatar-scene{border:1px solid var(--frame)}
+.cam-main{background:var(--stage)}
+.cam-stage{background:rgba(10,32,52,.35);border:1px solid var(--frame)}
+[data-theme="light"] .cam-stage{background:rgba(255,252,247,.55)}
+.cam-off{color:var(--stage-ink)}
+.cam-btn{color:var(--stage-ink);border-color:var(--frame);background:rgba(255,255,255,.08)}
+.cam-btn.primary{background:var(--lime);border-color:var(--lime);color:#0E3D66}
+[data-theme="light"] .cam-btn:not(.primary){background:rgba(255,252,247,.8)}
+.cam-ring{background:conic-gradient(var(--lime) calc(var(--p)*360deg),rgba(16,70,117,.2) 0)}
 @media(max-width:560px){.mode-tab{padding:14px 8px;font-size:13px}}
-[data-theme="light"] .studio-grid,[data-theme="light"] .cam-grid{box-shadow:0 34px 80px rgba(16,70,117,.2)}
 .cam-off .hand-icon{margin:0}
+.cam-off .hand-icon{border-color:var(--frame)}
