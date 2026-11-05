@@ -207,3 +207,12 @@ html.theme-soft-change *{transition:background-color .5s,color .5s,border-color 
 
 .brand-mark .logo-dark{display:none}[data-theme="dark"] .brand-mark .logo-light{display:none}[data-theme="dark"] .brand-mark .logo-dark{display:block}
 
+
+/* ---------- вкладки режима ---------- */
+.mode-tabs{display:inline-flex;gap:6px;padding:6px;margin-bottom:26px;border:1px solid var(--line);border-radius:18px;background:color-mix(in srgb,var(--surface) 80%,transparent)}
+.mode-tab{border:0;background:transparent;color:var(--muted);border-radius:13px;padding:14px 26px;font:700 15px Manrope;cursor:pointer;transition:background .3s,color .3s,transform .25s}
+.mode-tab:hover{color:var(--text)}
+.mode-tab.active{background:var(--lime);color:#142B3A;box-shadow:0 8px 24px rgba(198,159,122,.22)}
+.studio-grid[hidden],.camera-grid[hidden]{display:none!important}
+.studio-section .camera-grid{margin:0}.camera-grid[hidden]{display:none}
+@media(max-width:560px){.mode-tabs{display:flex}.mode-tab{flex:1;padding:13px 10px;font-size:13px}}
