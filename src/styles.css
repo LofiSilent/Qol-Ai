@@ -372,7 +372,7 @@ html.i18n-pending .nav-wrap .lang-switch button,html.i18n-pending .nav-wrap .the
 .impact-proof-number{container-type:inline-size;min-height:300px;padding:36px;gap:18px;align-items:flex-start;border-radius:20px;border-color:rgba(247,245,239,.18);background:radial-gradient(ellipse at 85% 12%,rgba(198,159,122,.16),transparent 58%),linear-gradient(145deg,#19547F,#123E63 80%);box-shadow:0 20px 48px rgba(16,46,65,.16)}
 .impact-proof-number>span{position:relative;z-index:2;font-family:Manrope,sans-serif;font-size:11px;font-weight:600;letter-spacing:.16em;line-height:1.5;color:#D0DDE7}
 .impact-proof-number strong{display:flex;align-items:baseline;gap:.1em;max-width:100%;margin:0;font-family:Manrope,sans-serif;font-size:clamp(52px,5.5vw,84px);font-size:clamp(54px,24cqi,112px);font-weight:700;line-height:1.08;letter-spacing:-.055em;font-variant-numeric:tabular-nums;white-space:nowrap}
-.impact-proof-number sup{position:static;align-self:baseline;margin:0;font-size:.58em;font-weight:600;line-height:1;letter-spacing:0;color:#E0B98F}
+.impact-proof-number sup{position:static;align-self:baseline;margin:0;font-size:.85em;font-weight:600;line-height:1;letter-spacing:0;color:#E0B98F}
 .impact-proof-number em{max-width:27ch;margin:0;font-size:15px;font-weight:400;line-height:1.65;color:#D0DDE7;text-wrap:balance}
 .impact-proof-number .number-orbit{right:-115px;bottom:-140px;opacity:.32;animation:none;box-shadow:0 0 0 38px rgba(198,159,122,.035)}
 .impact-proof-number:hover,[data-theme="light"] .impact-proof-number:hover{box-shadow:0 24px 54px rgba(16,46,65,.19)}
