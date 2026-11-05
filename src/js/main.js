@@ -39,7 +39,12 @@ function setLang(next) {
   document.title = t('pageTitle');
   camera?.refresh();
 }
-$$('[data-lang]').forEach(btn => btn.addEventListener('click', () => setLang(btn.dataset.lang)));
+$$('[data-lang]').forEach(btn => btn.addEventListener('click', () => {
+  if (btn.dataset.lang === lang) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { setLang(btn.dataset.lang); return; }
+  html.classList.add('lang-switching');
+  setTimeout(() => { setLang(btn.dataset.lang); requestAnimationFrame(() => html.classList.remove('lang-switching')); }, 200);
+}));
 setLang(lang);
 
 // ---------- тема ----------
@@ -114,7 +119,7 @@ html.classList.add('motion-enabled');
 
 // Наклон со световым бликом у карточек.
 if (matchMedia('(hover:hover) and (pointer:fine)').matches) {
-  $$('.stat-card,.cam-card').forEach(card => {
+  $$('.stat-card').forEach(card => {
     card.classList.add('motion-tilt');
     card.addEventListener('pointermove', e => {
       if (reducedMotion.matches) return;

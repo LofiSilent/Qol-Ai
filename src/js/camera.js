@@ -37,7 +37,8 @@ export function initCamera({ t, onRecognized }) {
   let landmarker = null, stream = null, raf = 0, running = false;
   let candidate = 0, streak = 0, locked = 0, lastTs = -1, statusKey = 'camIdle';
 
-  const setStatus = key => { statusKey = key; status.textContent = t(key); status.dataset.state = key; };
+  const ERRORS = ['camDenied', 'camFail'];
+  const setStatus = key => { statusKey = key; status.textContent = t(key); status.dataset.state = key; status.hidden = !ERRORS.includes(key); };
   const refreshStatus = () => { status.textContent = t(statusKey); };
 
   function show(cls, source) {
