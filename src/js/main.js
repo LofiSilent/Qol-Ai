@@ -2,6 +2,7 @@
 import { translations, LANGUAGES, DEFAULT_LANGUAGE } from './i18n.js?v=__BUILD__';
 import { loadAvatar, mount, followVisible, enableOrbit, play, stop, isPlaying } from './avatar.js?v=__BUILD__';
 import { loadDictionary, textToFrames } from './signing.js?v=__BUILD__';
+import { initCamera } from './camera.js?v=__BUILD__';
 
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -22,6 +23,7 @@ if (telegram) {
   telegram.onEvent('themeChanged', () => { html.dataset.theme = telegram.colorScheme; });
 }
 
+let camera = null;
 // ---------- язык ----------
 const requested = new URLSearchParams(location.search).get('lang');
 let lang = [requested, storage.get('qolai-lang')].find(l => LANGUAGES.includes(l)) || DEFAULT_LANGUAGE;
@@ -36,16 +38,92 @@ function setLang(next) {
   $$('[data-i18n-placeholder]').forEach(el => { el.placeholder = t(el.dataset.i18nPlaceholder); });
   $$('[data-lang]').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
   document.title = t('pageTitle');
+  camera?.refresh();
 }
 $$('[data-lang]').forEach(btn => btn.addEventListener('click', () => setLang(btn.dataset.lang)));
 setLang(lang);
 
 // ---------- тема ----------
 if (!telegram) html.dataset.theme = storage.get('qolai-theme') || 'light';
-$('#themeToggle').addEventListener('click', () => {
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const applyTheme = () => {
   html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
   storage.set('qolai-theme', html.dataset.theme);
+};
+// Круговая волна от кнопки (View Transitions), как на qol-ai.app; без поддержки — мягкое затухание.
+let themeBusy = false;
+function themeTransition(button, update) {
+  if (themeBusy) return;
+  if (reducedMotion.matches) { update(); return; }
+  if (!document.startViewTransition) {
+    html.classList.add('theme-soft-change'); update();
+    setTimeout(() => html.classList.remove('theme-soft-change'), 650);
+    return;
+  }
+  themeBusy = true;
+  const r = button.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+  const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+  html.classList.add('theme-circle-change');
+  const tr = document.startViewTransition(update);
+  tr.ready.then(() => {
+    html.animate({ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+      { duration: 620, easing: 'cubic-bezier(.4,0,.2,1)', pseudoElement: '::view-transition-new(root)' });
+    button.animate([{ transform: 'scale(.8) rotate(-40deg)' }, { transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.22,1,.36,1)' });
+  }).catch(() => {});
+  tr.finished.catch(() => {}).finally(() => { themeBusy = false; html.classList.remove('theme-circle-change'); });
+}
+const themeBtn = $('#themeToggle');
+themeBtn.addEventListener('click', () => themeTransition(themeBtn, applyTheme));
+// Солнце крутится, луна покачивается при наведении.
+let glyphBusy = false;
+themeBtn.addEventListener('pointerenter', e => {
+  if (e.pointerType === 'touch' || reducedMotion.matches || glyphBusy) return;
+  const glyph = themeBtn.querySelector(html.dataset.theme === 'light' ? '.sun' : '.moon');
+  if (!glyph) return;
+  glyphBusy = true;
+  const moon = html.dataset.theme === 'dark';
+  const frames = moon
+    ? [{ transform: 'rotate(0)' }, { transform: 'rotate(-28deg)', offset: .3 }, { transform: 'rotate(17deg)', offset: .58 }, { transform: 'rotate(-7deg)', offset: .8 }, { transform: 'rotate(0)' }]
+    : [{ transform: 'rotate(0)' }, { transform: 'rotate(360deg)' }];
+  glyph.animate(frames, { duration: 1100, easing: 'cubic-bezier(.22,.61,.36,1)' }).finished.catch(() => {}).finally(() => { glyphBusy = false; });
 });
+
+// ---------- построчное появление заголовков (как на qol-ai.app) ----------
+const headingObserver = new IntersectionObserver(entries => entries.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('is-visible'); headingObserver.unobserve(e.target); }
+}), { threshold: .15 });
+$$('.hero h1,.section-heading h2,.impact-copy h2').forEach(h => {
+  const nodes = [...h.childNodes];
+  let inner = document.createElement('span'), index = 0;
+  const flush = () => {
+    if (!inner.childNodes.length) return;
+    const line = document.createElement('span');
+    line.className = 'motion-line'; inner.className = 'motion-line-inner';
+    inner.style.setProperty('--line-delay', `${index++ * 100}ms`);
+    line.append(inner); h.append(line); inner = document.createElement('span');
+  };
+  // перевод заголовка должен менять текст внутри строки, а не стирать разметку
+  if (h.dataset.i18n) { inner.dataset.i18n = h.dataset.i18n; h.removeAttribute('data-i18n'); }
+  nodes.forEach(n => { if (n.nodeName === 'BR') { n.remove(); flush(); } else inner.append(n); });
+  flush();
+  h.classList.add('motion-reveal');
+  headingObserver.observe(h);
+});
+html.classList.add('motion-enabled');
+
+// Наклон со световым бликом у карточек.
+if (matchMedia('(hover:hover) and (pointer:fine)').matches) {
+  $$('.stat-card,.cam-card').forEach(card => {
+    card.classList.add('motion-tilt');
+    card.addEventListener('pointermove', e => {
+      if (reducedMotion.matches) return;
+      const r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      card.style.setProperty('--tilt-x', `${(0.5 - y) * 5}deg`); card.style.setProperty('--tilt-y', `${(x - 0.5) * 5}deg`);
+      card.style.setProperty('--shine-x', `${x * 100}%`); card.style.setProperty('--shine-y', `${y * 100}%`);
+    });
+    card.addEventListener('pointerleave', () => { card.style.setProperty('--tilt-x', '0deg'); card.style.setProperty('--tilt-y', '0deg'); });
+  });
+}
 
 // ---------- анимации страницы ----------
 const reveal = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.14 });
@@ -204,3 +282,10 @@ function generate() {
 }
 $('#generateBtn').addEventListener('click', generate);
 $('#replayBtn').addEventListener('click', () => sign(input.value, studioStage));
+
+// ---------- камера ----------
+camera = initCamera({
+  t,
+  onRecognized: (cls) => { $('#camReply').dataset.q = cls; },
+});
+$('#camReply').addEventListener('click', () => { setTimeout(() => input.focus({ preventScroll: true }), 600); });
