@@ -263,3 +263,32 @@ html.i18n-pending .nav-wrap .lang-switch button,html.i18n-pending .nav-wrap .the
 .avatar-card .card-top,.avatar-card .timeline,.hero-visual .floating-tag,.hero-visual .orbit{display:none!important}
 .avatar-card .avatar-scene{height:min(560px,64vh);border-radius:26px;background:var(--stage);box-shadow:0 30px 70px rgba(16,70,117,.28)}
 .avatar-card .caption{bottom:20px;background:rgba(9,38,64,.62);font-size:13px;padding:10px 16px;border-radius:12px}
+
+/* ---------- вкладки на всю ширину, вплотную к панели ---------- */
+.mode-tabs{display:flex;width:100%;gap:0;padding:0;margin:0;border:1.5px solid var(--frame);border-bottom:0;border-radius:18px 18px 0 0;overflow:hidden;background:var(--surface)}
+.mode-tab{flex:1;border-radius:0;padding:18px 20px;font:700 15px Manrope;box-shadow:none!important;border-right:1px solid var(--frame)}
+.mode-tab:last-child{border-right:0}
+.mode-tab.active{background:var(--lime);color:#0E3D66}
+.studio-grid,.cam-grid{border-radius:0 0 18px 18px}
+
+/* ---------- выразительные рамы, чтобы окна не сливались с фоном ---------- */
+:root{--frame:rgba(247,245,239,.34)}
+[data-theme="light"]{--frame:rgba(16,70,117,.42)}
+.studio-grid,.cam-grid{border:1.5px solid var(--frame);box-shadow:0 34px 80px rgba(16,70,117,.22)}
+[data-theme="light"] .studio-grid,[data-theme="light"] .cam-grid{box-shadow:0 34px 80px rgba(16,70,117,.2),0 0 0 6px rgba(198,159,122,.18)}
+.avatar-card .avatar-scene{border:2px solid var(--frame);box-shadow:0 30px 70px rgba(16,70,117,.32),0 0 0 8px rgba(198,159,122,.22)}
+.step,.stat-card.outline,.impact-proof-number{border:1.5px solid var(--frame)}
+[data-theme="light"] .step{background:#FFFCF7;box-shadow:0 14px 34px rgba(16,70,117,.1)}
+.composer{border-right:1.5px solid var(--frame)}
+[data-theme="light"] .composer{background:#FFFCF7}
+[data-theme="light"] .preview-panel{background:radial-gradient(circle at center,rgba(198,159,122,.22),transparent 55%),#EADBC4}
+[data-theme="light"] .composer textarea{border:1.5px solid rgba(16,70,117,.3);background:#fff}
+.cam-side{border-left:1.5px solid var(--frame)}
+[data-theme="light"] .cam-main{background:linear-gradient(145deg,#EADBC4,#F3E7D3)}
+[data-theme="light"] .cam-stage{background:#173C5E;border:1.5px solid rgba(16,70,117,.45)}
+[data-theme="light"] .cam-side{background:#FFFCF7}
+[data-theme="light"] .cam-btn:not(.primary){background:#fff;color:#104675;border-color:rgba(16,70,117,.4)}
+[data-theme="light"] .cam-chip{border:1.5px solid rgba(16,70,117,.3)}
+@media(max-width:560px){.mode-tab{padding:14px 8px;font-size:13px}}
+[data-theme="light"] .studio-grid,[data-theme="light"] .cam-grid{box-shadow:0 34px 80px rgba(16,70,117,.2)}
+.cam-off .hand-icon{margin:0}

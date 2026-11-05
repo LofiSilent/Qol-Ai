@@ -294,11 +294,7 @@ $('#generateBtn').addEventListener('click', generate);
 $('#replayBtn').addEventListener('click', () => sign(input.value, studioStage).catch(()=>{ $('#prototypeStatus').textContent=t('motionError'); }));
 
 // ---------- камера ----------
-camera = initCamera({
-  t,
-  onRecognized: (cls) => { $('#camReply').dataset.q = cls; },
-});
-$('#camReply').addEventListener('click', () => { setTimeout(() => input.focus({ preventScroll: true }), 600); });
+camera = initCamera({ t });
 
 // ---------- вкладки: создать видео / распознать жесты ----------
 const tabs = $$('.mode-tab'), panels = { video: $('#panelVideo'), camera: $('#panelCamera') };
