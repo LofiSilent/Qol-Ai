@@ -312,3 +312,6 @@ function openTab(name, { scroll = false } = {}) {
 tabs.forEach(b => b.addEventListener('click', () => openTab(b.dataset.tab)));
 $$('[data-open-tab]').forEach(a => a.addEventListener('click', () => openTab(a.dataset.openTab)));
 $$('a[href="#studio"]:not([data-open-tab])').forEach(a => a.addEventListener('click', () => openTab('video')));
+
+// страница показывается только после применения языка и темы — без вспышки старых значений
+requestAnimationFrame(() => requestAnimationFrame(() => html.classList.remove('i18n-pending')));

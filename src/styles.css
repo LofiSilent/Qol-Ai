@@ -223,3 +223,25 @@ html.theme-soft-change *{transition:background-color .5s,color .5s,border-color 
 .studio-grid[hidden]{display:none!important}
 .camera-grid[hidden]{display:none}
 @media(max-width:560px){.mode-tabs{display:flex}.mode-tab{flex:1;padding:13px 10px;font-size:13px}}
+
+/* ---------- палитра: светлая тема — бежевый и белый, текст синий; тёмная — синий, текст бежевый ---------- */
+[data-theme="light"] .impact-proof{background:linear-gradient(180deg,#FFFCF7 0%,#F7F1E8 100%);color:var(--text)}
+[data-theme="light"] .impact-proof:before{border-color:rgba(198,159,122,.4);box-shadow:0 0 0 80px rgba(198,159,122,.08),0 0 0 160px rgba(198,159,122,.05)}
+[data-theme="light"] .impact-proof-copy p,[data-theme="light"] .impact-proof-note{color:var(--muted)!important}
+[data-theme="light"] .impact-proof-copy strong{color:#795739}
+[data-theme="light"] .impact-proof-number:hover{box-shadow:0 30px 70px rgba(16,70,117,.25)}
+[data-theme="light"] .marquee{background:linear-gradient(180deg,var(--bg) 0%,var(--bg) 62%,#FFFCF7 100%)}
+[data-theme="light"] .marquee:after{background:linear-gradient(180deg,transparent,#FFFCF7)}
+[data-theme="light"] .stat-card.dark{background:#104675;color:#F7F5EF}
+[data-theme="light"] .impact-section{background:#FFFCF7}
+[data-theme="light"] .studio-section{background:#FFFCF7}
+[data-theme="light"] .how-section{background:transparent}
+[data-theme="light"] .cam-main{background:linear-gradient(145deg,#19547F,#104675)}
+
+/* ---------- плавная смена языка: мягкое затухание текста, без скачков ---------- */
+main,footer,.nav-links,.nav-actions .lang-switch button{transition:opacity .4s ease,filter .4s ease,background .35s ease,color .35s ease}
+html.lang-switching main,html.lang-switching footer,html.lang-switching .nav-links{opacity:0;filter:blur(5px);transition-duration:.24s}
+
+/* до применения языка и темы контент скрыт, потом плавно появляется (нет вспышки прошлого языка/темы) */
+html.i18n-pending main,html.i18n-pending footer,html.i18n-pending .nav-links{opacity:0}
+html.i18n-pending .nav-wrap .lang-switch button,html.i18n-pending .nav-wrap .theme-toggle{transition:none}
