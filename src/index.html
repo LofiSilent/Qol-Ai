@@ -89,7 +89,8 @@
     <section class="studio-section" id="studio">
       <div class="container">
         <div class="section-heading reveal"><span class="kicker">02 / STUDIO</span><h2 data-i18n="studioTitle">Попробуйте сами</h2><p data-i18n="studioText">Введите текст — 3D-персонаж покажет его жестами.</p></div>
-        <div class="mode-tabs reveal" role="tablist" aria-label="Mode"><button class="mode-tab active" id="tabVideo" role="tab" aria-selected="true" aria-controls="panelVideo" type="button" data-tab="video" data-i18n="tabVideo">Создать видео</button><button class="mode-tab" id="tabCamera" role="tab" aria-selected="false" aria-controls="panelCamera" type="button" data-tab="camera" data-i18n="tabCamera">Распознать жесты</button></div>
+        <div class="mode-tabs reveal" role="tablist" aria-label="Mode" data-active="video"><button class="mode-tab active" id="tabVideo" role="tab" aria-selected="true" aria-controls="panelVideo" type="button" data-tab="video" data-i18n="tabVideo">Создать видео</button><button class="mode-tab" id="tabCamera" role="tab" aria-selected="false" aria-controls="panelCamera" type="button" data-tab="camera" data-i18n="tabCamera">Распознать жесты</button></div>
+        <div class="mode-panels" id="modePanels">
         <div class="studio-grid reveal" id="panelVideo" role="tabpanel" aria-labelledby="tabVideo">
           <div class="composer">
             <div class="composer-head"><span data-i18n="yourText">Ваш текст</span><button id="sampleBtn" type="button" aria-expanded="false" aria-controls="examplesPanel" data-i18n="example">Примеры</button></div>
@@ -120,6 +121,7 @@
             <p class="cam-sentence" id="camSentence" data-i18n="camPlaceholder">Здесь появится распознанная фраза</p>
             <div class="cam-chips"><button class="cam-chip" type="button" data-cls="1"><b>1</b><span data-i18n="camQ1"></span></button><button class="cam-chip" type="button" data-cls="2"><b>2</b><span data-i18n="camQ2"></span></button><button class="cam-chip" type="button" data-cls="3"><b>3</b><span data-i18n="camQ3"></span></button><button class="cam-chip" type="button" data-cls="4"><b>4</b><span data-i18n="camQ4"></span></button><button class="cam-chip" type="button" data-cls="5"><b>5</b><span data-i18n="camQ5"></span></button></div>
           </div>
+        </div>
         </div>
       </div>
     </section>
