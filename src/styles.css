@@ -259,7 +259,7 @@ html.i18n-pending .nav-wrap .lang-switch button,html.i18n-pending .nav-wrap .the
 /* ---------- герой: просто окно с персонажем и подписью, без рамки-карточки ---------- */
 .avatar-card{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;border-radius:0!important;transform:none!important;width:min(460px,92%)}
 .avatar-card .card-top,.avatar-card .timeline,.hero-visual .floating-tag,.hero-visual .orbit{display:none!important}
-.avatar-card .avatar-scene{height:min(560px,64vh);border-radius:26px;background:var(--stage);box-shadow:0 30px 70px rgba(16,70,117,.28)}
+.avatar-card .avatar-scene{height:min(560px,64vh);border-radius:26px;background:var(--bg)}
 .avatar-card .caption{bottom:20px;background:rgba(9,38,64,.62);font-size:13px;padding:10px 16px;border-radius:12px}
 
 /* ---------- вкладки на всю ширину, вплотную к панели ---------- */
@@ -277,8 +277,9 @@ html.i18n-pending .nav-wrap .lang-switch button,html.i18n-pending .nav-wrap .the
 .composer{border-right:1px solid var(--frame)}
 
 /* фон окон персонажа и камеры подстраивается под тему */
-.avatar-card .avatar-scene{border:0;box-shadow:0 26px 60px rgba(16,70,117,.2)}
-[data-theme="light"] .avatar-card .avatar-scene{border:1px solid var(--frame)}
+/* Match the page canvas in both themes without a tinted card or dark fade. */
+.avatar-card .avatar-scene{border:0;box-shadow:none}
+.avatar-card .avatar-scene:after{background:none}
 .cam-main{background:var(--stage)}
 .cam-stage{background:rgba(10,32,52,.35);border:1px solid var(--frame)}
 [data-theme="light"] .cam-stage{background:rgba(255,252,247,.55)}
