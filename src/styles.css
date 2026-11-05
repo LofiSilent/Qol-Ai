@@ -359,3 +359,11 @@ html.i18n-pending .nav-wrap .lang-switch button,html.i18n-pending .nav-wrap .the
 .studio-section .mode-tab:last-child{border-right:0}
 .studio-section .mode-tab.active{background:var(--studio-panel);color:var(--text);font-weight:700;box-shadow:inset 0 3px 0 var(--lime)!important}
 .studio-section .studio-grid{border-radius:0 0 18px 18px}
+
+/* плавный переход между функциями */
+.mode-panels.is-switching{overflow:hidden}
+.studio-section .mode-tabs{position:relative}
+.studio-section .mode-tabs:before{content:"";position:absolute;left:0;top:0;width:50%;height:3px;background:var(--lime);transform:translateX(0);transition:transform .45s cubic-bezier(.22,1,.36,1);z-index:2}
+.studio-section .mode-tabs[data-active="camera"]:before{transform:translateX(100%)}
+.studio-section .mode-tab.active{box-shadow:none!important}
+.studio-section .mode-tab{transition:background .35s ease,color .35s ease}

@@ -298,12 +298,33 @@ camera = initCamera({ t });
 
 // ---------- вкладки: создать видео / распознать жесты ----------
 const tabs = $$('.mode-tab'), panels = { video: $('#panelVideo'), camera: $('#panelCamera') };
-function openTab(name, { scroll = false } = {}) {
+const modeTabs = $('.mode-tabs'), modeWrap = $('#modePanels');
+let tabBusy = false;
+async function openTab(name, { scroll = false } = {}) {
+  if (tabBusy) return;
+  const current = Object.keys(panels).find(k => !panels[k].hidden);
   tabs.forEach(b => { const on = b.dataset.tab === name; b.classList.toggle('active', on); b.setAttribute('aria-selected', String(on)); });
-  for (const [key, el] of Object.entries(panels)) el.hidden = key !== name;
-  if (name !== 'camera') $('#camStop').click();
+  modeTabs.dataset.active = name;
   storage.set('qolai-tab', name);
+  if (name !== 'camera') $('#camStop').click();
   if (scroll) $('#studio').scrollIntoView({ behavior: 'smooth' });
+  if (current === name) return;
+  const from = panels[current], to = panels[name];
+  if (!from || !to || from === to) return;
+  if (reducedMotion.matches || !from.animate) { from.hidden = true; to.hidden = false; return; }
+  tabBusy = true;
+  const h0 = modeWrap.offsetHeight;
+  modeWrap.classList.add('is-switching');
+  // 1) старая панель уходит вниз и гаснет
+  await from.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(10px) scale(.995)' }], { duration: 170, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' }).finished.catch(() => {});
+  from.hidden = true; to.hidden = false;
+  const h1 = modeWrap.offsetHeight;
+  // 2) высота окна плавно подгоняется, новая панель выезжает снизу
+  modeWrap.animate([{ height: h0 + 'px' }, { height: h1 + 'px' }], { duration: 380, easing: 'cubic-bezier(.22,1,.36,1)' });
+  await to.animate([{ opacity: 0, transform: 'translateY(16px) scale(.995)' }, { opacity: 1, transform: 'none' }], { duration: 400, easing: 'cubic-bezier(.22,1,.36,1)' }).finished.catch(() => {});
+  from.getAnimations().forEach(a => a.cancel());
+  modeWrap.classList.remove('is-switching');
+  tabBusy = false;
 }
 tabs.forEach(b => b.addEventListener('click', () => openTab(b.dataset.tab)));
 $$('[data-open-tab]').forEach(a => a.addEventListener('click', () => openTab(a.dataset.openTab)));
