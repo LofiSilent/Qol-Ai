@@ -14,6 +14,8 @@ for (const entry of ['index.html', 'styles.css', 'js', 'data', 'assets']) {
   await cp(`src/${entry}`, `dist/${entry}`, { recursive: true });
 }
 
+await cp('src/system-alert', 'dist/system-alert', { recursive: true });
+
 async function stamp(dir) {
   for (const item of await readdir(dir, { withFileTypes: true })) {
     const path = join(dir, item.name);
