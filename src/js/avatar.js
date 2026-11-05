@@ -4,6 +4,7 @@
 // Один WebGL-рендерер на страницу; холст переносится между «слотами» (первый экран, студия).
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 // Кости пальцев правой руки (скелет Character Creator, CC_Base_*). При смене модели правьте этот блок.
 const FINGERS = ['Thumb', 'Index', 'Mid', 'Ring', 'Pinky'];
@@ -49,17 +50,55 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-scene.add(new THREE.HemisphereLight(0xfff8ee, 0x6d8696, 1.6));
-const keyLight = new THREE.DirectionalLight(0xffffff, 2.2);
-keyLight.position.set(1.2, 2.4, 3);
+renderer.toneMappingExposure = 1.05;
+// студийный свет: мягкое окружение для бликов + ключевой, заполняющий и контровой источники
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.55;
+scene.add(new THREE.HemisphereLight(0xfff6ea, 0x4a6272, 0.9));
+const keyLight = new THREE.DirectionalLight(0xfff3e6, 2.0);
+keyLight.position.set(1.4, 2.2, 2.6);
 scene.add(keyLight);
-const rimLight = new THREE.DirectionalLight(0xc69f7a, 1.2);
-rimLight.position.set(-2, 2, -2);
+const fillLight = new THREE.DirectionalLight(0xdfe9f2, 0.7);
+fillLight.position.set(-2, 1.4, 1.8);
+scene.add(fillLight);
+const rimLight = new THREE.DirectionalLight(0xc69f7a, 1.6);
+rimLight.position.set(-1.5, 2.2, -2.2);
 scene.add(rimLight);
 
+// настройка материалов модели под этот свет
+const MATERIALS = {
+  'Std_Skin_Head.001': { roughness: 0.58, envMapIntensity: 0.35 },
+  'Std_Nails': { envMapIntensity: 0.35 },
+  'Std_Skin_Body.001': { roughness: 0.6, envMapIntensity: 0.35 },
+  'Std_Skin_Arm.001': { roughness: 0.6, envMapIntensity: 0.35 },
+  'Qol black hair / unified satin': { color: '#2a1c14', roughness: 0.42, envMapIntensity: 1.4 },
+  'Qol tailored collar': { roughness: 0.78 },
+  'Qol casual knit': { roughness: 0.78 },
+  'Qol ivory blouse': { roughness: 0.7 },
+  'Matte black formal fabric': { roughness: 0.82 },
+};
+// части тела, спрятанные под одеждой: в некоторых позах они торчат наружу (например, у шеи)
+const HIDDEN_MATERIALS = ['Hidden skin under blouse'];
+
+function tuneMaterials(root) {
+  root.traverse(o => {
+    if (!o.isMesh) return;
+    for (const m of [o.material].flat()) {
+      if (!m) continue;
+      if (HIDDEN_MATERIALS.includes(m.name)) o.visible = false;
+      const t = MATERIALS[m.name];
+      if (!t) continue;
+      if (t.color) m.color.set(t.color);
+      if (t.roughness !== undefined) m.roughness = t.roughness;
+      if (t.envMapIntensity !== undefined) m.envMapIntensity = t.envMapIntensity;
+    }
+  });
+}
+
 const clock = new THREE.Clock();
+const faces = [];   // меши с морфами лица (моргание, улыбка)
 const bones = {};
-let model = null, mixer = null, actions = [], clipDuration = 0;
+let model = null, mixer = null, actions = [], clipDuration = 0, standingClip = null, motionAction = null;
 let slot = null;
 const target = new THREE.Vector3(0, 1.3, 0);
 let dist = 2.4, yaw = 0, pitch = 0.04;
@@ -77,16 +116,22 @@ export function loadAvatar(url, { onProgress, onReady, onError } = {}) {
       if (o.isMesh) o.frustumCulled = false;
     });
     applyOutfit(model);
+    tuneMaterials(model);
+    model.traverse(o => { if (o.morphTargetDictionary && 'Eye_Blink' in o.morphTargetDictionary) faces.push(o); });
     mixer = new THREE.AnimationMixer(model);
-    actions = gltf.animations.map(clip => {
+    // The original full-body clip contains a bow. Use the same standing segment
+    // as the main Qol AI site, preserving the model and finger overlays.
+    const full = new THREE.AnimationClip('all', -1, gltf.animations.flatMap(clip => clip.tracks));
+    const standing = THREE.AnimationUtils.subclip(full, 'standing-idle', 299, 312, 30); standingClip = standing;
+    actions = [standing].map(clip => {
       const a = mixer.clipAction(clip);
       a.setLoop(THREE.LoopRepeat, Infinity);
       a.play();
-      a.paused = true;
       return a;
     });
-    clipDuration = Math.max(0, ...gltf.animations.map(c => c.duration));
-    mixer.setTime(0);
+    clipDuration = standing.duration;
+    mixer.update(0);
+    actions.forEach(a => { a.paused = true; });
     if (OUTFIT === 'classic') addJacketDetails(model);
 
     const box = new THREE.Box3().setFromObject(model);
@@ -105,8 +150,8 @@ const JACKET = {
   body: 'Qol_Business_Jacket_Body',
   shirt: 'Qol_Business_Ivory_Blouse',
   lapelWidth: 0.06,
-  lapelColor: '#303036',
-  lapelEdge: '#6a6a72',
+  lapelColor: '#1b1b20',
+  lapelEdge: '#4d4d55',
   seamColor: '#060607',
   buttonColor: '#0b0b0c',
 };
@@ -118,7 +163,7 @@ function addJacketDetails(root) {
   if (!body || !shirt || !chest) return;
   shirt.material = shirt.material.clone();
   shirt.material.onBeforeCompile = shader => {
-    shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\n  transformed -= objectNormal * 0.012;');
+    shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\n  transformed += objectNormal * (0.005 * smoothstep(1.49, 1.51, position.y) - 0.012 * (1.0 - smoothstep(1.475, 1.495, position.y)));');
   };
   root.updateMatrixWorld(true);
 
@@ -169,7 +214,7 @@ function addJacketDetails(root) {
     return hit(outer + side * 0.001, y)?.point || null;
   };
 
-  const lapelMat = new THREE.MeshStandardMaterial({ color: JACKET.lapelColor, roughness: 0.35, metalness: 0.05, side: THREE.DoubleSide });
+  const lapelMat = new THREE.MeshStandardMaterial({ color: JACKET.lapelColor, roughness: 0.7, metalness: 0, envMapIntensity: 0.08, side: THREE.DoubleSide });
   const edgeMat = new THREE.MeshStandardMaterial({ color: JACKET.lapelEdge, roughness: 0.4 });
   const lift = 0.004;
   for (const side of [-1, 1]) {
@@ -194,7 +239,8 @@ function addJacketDetails(root) {
     }
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-    geo.computeVertexNormals();
+    // нормали смотрят вперёд — без полос на атласе
+    geo.setAttribute('normal', new THREE.Float32BufferAttribute(new Array(pos.length / 3).fill([0, 0.15, 0.99]).flat(), 3));
     const lapel = new THREE.Mesh(geo, lapelMat);
     lapel.frustumCulled = false;
     scene.add(lapel);
@@ -290,6 +336,31 @@ function runClip(on) {
   else { actions.forEach(a => { a.paused = true; }); mixer.setTime(0); }
 }
 
+// Play source clips transferred from qol-ai.app; no invented fingerspelling.
+export async function playSourceMotions(ids, callbacks = {}) {
+  const clips = await Promise.all(ids.map(async id => {
+    const response = await fetch('data/motions/' + id + '.json?v=__BUILD__');
+    if (!response.ok) throw new Error('motion_unavailable');
+    return THREE.AnimationClip.parse(await response.json());
+  }));
+  if (callbacks.shouldStart && !callbacks.shouldStart()) return false;
+  stop(); playing = true;
+  actions.forEach(a => { a.paused = true; a.stop(); });
+  const total = clips.reduce((n, clip) => n + clip.duration, 0); let elapsed = 0, index = 0;
+  const next = () => {
+    if (index >= clips.length) { stop(); callbacks.onEnd?.(); return; }
+    motionAction?.stop(); const clip = clips[index++];
+    const names = new Set(clip.tracks.map(track => track.name));
+    const resting = standingClip.tracks.filter(track => !names.has(track.name)).map(track => { const copy = track.clone(), size = track.getValueSize(), first = track.values.slice(0, size); copy.times = new Float32Array([0, clip.duration]); copy.values = new track.values.constructor([...first, ...first]); return copy; });
+    const merged = new THREE.AnimationClip(clip.name, clip.duration, [...clip.tracks, ...resting]);
+    motionAction = mixer.clipAction(merged); motionAction.setLoop(THREE.LoopOnce, 1); motionAction.clampWhenFinished = true; motionAction.reset().play();
+    callbacks.onFrame?.(null, elapsed / total); elapsed += clip.duration;
+    playTimer = setTimeout(next, clip.duration * 1000);
+  };
+  next();
+  return true;
+}
+
 // Проиграть жест. frames: [{ curl?: [5 чисел], ms }] — форма руки поверх анимации.
 // Без кадров проигрывается анимация модели целиком.
 export function play(frames = [], { onFrame, onEnd } = {}) {
@@ -321,6 +392,7 @@ export function stop() {
   clearTimeout(playTimer); clearInterval(playTimer); clearTimeout(endTimer);
   playing = false;
   curlTarget = null;
+  if (motionAction) { motionAction.stop(); motionAction = null; actions.forEach(a => a.reset().play()); }
   runClip(false);
 }
 
@@ -340,6 +412,30 @@ function applyFingers(dt) {
   });
 }
 
+// «Жизнь» в покое: моргание, дыхание и лёгкая улыбка поверх анимации.
+let nextBlink = 2, blinkT = -1, lifeTime = 0;
+const breathQ = new THREE.Quaternion(), breathE = new THREE.Euler(), chestPose = new THREE.Quaternion();
+function applyLife(dt) {
+  lifeTime += dt;
+  // моргание раз в 2.5–5 секунд, 160 мс
+  nextBlink -= dt;
+  if (nextBlink <= 0 && blinkT < 0) { blinkT = 0; nextBlink = 2.5 + Math.random() * 2.5; }
+  let blink = 0;
+  if (blinkT >= 0) {
+    blinkT += dt;
+    blink = Math.sin(Math.min(1, blinkT / 0.16) * Math.PI);
+    if (blinkT > 0.16) blinkT = -1;
+  }
+  for (const f of faces) {
+    const d = f.morphTargetDictionary, inf = f.morphTargetInfluences;
+    inf[d.Eye_Blink] = Math.max(inf[d.Eye_Blink], blink);
+    if (d.Qol_SoftSmile !== undefined && !playing) inf[d.Qol_SoftSmile] = Math.max(inf[d.Qol_SoftSmile], 0.3);
+  }
+  // дыхание: грудь чуть поднимается раз в ~4 секунды
+  const chest = bones.CC_Base_Spine02;
+  if (chest) chest.quaternion.multiply(breathQ.setFromEuler(breathE.set(Math.sin(lifeTime * 1.5) * 0.012, 0, 0)));
+}
+
 (function loop() {
   requestAnimationFrame(loop);
   const dt = Math.min(clock.getDelta(), 0.1);
@@ -347,6 +443,9 @@ function applyFingers(dt) {
   if (mixer) {
     mixer.update(playing ? dt : 0);
     applyFingers(dt);
+    const chest = bones.CC_Base_Spine02;
+    if (chest) chestPose.copy(chest.quaternion);
+    applyLife(dt);
   }
   camera.position.set(
     target.x + Math.sin(yaw) * Math.cos(pitch) * dist,
@@ -354,4 +453,6 @@ function applyFingers(dt) {
     target.z + Math.cos(yaw) * Math.cos(pitch) * dist);
   camera.lookAt(target);
   renderer.render(scene, camera);
+  // Breathing is an overlay; never accumulate it into the next frame.
+  if (mixer && bones.CC_Base_Spine02) bones.CC_Base_Spine02.quaternion.copy(chestPose);
 })();

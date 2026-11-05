@@ -1,7 +1,6 @@
 // Интерфейс страницы: язык, тема, анимации, примеры, студия.
 import { translations, LANGUAGES, DEFAULT_LANGUAGE } from './i18n.js?v=__BUILD__';
-import { loadAvatar, mount, followVisible, enableOrbit, play, stop, isPlaying } from './avatar.js?v=__BUILD__';
-import { loadDictionary, textToFrames } from './signing.js?v=__BUILD__';
+import { loadAvatar, mount, followVisible, enableOrbit, playSourceMotions, stop, isPlaying } from './avatar.js?v=__BUILD__';
 import { initCamera } from './camera.js?v=__BUILD__';
 
 const $ = s => document.querySelector(s);
@@ -44,7 +43,9 @@ $$('[data-lang]').forEach(btn => btn.addEventListener('click', () => setLang(btn
 setLang(lang);
 
 // ---------- тема ----------
-if (!telegram) html.dataset.theme = storage.get('qolai-theme') || 'light';
+// в приложении по умолчанию — тема телефона, на сайте — светлая
+const systemTheme = html.classList.contains('native-app') && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+if (!telegram) html.dataset.theme = storage.get('qolai-theme') || systemTheme;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const applyTheme = () => {
   html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
@@ -168,12 +169,11 @@ mount(heroStage);
 enableOrbit([heroStage, studioStage]);
 followVisible([heroStage, studioStage], el => el !== studioStage || studioActive);
 
-loadAvatar('assets/model/avatar.glb?v=__BUILD__', {
+const avatarReady = new Promise((resolve, reject) => loadAvatar('assets/model/avatar.glb?v=__BUILD__', {
   onProgress: p => { const l = $('#loading'); if (l) l.textContent = `${t('loading')} ${Math.round(p * 100)}%`; },
-  onReady: () => { $('#loading')?.remove(); window.__ready = true; },
-  onError: () => { const l = $('#loading'); if (l) l.textContent = t('loadError'); },
-});
-const dictionaryReady = loadDictionary('data/gestures.json?v=__BUILD__').catch(err => console.warn(err));
+  onReady: () => { $('#loading')?.remove(); window.__ready = true; resolve(); },
+  onError: err => { const l = $('#loading'); if (l) l.textContent = t('loadError'); reject(err); },
+}));
 
 const heroPlay = $('.mini-play'), heroTrack = $('.track i');
 function setHeroButton() {
@@ -183,28 +183,49 @@ function setHeroButton() {
 const progress = { onFrame: (_, p) => { heroTrack.style.width = (p * 100) + '%'; setHeroButton(); },
                    onEnd: () => { heroTrack.style.width = '0'; setHeroButton(); } };
 
-// Студия: слова из словаря задают форму руки поверх анимации, остальные — по буквам.
+const SOURCE_EXAMPLES = [
+  {ids:['me','water','need'], texts:['Маған су керек.', 'Мне нужна вода.', 'I need water.']},
+  {ids:['me','help','need'], texts:['Маған көмек керек.', 'Мне нужна помощь.', 'I need help.']},
+  {ids:['me','good'], texts:['Мен жақсымын.', 'У меня всё хорошо.', 'I am well.']},
+  {ids:['you','how'], texts:['Қалыңыз қалай?', 'Как ваши дела?', 'How are you?']},
+  {ids:['me','understand'], texts:['Мен түсіндім.', 'Я понимаю.', 'I understand.']},
+];
+const WELCOME_EXAMPLE = {ids:['welcome'], texts:['Қош келдіңіз!', 'Добро пожаловать!', 'Welcome!']};
+const normalizeExample = value => value.normalize('NFC').toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
 async function sign(text, stage) {
-  await dictionaryReady;
-  mount(stage);
-  const { frames, words } = textToFrames(text);
-  play(frames, progress);
-  setHeroButton();
-  return words;
+  const example = [...SOURCE_EXAMPLES, WELCOME_EXAMPLE].find(e => e.texts.some(value => normalizeExample(value) === normalizeExample(text)));
+  if (!example) throw new Error('example_only');
+  if (stage === studioStage) pauseWelcome();
+  await avatarReady; mount(stage); await playSourceMotions(example.ids, progress); setHeroButton();
+  return [{text, found:true}];
 }
-// Первый экран: анимация модели целиком.
-heroPlay.addEventListener('click', () => {
-  if (isPlaying()) { stop(); progress.onEnd(); return; }
-  mount(heroStage);
-  play([], progress);
-  setHeroButton();
-});
+let heroVisible = false, heroEnabled = true, heroRunning = false, heroVersion = 0;
+if (reducedMotion.matches) heroEnabled = false;
+async function startWelcome() {
+  if (!heroVisible || !heroEnabled || document.hidden || heroRunning) return;
+  const version = ++heroVersion; heroRunning = true;
+  const current = () => version === heroVersion && heroVisible && heroEnabled && !document.hidden;
+  try {
+    await avatarReady; if (!current()) return;
+    const started = await playSourceMotions(['welcome'], {
+      shouldStart: current,
+      onFrame: (_, p) => { heroTrack.style.width = (p * 100) + '%'; setHeroButton(); },
+      onEnd: () => { heroRunning = false; heroTrack.style.width = '0'; setHeroButton(); if (current()) startWelcome(); },
+    });
+    if (started && current()) { mount(heroStage); setHeroButton(); }
+  } catch { if (current()) { heroEnabled = false; progress.onEnd(); } }
+  finally { if (version === heroVersion && !isPlaying()) heroRunning = false; }
+}
+function pauseWelcome() { heroVersion++; if (heroRunning) stop(); heroRunning = false; progress.onEnd(); }
+heroPlay.addEventListener('click', () => { heroEnabled = !heroEnabled; if (heroEnabled) startWelcome(); else pauseWelcome(); });
+new IntersectionObserver(entries => { heroVisible = entries[0].isIntersecting; if (heroVisible) startWelcome(); else pauseWelcome(); }, { threshold: .2 }).observe(heroStage);
+document.addEventListener('visibilitychange', () => { if (document.hidden) pauseWelcome(); else startWelcome(); });
 
 // ---------- студия ----------
 const DEMO_PHRASES = {
-  'Қазақша': ['Сәлем! Сабақ кестесін қайдан көре аламын?', 'Менің шәкіртақым неге түспеді?', 'Рахмет!'],
-  'Русский': ['Привет! Подскажите, когда начинаются экзамены?', 'Мне нужно получить справку с места учёбы.', 'Спасибо!'],
-  'English': ['Hello! How can I register for university courses?', 'I want to join a student organization.', 'Thanks!'],
+  'Қазақша': SOURCE_EXAMPLES.map(e => e.texts[0]),
+  'Русский': SOURCE_EXAMPLES.map(e => e.texts[1]),
+  'English': SOURCE_EXAMPLES.map(e => e.texts[2]),
 };
 
 const input = $('#textInput');
@@ -254,34 +275,18 @@ function showStudio(state) {
   $('#result').style.display = state === 'result' ? 'block' : 'none';
 }
 
-function generate() {
-  const text = input.value.trim();
-  if (!text) {
-    input.focus();
-    input.style.borderColor = 'var(--orange)';
-    setTimeout(() => { input.style.borderColor = ''; }, 900);
-    return;
+async function generate() {
+  const text = input.value.trim(); if (!text) { input.focus(); return; }
+  if (!SOURCE_EXAMPLES.some(e => e.texts.some(value => normalizeExample(value) === normalizeExample(text)))) {
+    sampleBtn.setAttribute('aria-expanded', 'true'); examplesPanel.hidden = false;
+    $('#prototypeStatus').textContent = t('choosePrepared'); return;
   }
-  showStudio('generating');
-  const bar = $('.progress i'), label = $('#progressText');
-  let p = 0;
-  bar.style.width = '0';
-  label.textContent = '0%';
-  const ticker = setInterval(async () => {
-    p = Math.min(100, p + Math.ceil(Math.random() * 12));
-    bar.style.width = p + '%';
-    label.textContent = p + '%';
-    if (p < 100) return;
-    clearInterval(ticker);
-    showStudio('result');
-    studioActive = true;
-    renderCaption(await sign(text, studioStage));
-    $('#toast').classList.add('show');
-    setTimeout(() => $('#toast').classList.remove('show'), 2600);
-  }, 90);
+  $('#prototypeStatus').textContent = ''; showStudio('generating');
+  try { await avatarReady; studioActive = true; showStudio('result'); renderCaption(await sign(text, studioStage)); }
+  catch { showStudio('empty'); $('#prototypeStatus').textContent = t('motionError'); }
 }
 $('#generateBtn').addEventListener('click', generate);
-$('#replayBtn').addEventListener('click', () => sign(input.value, studioStage));
+$('#replayBtn').addEventListener('click', () => sign(input.value, studioStage).catch(()=>{ $('#prototypeStatus').textContent=t('motionError'); }));
 
 // ---------- камера ----------
 camera = initCamera({
