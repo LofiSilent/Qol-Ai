@@ -352,3 +352,10 @@ html.i18n-pending .nav-wrap .lang-switch button,html.i18n-pending .nav-wrap .the
 @media(max-width:700px){.impact-proof-copy p{font-size:17px}}
 .impact-proof-number strong{white-space:nowrap;font-size:clamp(52px,6.6vw,100px)}
 .impact-proof-number sup{color:#E0B98F}
+
+/* вкладки: во всю ширину, вплотную к окну студии */
+.studio-section .mode-tabs{display:flex;width:100%;max-width:none;margin:0;padding:0;gap:0;border:1px solid var(--studio-edge);border-bottom:0;border-radius:14px 14px 0 0;overflow:hidden;background:var(--studio-preview)}
+.studio-section .mode-tab{flex:1;min-height:58px;padding:14px 20px;border-radius:0;border-right:1px solid var(--studio-edge);font-size:15px;font-weight:600}
+.studio-section .mode-tab:last-child{border-right:0}
+.studio-section .mode-tab.active{background:var(--studio-panel);color:var(--text);font-weight:700;box-shadow:inset 0 3px 0 var(--lime)!important}
+.studio-section .studio-grid{border-radius:0 0 18px 18px}
