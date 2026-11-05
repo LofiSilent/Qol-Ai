@@ -1,5 +1,5 @@
 {
-  "name": "signai",
+  "name": "qol-ai",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -8,6 +8,20 @@
     "setup:bot": "node scripts/setup-bot.mjs",
     "build": "node scripts/build.mjs",
     "preview": "node scripts/serve.mjs dist",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "build:app": "APP=1 node scripts/build.mjs",
+    "android:init": "npx cap add android && npm run android:assets && node scripts/android-signing.mjs",
+    "android:assets": "npx capacitor-assets generate --android --iconBackgroundColor \"#101D27\" --iconBackgroundColorDark \"#101D27\" --splashBackgroundColor \"#101D27\" --splashBackgroundColorDark \"#101D27\"",
+    "android:sync": "npm run build:app && npx cap sync android",
+    "android:apk": "npm run android:sync && cd android && ./gradlew assembleDebug"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^7.4.0",
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^7.4.0",
+    "@capacitor/core": "^7.4.0",
+    "@fontsource/manrope": "^5.1.0",
+    "@fontsource/unbounded": "^5.1.0",
+    "three": "0.160.0"
   }
 }
