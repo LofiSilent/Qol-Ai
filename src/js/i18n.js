@@ -81,6 +81,8 @@ export const translations = {
     camQ3: "Комиссия бар ма?",
     camQ4: "Картаны бұғатта",
     camQ5: "Рахмет",
+    tabVideo: "Видео жасау",
+    tabCamera: "Ымдарды тану",
   },
   ru: {
     navStudio: "Студия",
@@ -159,6 +161,8 @@ export const translations = {
     camQ3: "Есть комиссия?",
     camQ4: "Заблокировать карту",
     camQ5: "Спасибо",
+    tabVideo: "Создать видео",
+    tabCamera: "Распознать жесты",
   },
   en: {
     navStudio: "Studio",
@@ -237,5 +241,7 @@ export const translations = {
     camQ3: "Any fee?",
     camQ4: "Block my card",
     camQ5: "Thank you",
+    tabVideo: "Create video",
+    tabCamera: "Recognize gestures",
   },
 };

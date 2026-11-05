@@ -294,3 +294,16 @@ camera = initCamera({
   onRecognized: (cls) => { $('#camReply').dataset.q = cls; },
 });
 $('#camReply').addEventListener('click', () => { setTimeout(() => input.focus({ preventScroll: true }), 600); });
+
+// ---------- вкладки: создать видео / распознать жесты ----------
+const tabs = $$('.mode-tab'), panels = { video: $('#panelVideo'), camera: $('#panelCamera') };
+function openTab(name, { scroll = false } = {}) {
+  tabs.forEach(b => { const on = b.dataset.tab === name; b.classList.toggle('active', on); b.setAttribute('aria-selected', String(on)); });
+  for (const [key, el] of Object.entries(panels)) el.hidden = key !== name;
+  if (name !== 'camera') $('#camStop').click();
+  storage.set('qolai-tab', name);
+  if (scroll) $('#studio').scrollIntoView({ behavior: 'smooth' });
+}
+tabs.forEach(b => b.addEventListener('click', () => openTab(b.dataset.tab)));
+$$('[data-open-tab]').forEach(a => a.addEventListener('click', () => openTab(a.dataset.openTab)));
+$$('a[href="#studio"]:not([data-open-tab])').forEach(a => a.addEventListener('click', () => openTab('video')));
