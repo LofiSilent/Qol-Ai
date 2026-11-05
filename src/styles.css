@@ -245,3 +245,21 @@ html.lang-switching main,html.lang-switching footer,html.lang-switching .nav-lin
 /* до применения языка и темы контент скрыт, потом плавно появляется (нет вспышки прошлого языка/темы) */
 html.i18n-pending main,html.i18n-pending footer,html.i18n-pending .nav-links{opacity:0}
 html.i18n-pending .nav-wrap .lang-switch button,html.i18n-pending .nav-wrap .theme-toggle{transition:none}
+
+/* ---------- светлая тема: больше бежевого — песочные акценты, фирменный синий для текста ---------- */
+[data-theme="light"]{--text:#104675;--muted:#4D6E8C;--surface-2:#EFE3D1}
+[data-theme="light"] .hero h1 em,[data-theme="light"] .impact-copy h2 em,[data-theme="light"] .impact-proof-copy h2 em{color:#C69F7A}
+[data-theme="light"] .section-heading .kicker,[data-theme="light"] .kicker,[data-theme="light"] .eyebrow{color:#8A6440}
+[data-theme="light"] .btn.primary,[data-theme="light"] .lang-switch button.active{background:#C69F7A;color:#0E3D66}
+[data-theme="light"] .btn.primary{box-shadow:0 16px 40px rgba(198,159,122,.35)}
+[data-theme="light"] .mode-tab.active{color:#0E3D66}
+[data-theme="light"] .studio-section,[data-theme="light"] .impact-section{background:#F2E8D8}
+[data-theme="light"] .impact-proof{background:linear-gradient(180deg,#FFFCF7 0%,#F7F1E8 100%)}
+[data-theme="light"] .stat-card.lime{background:#C69F7A;color:#0E3D66}
+[data-theme="light"] .brand>span:last-child>span{color:#B58A5C}
+
+/* ---------- герой: просто окно с персонажем и подписью, без рамки-карточки ---------- */
+.avatar-card{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;border-radius:0!important;transform:none!important;width:min(460px,92%)}
+.avatar-card .card-top,.avatar-card .timeline,.hero-visual .floating-tag,.hero-visual .orbit{display:none!important}
+.avatar-card .avatar-scene{height:min(560px,64vh);border-radius:26px;background:var(--stage);box-shadow:0 30px 70px rgba(16,70,117,.28)}
+.avatar-card .caption{bottom:20px;background:rgba(9,38,64,.62);font-size:13px;padding:10px 16px;border-radius:12px}
