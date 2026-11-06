@@ -80,6 +80,58 @@ const MATERIALS = {
 // части тела, спрятанные под одеждой: в некоторых позах они торчат наружу (например, у шеи)
 const HIDDEN_MATERIALS = ['Hidden skin under blouse'];
 
+
+// ---------- реализм материалов: микрорельеф кожи и ткани, блеск глаз, ворс ----------
+function makeDetailNormal(size, scale, strength, weave) {
+  const h = new Float32Array(size * size);
+  const rnd = (x, y, s) => { const n = Math.sin(x * 127.1 + y * 311.7 + s * 74.7) * 43758.5453; return n - Math.floor(n); };
+  const smooth = t => t * t * (3 - 2 * t);
+  const noise = (x, y, f, s) => {
+    const fx = x * f, fy = y * f, x0 = Math.floor(fx), y0 = Math.floor(fy), tx = smooth(fx - x0), ty = smooth(fy - y0);
+    const w = n => ((n % f) + f) % f; // бесшовный тайлинг
+    const a = rnd(w(x0), w(y0), s), b = rnd(w(x0 + 1), w(y0), s), c = rnd(w(x0), w(y0 + 1), s), d = rnd(w(x0 + 1), w(y0 + 1), s);
+    return a + (b - a) * tx + (c - a) * ty + (a - b - c + d) * tx * ty;
+  };
+  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+    const u = x / size, v = y / size;
+    let val = 0;
+    if (weave) val = (Math.sin(u * Math.PI * 2 * 48) * Math.sin(v * Math.PI * 2 * 48)) * 0.5 + noise(u, v, 64, 3) * 0.3;
+    else val = noise(u, v, 48, 1) * 0.55 + noise(u, v, 96, 2) * 0.3 + noise(u, v, 24, 4) * 0.15;
+    h[y * size + x] = val;
+  }
+  const cv = document.createElement('canvas'); cv.width = cv.height = size;
+  const g = cv.getContext('2d'), img = g.createImageData(size, size);
+  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+    const at = (xx, yy) => h[((yy + size) % size) * size + ((xx + size) % size)];
+    const dx = (at(x + 1, y) - at(x - 1, y)) * strength, dy = (at(x, y + 1) - at(x, y - 1)) * strength;
+    const len = Math.hypot(dx, dy, 1), i = (y * size + x) * 4;
+    img.data[i] = (-dx / len * 0.5 + 0.5) * 255; img.data[i + 1] = (dy / len * 0.5 + 0.5) * 255; img.data[i + 2] = (1 / len * 0.5 + 0.5) * 255; img.data[i + 3] = 255;
+  }
+  g.putImageData(img, 0, 0);
+  const tex = new THREE.CanvasTexture(cv);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(scale, scale); tex.colorSpace = THREE.NoColorSpace;
+  tex.anisotropy = 4;
+  return tex;
+}
+let skinDetail = null, fabricDetail = null;
+const SKIN = /^Std_Skin/, FABRIC = /fabric|knit|blouse|vest|collar|suit/i, EYE = /Eye sclera|iris|pupil/i, HAIR = /hair/i;
+function enhanceRealism(m) {
+  if (!m || !m.isMeshPhysicalMaterial) return;
+  if (SKIN.test(m.name)) {
+    skinDetail ||= makeDetailNormal(256, 6, 1.4, false);
+    m.normalMap = skinDetail; m.normalScale.set(0.16, 0.16);
+    m.sheen = 0.18; m.sheenColor.set(0xffd9c4); m.sheenRoughness = 0.6;   // «персиковый пушок» на свету
+    m.roughness = 0.58; m.needsUpdate = true;
+  } else if (EYE.test(m.name)) {
+    m.clearcoat = 1; m.clearcoatRoughness = 0.04; m.needsUpdate = true;      // влажный блеск
+  } else if (HAIR.test(m.name)) {
+    m.sheen = 0.45; m.sheenColor.set(0x8c6b50); m.sheenRoughness = 0.45; m.roughness = 0.5; m.needsUpdate = true;
+  } else if (FABRIC.test(m.name)) {
+    fabricDetail ||= makeDetailNormal(256, 22, 1.6, true);
+    m.normalMap = fabricDetail; m.normalScale.set(0.3, 0.3);
+    m.sheen = 0.3; m.sheenColor.set(0x3b4a5a); m.sheenRoughness = 0.6; m.needsUpdate = true;
+  }
+}
 function tuneMaterials(root) {
   root.traverse(o => {
     if (!o.isMesh) return;
@@ -92,6 +144,7 @@ function tuneMaterials(root) {
       if (t.roughness !== undefined) m.roughness = t.roughness;
       if (t.envMapIntensity !== undefined) m.envMapIntensity = t.envMapIntensity;
     }
+    for (const m of [o.material].flat()) enhanceRealism(m);
   });
 }
 
