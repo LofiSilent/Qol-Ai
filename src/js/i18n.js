@@ -1,7 +1,7 @@
 // Тексты интерфейса. Чтобы добавить язык, скопируйте блок и переведите значения.
 // Ключи совпадают с атрибутами data-i18n / data-i18n-html / data-i18n-placeholder в index.html.
 export const LANGUAGES = ['kk', 'ru', 'en'];
-export const DEFAULT_LANGUAGE = 'ru';
+export const DEFAULT_LANGUAGE = 'kk';
 
 export const translations = {
   kk: {
