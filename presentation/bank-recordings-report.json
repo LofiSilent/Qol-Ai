@@ -1,0 +1,225 @@
+{
+  "github": {
+    "interfaceLanguages": [
+      "kk",
+      "ru",
+      "en"
+    ],
+    "exampleContentLanguage": "ru",
+    "threeDExampleCount": 3,
+    "cameraExampleCount": 3,
+    "removeOldExamples": true,
+    "cameraFingerCountRules": false
+  },
+  "qol-ai.app": {
+    "mode": "word-library",
+    "url": "/bank-signs",
+    "wordCount": 14,
+    "recognitionTrainedOn": 280,
+    "recognitionHeldOut": 70
+  },
+  "status": "partial_missing_words_and_motion_tracking_failures",
+  "noPerfectAccuracyClaim": true,
+  "sourceVideos": 350,
+  "sourceBytes": 2336740800,
+  "duplicates": 0,
+  "videoSampleDecodeErrors": 0,
+  "recognition": {
+    "tested": 70,
+    "correct": 53,
+    "wrong": 0,
+    "rejected": 17,
+    "nearestCorrect": 68,
+    "perWord": [
+      {
+        "word": "Бесплатная",
+        "tested": 5,
+        "correct": 4,
+        "wrong": 0,
+        "rejected": 1
+      },
+      {
+        "word": "Вас",
+        "tested": 5,
+        "correct": 5,
+        "wrong": 0,
+        "rejected": 0
+      },
+      {
+        "word": "Внизу",
+        "tested": 5,
+        "correct": 5,
+        "wrong": 0,
+        "rejected": 0
+      },
+      {
+        "word": "Возьмите",
+        "tested": 5,
+        "correct": 5,
+        "wrong": 0,
+        "rejected": 0
+      },
+      {
+        "word": "Для",
+        "tested": 5,
+        "correct": 2,
+        "wrong": 0,
+        "rejected": 3
+      },
+      {
+        "word": "Документ",
+        "tested": 5,
+        "correct": 1,
+        "wrong": 0,
+        "rejected": 4
+      },
+      {
+        "word": "Здесь",
+        "tested": 5,
+        "correct": 4,
+        "wrong": 0,
+        "rejected": 1
+      },
+      {
+        "word": "Комиссии",
+        "tested": 5,
+        "correct": 4,
+        "wrong": 0,
+        "rejected": 1
+      },
+      {
+        "word": "Нет",
+        "tested": 5,
+        "correct": 5,
+        "wrong": 0,
+        "rejected": 0
+      },
+      {
+        "word": "Подпишите",
+        "tested": 5,
+        "correct": 3,
+        "wrong": 0,
+        "rejected": 2
+      },
+      {
+        "word": "Ручку",
+        "tested": 5,
+        "correct": 5,
+        "wrong": 0,
+        "rejected": 0
+      },
+      {
+        "word": "Страницы",
+        "tested": 5,
+        "correct": 3,
+        "wrong": 0,
+        "rejected": 2
+      },
+      {
+        "word": "Услуга",
+        "tested": 5,
+        "correct": 4,
+        "wrong": 0,
+        "rejected": 1
+      },
+      {
+        "word": "Эта",
+        "tested": 5,
+        "correct": 3,
+        "wrong": 0,
+        "rejected": 2
+      }
+    ],
+    "scope": "Five held-out clips per word, same person and session. Not a live camera, other-person or linguistic validation."
+  },
+  "motions": [
+    {
+      "word": "Бесплатная",
+      "technicalPass": false,
+      "issues": [
+        "right_tracking_gaps"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "word": "Вас",
+      "technicalPass": true,
+      "issues": [],
+      "reviewStatus": "draft"
+    },
+    {
+      "word": "Внизу",
+      "technicalPass": true,
+      "issues": [],
+      "reviewStatus": "draft"
+    },
+    {
+      "word": "Возьмите",
+      "technicalPass": true,
+      "issues": [],
+      "reviewStatus": "draft"
+    },
+    {
+      "word": "Для",
+      "technicalPass": true,
+      "issues": [],
+      "reviewStatus": "draft"
+    },
+    {
+      "word": "Документ",
+      "technicalPass": false,
+      "issues": [
+        "right_tracking_gaps"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "word": "Здесь",
+      "technicalPass": true,
+      "issues": [],
+      "reviewStatus": "draft"
+    },
+    {
+      "word": "Комиссии",
+      "technicalPass": true,
+      "issues": [],
+      "reviewStatus": "draft"
+    },
+    {
+      "word": "Нет",
+      "technicalPass": true,
+      "issues": [],
+      "reviewStatus": "draft"
+    },
+    {
+      "word": "Подпишите",
+      "technicalPass": true,
+      "issues": [],
+      "reviewStatus": "draft"
+    },
+    {
+      "word": "Ручку",
+      "technicalPass": true,
+      "issues": [],
+      "reviewStatus": "draft"
+    },
+    {
+      "word": "Страницы",
+      "technicalPass": true,
+      "issues": [],
+      "reviewStatus": "draft"
+    },
+    {
+      "word": "Услуга",
+      "technicalPass": true,
+      "issues": [],
+      "reviewStatus": "draft"
+    },
+    {
+      "word": "Эта",
+      "technicalPass": true,
+      "issues": [],
+      "reviewStatus": "draft"
+    }
+  ]
+}

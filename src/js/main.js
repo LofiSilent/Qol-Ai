@@ -1,3 +1,4 @@
+import { BANK_3D_EXAMPLES, normalizeExample, wordMotionId, missingWords } from './bank-examples.js?v=__BUILD__';
 // Интерфейс страницы: язык, тема, анимации, примеры, студия.
 import { translations, LANGUAGES, DEFAULT_LANGUAGE } from './i18n.js?v=__BUILD__';
 import { loadAvatar, mount, followVisible, enableOrbit, playSourceMotions, stop, isPlaying } from './avatar.js?v=__BUILD__';
@@ -189,28 +190,23 @@ const avatarReady = new Promise((resolve, reject) => loadAvatar('assets/model/av
 const heroPlay = $('.mini-play'), heroTrack = $('.track i');
 function setHeroButton() {
   heroPlay.textContent = isPlaying() ? 'Ⅱ' : '▶';
-  heroPlay.setAttribute('aria-label', isPlaying() ? 'Pause' : 'Play');
+  heroPlay.setAttribute('aria-label', isPlaying() ? 'Пауза' : 'Воспроизвести пример');
 }
 const progress = { onFrame: (_, p) => { heroTrack.style.width = (p * 100) + '%'; setHeroButton(); },
                    onEnd: () => { heroTrack.style.width = '0'; setHeroButton(); } };
 
-const SOURCE_EXAMPLES = [
-  {ids:['me','water','need'], texts:['Маған су керек.', 'Мне нужна вода.', 'I need water.']},
-  {ids:['me','help','need'], texts:['Маған көмек керек.', 'Мне нужна помощь.', 'I need help.']},
-  {ids:['me','good'], texts:['Мен жақсымын.', 'У меня всё хорошо.', 'I am well.']},
-  {ids:['you','how'], texts:['Қалыңыз қалай?', 'Как ваши дела?', 'How are you?']},
-  {ids:['me','understand'], texts:['Мен түсіндім.', 'Я понимаю.', 'I understand.']},
-];
-const WELCOME_EXAMPLE = {ids:['welcome'], texts:['Қош келдіңіз!', 'Добро пожаловать!', 'Welcome!']};
-const normalizeExample = value => value.normalize('NFC').toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+const SOURCE_EXAMPLES = BANK_3D_EXAMPLES.map(e => ({...e, ids:e.words.map(wordMotionId), texts:[e.text]}));
+const bankCatalog = fetch('data/bank-catalog.json?v=__BUILD__').then(r => { if(!r.ok) throw Error('catalog_unavailable'); return r.json(); });
 async function sign(text, stage) {
-  const example = [...SOURCE_EXAMPLES, WELCOME_EXAMPLE].find(e => e.texts.some(value => normalizeExample(value) === normalizeExample(text)));
+  const example = SOURCE_EXAMPLES.find(e => e.texts.some(value => normalizeExample(value) === normalizeExample(text)));
   if (!example) throw new Error('example_only');
+  const missing = missingWords(example, await bankCatalog);
+  if (missing.length) throw new Error('missing_recordings:' + missing.join(', '));
   if (stage === studioStage) pauseWelcome();
   await avatarReady; mount(stage); await playSourceMotions(example.ids, progress); setHeroButton();
   return [{text, found:true}];
 }
-let heroVisible = false, heroEnabled = true, heroRunning = false, heroVersion = 0;
+let heroVisible = false, heroEnabled = false, heroRunning = false, heroVersion = 0;
 if (reducedMotion.matches) heroEnabled = false;
 async function startWelcome() {
   if (!heroVisible || !heroEnabled || document.hidden || heroRunning) return;
@@ -218,7 +214,8 @@ async function startWelcome() {
   const current = () => version === heroVersion && heroVisible && heroEnabled && !document.hidden;
   try {
     await avatarReady; if (!current()) return;
-    const started = await playSourceMotions(['welcome'], {
+    if (missingWords(SOURCE_EXAMPLES[1], await bankCatalog).length) { heroEnabled = false; return; }
+    const started = await playSourceMotions(SOURCE_EXAMPLES[1].ids, {
       shouldStart: current,
       onFrame: (_, p) => { heroTrack.style.width = (p * 100) + '%'; setHeroButton(); },
       onEnd: () => { heroRunning = false; heroTrack.style.width = '0'; setHeroButton(); if (current()) startWelcome(); },
@@ -233,11 +230,7 @@ new IntersectionObserver(entries => { heroVisible = entries[0].isIntersecting; i
 document.addEventListener('visibilitychange', () => { if (document.hidden) pauseWelcome(); else startWelcome(); });
 
 // ---------- студия ----------
-const DEMO_PHRASES = {
-  'Қазақша': SOURCE_EXAMPLES.map(e => e.texts[0]),
-  'Русский': SOURCE_EXAMPLES.map(e => e.texts[1]),
-  'English': SOURCE_EXAMPLES.map(e => e.texts[2]),
-};
+const DEMO_PHRASES = { 'Русский': SOURCE_EXAMPLES.map(e => e.text) };
 
 const input = $('#textInput');
 input.addEventListener('input', () => { $('#charCount').textContent = input.value.length; });
@@ -292,6 +285,11 @@ async function generate() {
     sampleBtn.setAttribute('aria-expanded', 'true'); examplesPanel.hidden = false;
     $('#prototypeStatus').textContent = t('choosePrepared'); return;
   }
+  const example = SOURCE_EXAMPLES.find(e => normalizeExample(e.text) === normalizeExample(text));
+  try {
+    const missing = missingWords(example, await bankCatalog);
+    if (missing.length) { $('#prototypeStatus').textContent = 'Ещё не готовы жесты: ' + missing.join(', ') + '.'; return; }
+  } catch { $('#prototypeStatus').textContent = t('motionError'); return; }
   $('#prototypeStatus').textContent = ''; showStudio('generating');
   try { await avatarReady; studioActive = true; showStudio('result'); renderCaption(await sign(text, studioStage)); }
   catch { showStudio('empty'); $('#prototypeStatus').textContent = t('motionError'); }
