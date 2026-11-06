@@ -182,10 +182,13 @@ enableOrbit([heroStage, studioStage]);
 followVisible([heroStage, studioStage], el => el !== studioStage || studioActive);
 
 const avatarReady = new Promise((resolve, reject) => loadAvatar('assets/model/avatar.glb?v=__BUILD__', {
-  onProgress: p => { const l = $('#loading'); if (l) l.textContent = `${t('loading')} ${Math.round(p * 100)}%`; },
+  onProgress: p => { const l = $('#loading'); if (l) l.textContent = p === null ? t('loading') : `${t('loading')} ${Math.round(Math.max(0, Math.min(1, p)) * 100)}%`; },
+  onPreparing: () => { const l = $('#loading'); if (l) l.textContent = t('preparing3D'); },
   onReady: () => { $('#loading')?.remove(); window.__ready = true; resolve(); },
   onError: err => { const l = $('#loading'); if (l) l.textContent = t('loadError'); reject(err); },
 }));
+// The visible loading error is handled above; avoid an unhandled promise on slow/failed devices.
+avatarReady.catch(() => {});
 
 const heroPlay = $('.mini-play'), heroTrack = $('.track i');
 function setHeroButton() {
