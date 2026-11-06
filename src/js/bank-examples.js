@@ -10,3 +10,5 @@ export const wordMotionId = word => 'bank-' + normalizeExample(word);
 export function missingWords(example, catalog) {
   return example.words.filter(word => !catalog.entries.some(entry => normalizeExample(entry.label) === normalizeExample(word) && entry.playable));
 }
+
+export const cameraPhraseIndex = label => BANK_CAMERA_EXAMPLES.findIndex(question => normalizeExample(question) === normalizeExample(label));

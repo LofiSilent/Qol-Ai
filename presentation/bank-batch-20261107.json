@@ -1,0 +1,750 @@
+{
+  "batch": "20261107-a",
+  "status": "derived_assets_ready",
+  "newVideoCount": 300,
+  "newWordCount": 9,
+  "newQuestionCount": 3,
+  "totalWordCount": 23,
+  "totalQuestionCount": 3,
+  "newRecordingsAllocatedToTraining": 240,
+  "newUsableTrainingRecordings": 237,
+  "newHeldOutRecordings": 60,
+  "sourceBytes": 2247781698,
+  "rawVideosPublished": false,
+  "modelMethod": "Browser HandLandmarker local time-aligned averages of three training recordings per prototype; legacy averaged classes retained; no video, face landmarks or individual takes.",
+  "recognition": {
+    "combined": {
+      "tested": 130,
+      "correct": 105,
+      "wrong": 0,
+      "rejected": 25,
+      "perLabel": [
+        {
+          "label": "Бесплатная",
+          "tested": 5,
+          "correct": 4,
+          "wrong": 0,
+          "rejected": 1
+        },
+        {
+          "label": "Вас",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Внизу",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Возьмите",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Для",
+          "tested": 5,
+          "correct": 2,
+          "wrong": 0,
+          "rejected": 3
+        },
+        {
+          "label": "Документ",
+          "tested": 5,
+          "correct": 1,
+          "wrong": 0,
+          "rejected": 4
+        },
+        {
+          "label": "Здесь",
+          "tested": 5,
+          "correct": 4,
+          "wrong": 0,
+          "rejected": 1
+        },
+        {
+          "label": "Комиссии",
+          "tested": 5,
+          "correct": 4,
+          "wrong": 0,
+          "rejected": 1
+        },
+        {
+          "label": "Нет",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Подпишите",
+          "tested": 5,
+          "correct": 3,
+          "wrong": 0,
+          "rejected": 2
+        },
+        {
+          "label": "Ручку",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Страницы",
+          "tested": 5,
+          "correct": 3,
+          "wrong": 0,
+          "rejected": 2
+        },
+        {
+          "label": "Услуга",
+          "tested": 5,
+          "correct": 4,
+          "wrong": 0,
+          "rejected": 1
+        },
+        {
+          "label": "Эта",
+          "tested": 5,
+          "correct": 3,
+          "wrong": 0,
+          "rejected": 2
+        },
+        {
+          "label": "Будет",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Ваша",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Готова",
+          "tested": 5,
+          "correct": 3,
+          "wrong": 0,
+          "rejected": 2
+        },
+        {
+          "label": "Карта готова?",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Минуты",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Три",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Через",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Пожалуйста",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Подождите",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Карта",
+          "tested": 5,
+          "correct": 3,
+          "wrong": 0,
+          "rejected": 2
+        },
+        {
+          "label": "Есть комиссия?",
+          "tested": 5,
+          "correct": 2,
+          "wrong": 0,
+          "rejected": 3
+        },
+        {
+          "label": "Где подписать?",
+          "tested": 5,
+          "correct": 4,
+          "wrong": 0,
+          "rejected": 1
+        }
+      ],
+      "unknown": {
+        "tested": 0,
+        "falseAccepts": 0
+      },
+      "scope": "Held-out takes from the same recording participant and session. Live camera, unseen people and different lighting are not validated. Threshold and margin unchanged before evaluation."
+    },
+    "questions": {
+      "tested": 15,
+      "correct": 11,
+      "wrong": 0,
+      "rejected": 4,
+      "perLabel": [
+        {
+          "label": "Карта готова?",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Есть комиссия?",
+          "tested": 5,
+          "correct": 2,
+          "wrong": 0,
+          "rejected": 3
+        },
+        {
+          "label": "Где подписать?",
+          "tested": 5,
+          "correct": 4,
+          "wrong": 0,
+          "rejected": 1
+        }
+      ],
+      "unknown": {
+        "tested": 115,
+        "falseAccepts": 0
+      },
+      "scope": "Held-out takes from the same recording participant and session. Live camera, unseen people and different lighting are not validated. Threshold and margin unchanged before evaluation."
+    }
+  },
+  "cameraSegmentationReplay": {
+    "tested": 15,
+    "correct": 11,
+    "wrong": 0,
+    "rejected": 4,
+    "unknownFalseAccepts": 0,
+    "scope": "Held-out source videos reprocessed with the browser HandLandmarker model, 1280x720 and 12 fps; final segmentation code replayed. No live-camera or unseen-person claim. Thresholds unchanged."
+  },
+  "browserDetectorValidation": {
+    "combined": {
+      "tested": 60,
+      "correct": 52,
+      "wrong": 0,
+      "rejected": 8,
+      "perLabel": [
+        {
+          "label": "Будет",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Ваша",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Готова",
+          "tested": 5,
+          "correct": 3,
+          "wrong": 0,
+          "rejected": 2
+        },
+        {
+          "label": "Карта готова?",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Минуты",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Три",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Через",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Пожалуйста",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Подождите",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Карта",
+          "tested": 5,
+          "correct": 3,
+          "wrong": 0,
+          "rejected": 2
+        },
+        {
+          "label": "Есть комиссия?",
+          "tested": 5,
+          "correct": 2,
+          "wrong": 0,
+          "rejected": 3
+        },
+        {
+          "label": "Где подписать?",
+          "tested": 5,
+          "correct": 4,
+          "wrong": 0,
+          "rejected": 1
+        }
+      ],
+      "unknown": {
+        "tested": 0,
+        "falseAccepts": 0
+      },
+      "segmentation": {
+        "tested": 60,
+        "correct": 52,
+        "wrong": 0,
+        "rejected": 8,
+        "unknownFalseAccepts": 0
+      },
+      "scope": "Held-out source videos reprocessed with the browser HandLandmarker model, 1280x720 and 12 fps; final segmentation code replayed. No live-camera or unseen-person claim. Thresholds unchanged."
+    },
+    "questions": {
+      "tested": 15,
+      "correct": 11,
+      "wrong": 0,
+      "rejected": 4,
+      "perLabel": [
+        {
+          "label": "Карта готова?",
+          "tested": 5,
+          "correct": 5,
+          "wrong": 0,
+          "rejected": 0
+        },
+        {
+          "label": "Есть комиссия?",
+          "tested": 5,
+          "correct": 2,
+          "wrong": 0,
+          "rejected": 3
+        },
+        {
+          "label": "Где подписать?",
+          "tested": 5,
+          "correct": 4,
+          "wrong": 0,
+          "rejected": 1
+        }
+      ],
+      "unknown": {
+        "tested": 45,
+        "falseAccepts": 0
+      },
+      "segmentation": {
+        "tested": 15,
+        "correct": 11,
+        "wrong": 0,
+        "rejected": 4,
+        "unknownFalseAccepts": 0
+      },
+      "scope": "Held-out source videos reprocessed with the browser HandLandmarker model, 1280x720 and 12 fps; final segmentation code replayed. No live-camera or unseen-person claim. Thresholds unchanged."
+    }
+  },
+  "motions": [
+    {
+      "id": "bank-будет",
+      "label": "Будет",
+      "playable": true,
+      "source": "originals/Будет/24.mp4",
+      "sourceSha256": "796dcf8cf7b99e49ebb557ac87a893eae3862bbfa995dab1dea1b1f2af49e1f3",
+      "report": {
+        "frames": 52,
+        "hands": {
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.46735,
+        "end": 2.16984,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      }
+    },
+    {
+      "id": "bank-ваша",
+      "label": "Ваша",
+      "playable": true,
+      "source": "originals/Ваша/01.mp4",
+      "sourceSha256": "a9d5948df671409bbe5017c86c3f1af4bb72d8a60eb0b5a1a69846958af24741",
+      "report": {
+        "frames": 37,
+        "hands": {
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.6,
+        "end": 1.8,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      }
+    },
+    {
+      "id": "bank-готова",
+      "label": "Готова",
+      "playable": true,
+      "source": "originals/Готова/19.mp4",
+      "sourceSha256": "ee76b99376f7d09af08a0c3b05cf604084131a002f6c26331fc5766636f56b18",
+      "report": {
+        "frames": 30,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.49937,
+        "end": 1.4648,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      }
+    },
+    {
+      "id": "bank-минуты",
+      "label": "Минуты",
+      "playable": true,
+      "source": "originals/Минуты/20.mp4",
+      "sourceSha256": "6d3da1b37c92dcb3f28d9547a6b264b867522b95c01813651a0db2f6baa8bd58",
+      "report": {
+        "frames": 53,
+        "hands": {
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.50024,
+        "end": 2.2344,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      }
+    },
+    {
+      "id": "bank-три",
+      "label": "Три",
+      "playable": true,
+      "source": "originals/Три/22.mp4",
+      "sourceSha256": "11d91d77bcc2f0d69f9a1065ff3a33bd85f8f3eb85050b5fba82d028347447af",
+      "report": {
+        "frames": 40,
+        "hands": {
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.43333,
+        "end": 1.73331,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      }
+    },
+    {
+      "id": "bank-через",
+      "label": "Через",
+      "playable": true,
+      "source": "originals/Через/08.mp4",
+      "sourceSha256": "1d07e3315510670ce4cdb1054e375da6b1212cfba0e1b530574699b41cdb895e",
+      "report": {
+        "frames": 43,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.66464,
+        "end": 2.06038,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      }
+    },
+    {
+      "id": "bank-пожалуйста",
+      "label": "Пожалуйста",
+      "playable": true,
+      "source": "originals/Пожалуйста/19.mp4",
+      "sourceSha256": "0f3a07cbecabeef1b200c546bd61ea9763ea2c3174028cd186eb5a2b04eede78",
+      "report": {
+        "frames": 50,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.73138,
+        "end": 2.36037,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      }
+    },
+    {
+      "id": "bank-подождите",
+      "label": "Подождите",
+      "playable": true,
+      "source": "originals/Подождите/10.mp4",
+      "sourceSha256": "d465a53fe2c649ed51943372d7bdbfa0849e9efbc37fd65361770956e5680668",
+      "report": {
+        "frames": 42,
+        "hands": {
+          "right": {
+            "coverage": 0.976,
+            "maxGapFrames": 1
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 1
+      },
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.30088,
+        "end": 1.67154,
+        "interpolatedHandFrames": 1,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      }
+    },
+    {
+      "id": "bank-карта",
+      "label": "Карта",
+      "playable": true,
+      "source": "originals/Карта/01.mp4",
+      "sourceSha256": "6665538f2d478d64619fbf602c28ce275c425ffa8263e53333ab1295274f0468",
+      "report": {
+        "frames": 40,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.49872,
+        "end": 1.79538,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      }
+    }
+  ],
+  "complete3DPhrases": [
+    1,
+    2,
+    3
+  ],
+  "humanReview": "draft",
+  "liveCameraValidation": "pending"
+}

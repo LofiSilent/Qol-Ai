@@ -1,11 +1,18 @@
 // Averaged trajectories only. Camera frames stay on this device.
-export function descriptor(result) {
- const frame=[null,null];
- for(let n=0;n<(result.landmarks||[]).length;n++){
-  const points=result.landmarks[n],o=points[0];
+export function descriptor(result,previous=null) {
+ const frame=[null,null],pairs=(result.landmarks||[]).map((points,index)=>({points,label:result.handedness?.[index]?.[0]?.categoryName})).filter(({points})=>Array.isArray(points)&&points.length===21&&points.every(p=>[p.x,p.y,p.z].every(Number.isFinite))).slice(0,2),detections=pairs.map(p=>p.points);
+ const sides=pairs.map(p=>p.label==='Left'?0:1);
+ if(sides.length===2&&sides[0]===sides[1]){
+  const cost=(point,side)=>previous?.[side]?Math.hypot(point.x-previous[side][63],point.y-previous[side][64]):side===0?1-point.x:point.x;
+  const straight=cost(detections[0][0],0)+cost(detections[1][0],1),crossed=cost(detections[0][0],1)+cost(detections[1][0],0);
+  sides[0]=straight<=crossed?0:1;sides[1]=1-sides[0];
+ }
+ for(let n=0;n<detections.length;n++){
+  const points=detections[n],o=points[0];
+  if(points.length!==21||points.some(p=>![p.x,p.y,p.z].every(Number.isFinite)))continue;
   const scale=Math.max(...points.map(p=>Math.hypot(p.x-o.x,p.y-o.y,p.z-o.z)));
   if(scale<.01)continue;
-  frame[result.handedness[n][0].categoryName==='Left'?0:1]=points.flatMap(p=>[(p.x-o.x)/scale,(p.y-o.y)/scale,(p.z-o.z)/scale]).concat([o.x,o.y]);
+  frame[sides[n]]=points.flatMap(p=>[(p.x-o.x)/scale,(p.y-o.y)/scale,(p.z-o.z)/scale]).concat([o.x,o.y]);
  }
  return frame.some(Boolean)?frame:null;
 }
@@ -17,9 +24,10 @@ export function sequenceDistance(a,b){
 export function matchWord(frames,model){
  if(frames.length<10||!model?.prototypes?.length)return null;
  const seq=Array.from({length:20},(_,i)=>frames[Math.round(i*(frames.length-1)/19)]),byLabel=new Map();
- for(const p of model.prototypes){const d=sequenceDistance(seq,p.frames);byLabel.set(p.label,Math.min(d,byLabel.get(p.label)??Infinity));}
+ for(const p of [...model.prototypes,...(model.negativePrototypes||[])]){const d=sequenceDistance(seq,p.frames);byLabel.set(p.label,Math.min(d,byLabel.get(p.label)??Infinity));}
  const ranked=[...byLabel].map(([label,distance])=>({label,distance})).sort((a,b)=>a.distance-b.distance);
  if(ranked.length<2||ranked[0].distance>model.threshold||ranked[1].distance-ranked[0].distance<model.margin)return null;
+ if(model.labels&&!model.labels.includes(ranked[0].label))return null;
  return ranked[0];
 }
 export class RecordedSignCamera {
@@ -44,10 +52,11 @@ export class RecordedSignCamera {
   if(this.video.readyState<2||this.video.currentTime===this.lastVideo||now-this.lastSample<1/12)return;
   this.lastSample=now;this.lastVideo=this.video.currentTime;
   let result;try{result=this.detector.detectForVideo(this.video,now*1000);}catch{this.stop();this.onStatus('error');return;}
-  const frame=descriptor(result);const ctx=this.canvas?.getContext('2d');
+  const frame=descriptor(result,this.previous);const ctx=this.canvas?.getContext('2d');
   if(ctx){this.canvas.width=this.video.videoWidth;this.canvas.height=this.video.videoHeight;ctx.clearRect(0,0,this.canvas.width,this.canvas.height);ctx.fillStyle='#c69f7a';for(const hand of result.landmarks)for(const p of hand){ctx.beginPath();ctx.arc(p.x*this.canvas.width,p.y*this.canvas.height,3,0,7);ctx.fill();}}
   if(frame){this.lastHand=now;if(!this.samples.length||!this.previous||distance(frame,this.previous)>.035)this.lastMotion=now;this.previous=frame;this.samples.push({time:now,frame});}
-  if(this.samples.length&&((!frame&&now-this.lastHand>.3)||(now-this.lastMotion>.65)||(now-this.samples[0].time>5))){
+  const capture=this.model.capture||{},elapsed=this.samples.length?now-this.samples[0].time:0;
+  if(this.samples.length&&((!frame&&now-this.lastHand>(capture.absenceSeconds??.3))||(elapsed>=(capture.minSeconds??0)&&now-this.lastMotion>(capture.restSeconds??.65))||(elapsed>(capture.maxSeconds??5)))){
    const frames=this.samples.map(s=>s.frame);this.samples=[];this.previous=null;
    if(frames.length>=10&&now-this.lastEmit>1){const result=matchWord(frames,this.model);this.onStatus(result?'live':'uncertain');if(result){this.lastEmit=now;this.onWord(result.label);}}
   }
