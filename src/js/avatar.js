@@ -1,3 +1,4 @@
+import {buildMotionSequence} from './motion-sequence.js?v=__BUILD__';
 // 3D-персонаж: загрузка модели, камера, вращение и проигрывание жестов.
 // Движения тела и мимика — из анимации, встроенной в модель (.glb).
 // Поверх неё можно задать форму правой руки (сгиб пальцев) для слов из словаря.
@@ -106,6 +107,7 @@ let dist = 2.4, yaw = 0, pitch = 0.04;
 // сгиб пальцев: null — пальцы ведёт анимация, массив из 5 чисел — форма руки поверх неё
 let curl = [0, 0, 0, 0, 0], curlTarget = null, overlay = 0;
 let playing = false, playTimer = null, endTimer = null;
+let sourceRequest = 0, activeSequence = null;
 
 export function loadAvatar(url, { onProgress, onReady, onError } = {}) {
   new GLTFLoader().load(url, gltf => {
@@ -336,35 +338,60 @@ function runClip(on) {
   else { actions.forEach(a => { a.paused = true; }); mixer.setTime(0); }
 }
 
-// Play source clips transferred from qol-ai.app; no invented fingerspelling.
+// One continuous track: no reset to standing between words and no wall-clock timers.
+function currentPose() {
+  return new Map(Object.values(bones).flatMap(b => [
+    [b.name+'.quaternion', b.quaternion.toArray()],
+    [b.name+'.position', b.position.toArray()],
+    [b.name+'.scale', b.scale.toArray()],
+  ]));
+}
+function clearMotion() {
+  clearTimeout(playTimer); clearInterval(playTimer); clearTimeout(endTimer);
+  const clip = motionAction?.getClip();
+  motionAction?.stop(); motionAction = null; activeSequence = null;
+  if (clip) mixer.uncacheClip(clip);
+}
+function restoreStanding() {
+  actions.forEach(a => { a.reset().play(); a.paused = true; });
+  mixer.setTime(0);
+}
+function startSequence(timeline, callbacks = {}, returning = false) {
+  clearMotion();
+  actions.forEach(a => { a.paused = true; a.stop(); });
+  motionAction = mixer.clipAction(timeline.clip);
+  motionAction.setLoop(THREE.LoopOnce, 1); motionAction.clampWhenFinished = true;
+  motionAction.reset().play();
+  activeSequence = { timeline, callbacks, action: motionAction, returning };
+  playing = !returning; curlTarget = null; mixer.update(0);
+}
+function updateSequence() {
+  const sequence = activeSequence;
+  if (!sequence) return;
+  const position = Math.min(sequence.timeline.duration, sequence.action.time);
+  sequence.callbacks.onFrame?.(null, position / sequence.timeline.duration);
+  if (activeSequence !== sequence || position < sequence.timeline.duration - 1e-5) return;
+  const callback = sequence.callbacks.onEnd;
+  clearMotion(); playing = false; restoreStanding(); callback?.();
+}
 export async function playSourceMotions(ids, callbacks = {}) {
+  const request = ++sourceRequest;
+  if (activeSequence) activeSequence.callbacks = {};
   const clips = await Promise.all(ids.map(async id => {
     const response = await fetch('data/motions/' + id + '.json?v=__BUILD__');
     if (!response.ok) throw new Error('motion_unavailable');
     return THREE.AnimationClip.parse(await response.json());
   }));
-  if (callbacks.shouldStart && !callbacks.shouldStart()) return false;
-  stop(); playing = true;
-  actions.forEach(a => { a.paused = true; a.stop(); });
-  const total = clips.reduce((n, clip) => n + clip.duration, 0); let elapsed = 0, index = 0;
-  const next = () => {
-    if (index >= clips.length) { stop(); callbacks.onEnd?.(); return; }
-    motionAction?.stop(); const clip = clips[index++];
-    const names = new Set(clip.tracks.map(track => track.name));
-    const resting = standingClip.tracks.filter(track => !names.has(track.name)).map(track => { const copy = track.clone(), size = track.getValueSize(), first = track.values.slice(0, size); copy.times = new Float32Array([0, clip.duration]); copy.values = new track.values.constructor([...first, ...first]); return copy; });
-    const merged = new THREE.AnimationClip(clip.name, clip.duration, [...clip.tracks, ...resting]);
-    motionAction = mixer.clipAction(merged); motionAction.setLoop(THREE.LoopOnce, 1); motionAction.clampWhenFinished = true; motionAction.reset().play();
-    callbacks.onFrame?.(null, elapsed / total); elapsed += clip.duration;
-    playTimer = setTimeout(next, clip.duration * 1000);
-  };
-  next();
+  if (request !== sourceRequest || (callbacks.shouldStart && !callbacks.shouldStart())) return false;
+  const timeline = buildMotionSequence(clips, { idle: standingClip, initialPose: currentPose() });
+  startSequence(timeline, callbacks);
   return true;
 }
 
 // Проиграть жест. frames: [{ curl?: [5 чисел], ms }] — форма руки поверх анимации.
 // Без кадров проигрывается анимация модели целиком.
 export function play(frames = [], { onFrame, onEnd } = {}) {
-  stop();
+  stop({ immediate: true });
   playing = true;
   runClip(true);
   const finish = () => { stop(); onEnd?.(); };
@@ -388,12 +415,15 @@ export function play(frames = [], { onFrame, onEnd } = {}) {
   next();
 }
 
-export function stop() {
-  clearTimeout(playTimer); clearInterval(playTimer); clearTimeout(endTimer);
-  playing = false;
-  curlTarget = null;
-  if (motionAction) { motionAction.stop(); motionAction = null; actions.forEach(a => a.reset().play()); }
-  runClip(false);
+export function stop({ immediate = false } = {}) {
+  sourceRequest++;
+  const wasActive = !!activeSequence || playing;
+  const pose = wasActive && mixer && standingClip ? currentPose() : null;
+  clearMotion(); playing = false; curlTarget = null;
+  if (!mixer) return;
+  if (!immediate && pose) {
+    startSequence(buildMotionSequence([], { idle: standingClip, initialPose: pose }), {}, true);
+  } else restoreStanding();
 }
 
 export const isPlaying = () => playing;
@@ -441,7 +471,8 @@ function applyLife(dt) {
   const dt = Math.min(clock.getDelta(), 0.1);
   if (!slot) return;
   if (mixer) {
-    mixer.update(playing ? dt : 0);
+    mixer.update(playing || activeSequence ? dt : 0);
+    updateSequence();
     applyFingers(dt);
     const chest = bones.CC_Base_Spine02;
     if (chest) chestPose.copy(chest.quaternion);
