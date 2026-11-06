@@ -18,7 +18,7 @@
     "recognitionTrainedOn": 280,
     "recognitionHeldOut": 70
   },
-  "status": "partial_missing_words_and_motion_tracking_failures",
+  "status": "partial_missing_first_phrase_and_camera_question_words",
   "noPerfectAccuracyClaim": true,
   "sourceVideos": 350,
   "sourceBytes": 2336740800,
@@ -135,11 +135,26 @@
   "motions": [
     {
       "word": "Бесплатная",
-      "technicalPass": false,
-      "issues": [
-        "right_tracking_gaps"
-      ],
-      "reviewStatus": "draft"
+      "technicalPass": true,
+      "issues": [],
+      "reviewStatus": "draft",
+      "sourceTake": "04",
+      "quality": {
+        "frames": 39,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true
+      },
+      "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded"
     },
     {
       "word": "Вас",
@@ -167,11 +182,26 @@
     },
     {
       "word": "Документ",
-      "technicalPass": false,
-      "issues": [
-        "right_tracking_gaps"
-      ],
-      "reviewStatus": "draft"
+      "technicalPass": true,
+      "issues": [],
+      "reviewStatus": "draft",
+      "sourceTake": "15",
+      "quality": {
+        "frames": 33,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true
+      },
+      "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded"
     },
     {
       "word": "Здесь",
@@ -221,5 +251,19 @@
       "issues": [],
       "reviewStatus": "draft"
     }
-  ]
+  ],
+  "motionRepair": {
+    "recordingsAnalyzed": 50,
+    "passes": {
+      "Документ": 21,
+      "Бесплатная": 24
+    },
+    "bodyGuidedTracking": true,
+    "sourceFrameRate": true,
+    "recognitionModelChanged": false,
+    "interpolatedFrames": 0,
+    "fingerHingesStabilized": true,
+    "rotationFilterFrames": 3,
+    "activeBothHandCoverage": 1
+  }
 }
