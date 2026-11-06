@@ -206,7 +206,7 @@ async function sign(text, stage) {
   await avatarReady; mount(stage); await playSourceMotions(example.ids, progress); setHeroButton();
   return [{text, found:true}];
 }
-let heroVisible = false, heroEnabled = false, heroRunning = false, heroVersion = 0;
+let heroVisible = false, heroEnabled = true, heroRunning = false, heroVersion = 0;
 if (reducedMotion.matches) heroEnabled = false;
 async function startWelcome() {
   if (!heroVisible || !heroEnabled || document.hidden || heroRunning) return;
@@ -214,8 +214,7 @@ async function startWelcome() {
   const current = () => version === heroVersion && heroVisible && heroEnabled && !document.hidden;
   try {
     await avatarReady; if (!current()) return;
-    if (missingWords(SOURCE_EXAMPLES[1], await bankCatalog).length) { heroEnabled = false; return; }
-    const started = await playSourceMotions(SOURCE_EXAMPLES[1].ids, {
+    const started = await playSourceMotions(['welcome'], {
       shouldStart: current,
       onFrame: (_, p) => { heroTrack.style.width = (p * 100) + '%'; setHeroButton(); },
       onEnd: () => { heroRunning = false; heroTrack.style.width = '0'; setHeroButton(); if (current()) startWelcome(); },
