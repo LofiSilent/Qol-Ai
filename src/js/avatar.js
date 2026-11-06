@@ -1,3 +1,4 @@
+import {downloadAvatar} from './avatar-download.js?v=__BUILD__';
 import {buildMotionSequence} from './motion-sequence.js?v=__BUILD__';
 // 3D-персонаж: загрузка модели, камера, вращение и проигрывание жестов.
 // Движения тела и мимика — из анимации, встроенной в модель (.glb).
@@ -109,8 +110,12 @@ let curl = [0, 0, 0, 0, 0], curlTarget = null, overlay = 0;
 let playing = false, playTimer = null, endTimer = null;
 let sourceRequest = 0, activeSequence = null;
 
-export function loadAvatar(url, { onProgress, onReady, onError } = {}) {
-  new GLTFLoader().load(url, gltf => {
+export async function loadAvatar(url, { onProgress, onPreparing, onReady, onError } = {}) {
+  try {
+    const bytes = await downloadAvatar(url, { onProgress });
+    onPreparing?.();
+    const resourcePath = new URL('.', new URL(url, location.href)).href;
+    const gltf = await new GLTFLoader().parseAsync(bytes, resourcePath);
     model = gltf.scene;
     scene.add(model);
     model.traverse(o => {
@@ -141,7 +146,7 @@ export function loadAvatar(url, { onProgress, onReady, onError } = {}) {
     target.set(0, box.min.y + h * 0.7, 0);
     dist = h * 1.2;
     onReady?.();
-  }, xhr => { if (xhr.total) onProgress?.(xhr.loaded / xhr.total); }, err => onError?.(err));
+  } catch (error) { onError?.(error); }
 }
 
 // ---------- детали пиджака ----------
