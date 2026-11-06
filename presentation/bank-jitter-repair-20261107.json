@@ -1,0 +1,3141 @@
+{
+  "revision": "20261107-b",
+  "problem": "Legacy low-frame-rate trajectories retained large intra-sign quaternion jumps after word-transition smoothing.",
+  "sourceRecordingsReprocessed": 300,
+  "wordsReplaced": [
+    "Вас",
+    "Внизу",
+    "Возьмите",
+    "Для",
+    "Здесь",
+    "Комиссии",
+    "Нет",
+    "Подпишите",
+    "Ручку",
+    "Страницы",
+    "Услуга",
+    "Эта"
+  ],
+  "method": "Pose-guided Holistic at source frame rate; anatomical finger hinges; bounded short tracking-gap repair; quaternion stabilization.",
+  "recognitionModelChanged": false,
+  "sourceMotionReport": [
+    {
+      "word": "Вас",
+      "source": "originals/Вас/22.mp4",
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.69967,
+        "end": 2.16563,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true,
+          "softenTrackingEndpoints": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      },
+      "quality": {
+        "frames": 45,
+        "hands": {
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "candidates": [
+        {
+          "source": "originals/Вас/22.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.06793989681078512,
+          "maxRotationStep": 0.45067414529257066
+        },
+        {
+          "source": "originals/Вас/09.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.06866509743167079,
+          "maxRotationStep": 0.6631261599823703
+        },
+        {
+          "source": "originals/Вас/03.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.07149048028715349,
+          "maxRotationStep": 0.60291180388245
+        },
+        {
+          "source": "originals/Вас/08.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.07508349088110028,
+          "maxRotationStep": 0.40741195231203836
+        },
+        {
+          "source": "originals/Вас/24.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.07604429033110424,
+          "maxRotationStep": 0.6267425300758311
+        },
+        {
+          "source": "originals/Вас/18.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.0789245196413184,
+          "maxRotationStep": 0.5507180003305663
+        },
+        {
+          "source": "originals/Вас/17.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.08041367132884585,
+          "maxRotationStep": 0.39497979107612047
+        },
+        {
+          "source": "originals/Вас/06.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.0809900144469779,
+          "maxRotationStep": 0.6698942455701743
+        },
+        {
+          "source": "originals/Вас/23.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.08297235160604587,
+          "maxRotationStep": 0.5503584666706139
+        },
+        {
+          "source": "originals/Вас/07.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.08305434592347086,
+          "maxRotationStep": 0.5959873351816453
+        },
+        {
+          "source": "originals/Вас/16.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.0859039148215892,
+          "maxRotationStep": 0.4728433680599849
+        },
+        {
+          "source": "originals/Вас/13.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.08886326692251985,
+          "maxRotationStep": 0.49604273644670904
+        },
+        {
+          "source": "originals/Вас/10.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.09197241105335767,
+          "maxRotationStep": 0.5636015958130123
+        },
+        {
+          "source": "originals/Вас/20.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.09466493199120656,
+          "maxRotationStep": 0.5865388936031902
+        },
+        {
+          "source": "originals/Вас/14.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.09664897271270943,
+          "maxRotationStep": 0.38258124943237865
+        },
+        {
+          "source": "originals/Вас/11.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.10673036392386925,
+          "maxRotationStep": 0.6819594291034461
+        },
+        {
+          "source": "originals/Вас/04.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.11168321555877675,
+          "maxRotationStep": 0.6724768641009107
+        },
+        {
+          "source": "originals/Вас/02.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.14170506851736728,
+          "maxRotationStep": 0.6319407837081318
+        },
+        {
+          "source": "originals/Вас/21.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.08795184267852832,
+          "maxRotationStep": 0.7350824071108852
+        },
+        {
+          "source": "originals/Вас/01.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.13961094877322247,
+          "maxRotationStep": 0.728442227936264
+        },
+        {
+          "source": "originals/Вас/19.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.0829982970251933,
+          "maxRotationStep": 0.7496001486475004
+        },
+        {
+          "source": "originals/Вас/05.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.10266543132775359,
+          "maxRotationStep": 0.8046838520529402
+        },
+        {
+          "source": "originals/Вас/12.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.12852114749287671,
+          "maxRotationStep": 0.8025589578486475
+        },
+        {
+          "source": "originals/Вас/25.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.08624186305612774,
+          "maxRotationStep": 0.8310196998808496
+        },
+        {
+          "source": "originals/Вас/15.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.08032056512711921,
+          "maxRotationStep": 1.015411287543928
+        }
+      ]
+    },
+    {
+      "word": "Внизу",
+      "source": "originals/Внизу/25.mp4",
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.82932,
+        "end": 2.02353,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true,
+          "softenTrackingEndpoints": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      },
+      "quality": {
+        "frames": 37,
+        "hands": {
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "candidates": [
+        {
+          "source": "originals/Внизу/25.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.16298220540735325,
+          "maxRotationStep": 0.6748815093563644
+        },
+        {
+          "source": "originals/Внизу/10.mp4",
+          "coverage": 0.97,
+          "issues": [],
+          "p95RotationStep": 0.12898190941171245,
+          "maxRotationStep": 0.7918553360216306
+        },
+        {
+          "source": "originals/Внизу/05.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.19597217351634622,
+          "maxRotationStep": 0.908937624165402
+        },
+        {
+          "source": "originals/Внизу/09.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.1793148963514801,
+          "maxRotationStep": 0.9356834426144067
+        },
+        {
+          "source": "originals/Внизу/08.mp4",
+          "coverage": 0.971,
+          "issues": [],
+          "p95RotationStep": 0.24447990961834978,
+          "maxRotationStep": 0.8137190613413584
+        },
+        {
+          "source": "originals/Внизу/22.mp4",
+          "coverage": 0.971,
+          "issues": [],
+          "p95RotationStep": 0.2566740326539332,
+          "maxRotationStep": 0.8265922819537375
+        },
+        {
+          "source": "originals/Внизу/17.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.1814117033584048,
+          "maxRotationStep": 0.9823590270012991
+        },
+        {
+          "source": "originals/Внизу/21.mp4",
+          "coverage": 0.976,
+          "issues": [],
+          "p95RotationStep": 0.15015210974930904,
+          "maxRotationStep": 0.8982318737376092
+        },
+        {
+          "source": "originals/Внизу/07.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.20478115829337648,
+          "maxRotationStep": 0.9845088176477776
+        },
+        {
+          "source": "originals/Внизу/20.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.23644554067846607,
+          "maxRotationStep": 0.9807720363967959
+        },
+        {
+          "source": "originals/Внизу/13.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.26118533386143106,
+          "maxRotationStep": 1.0143232344218118
+        },
+        {
+          "source": "originals/Внизу/02.mp4",
+          "coverage": 0.977,
+          "issues": [],
+          "p95RotationStep": 0.19978044370182693,
+          "maxRotationStep": 0.9909269936173509
+        },
+        {
+          "source": "originals/Внизу/16.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.23460054656478468,
+          "maxRotationStep": 1.089795405782891
+        },
+        {
+          "source": "originals/Внизу/01.mp4",
+          "coverage": 0.978,
+          "issues": [],
+          "p95RotationStep": 0.2032954260342102,
+          "maxRotationStep": 1.0136282706599842
+        },
+        {
+          "source": "originals/Внизу/19.mp4",
+          "coverage": 0.949,
+          "issues": [],
+          "p95RotationStep": 0.15556453803624196,
+          "maxRotationStep": 0.9249354260735838
+        },
+        {
+          "source": "originals/Внизу/03.mp4",
+          "coverage": 0.976,
+          "issues": [],
+          "p95RotationStep": 0.1953478014360545,
+          "maxRotationStep": 1.0361296965380873
+        },
+        {
+          "source": "originals/Внизу/04.mp4",
+          "coverage": 0.895,
+          "issues": [],
+          "p95RotationStep": 0.19641215873357387,
+          "maxRotationStep": 0.8515954546823647
+        },
+        {
+          "source": "originals/Внизу/24.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.22876488459241148,
+          "maxRotationStep": 1.3998948363615256
+        },
+        {
+          "source": "originals/Внизу/18.mp4",
+          "coverage": 0.914,
+          "issues": [],
+          "p95RotationStep": 0.33605801437137944,
+          "maxRotationStep": 1.5723174885596318
+        },
+        {
+          "source": "originals/Внизу/14.mp4",
+          "coverage": 0.879,
+          "issues": [],
+          "p95RotationStep": 0.4594671288660264,
+          "maxRotationStep": 3.090760551166518
+        },
+        {
+          "source": "originals/Внизу/12.mp4",
+          "coverage": 0.828,
+          "issues": [
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.21550211418769177,
+          "maxRotationStep": 1.4068711607499125
+        },
+        {
+          "source": "originals/Внизу/11.mp4",
+          "coverage": 0.794,
+          "issues": [
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.3452768975557858,
+          "maxRotationStep": 1.7206265283105449
+        },
+        {
+          "source": "originals/Внизу/06.mp4",
+          "coverage": 0.765,
+          "issues": [
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.3218942962230409,
+          "maxRotationStep": 1.6115926090396724
+        },
+        {
+          "source": "originals/Внизу/23.mp4",
+          "coverage": 0.703,
+          "issues": [
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.3186019402790803,
+          "maxRotationStep": 1.7614833281775317
+        },
+        {
+          "source": "originals/Внизу/15.mp4",
+          "coverage": 0.774,
+          "issues": [
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.49237735718754616,
+          "maxRotationStep": 2.5826832910682964
+        }
+      ]
+    },
+    {
+      "word": "Возьмите",
+      "source": "originals/Возьмите/13.mp4",
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.46887,
+        "end": 1.77501,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true,
+          "softenTrackingEndpoints": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      },
+      "quality": {
+        "frames": 40,
+        "hands": {
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "candidates": [
+        {
+          "source": "originals/Возьмите/13.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.22966981661272282,
+          "maxRotationStep": 0.7992606461766959
+        },
+        {
+          "source": "originals/Возьмите/10.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.1792614049655082,
+          "maxRotationStep": 0.9035441723980089
+        },
+        {
+          "source": "originals/Возьмите/14.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2564157589141151,
+          "maxRotationStep": 0.9312775051489768
+        },
+        {
+          "source": "originals/Возьмите/23.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2304891862011772,
+          "maxRotationStep": 0.9506091330240456
+        },
+        {
+          "source": "originals/Возьмите/09.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.19208876702728617,
+          "maxRotationStep": 0.9898983228603704
+        },
+        {
+          "source": "originals/Возьмите/12.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.21332040908095387,
+          "maxRotationStep": 1.0275223912253717
+        },
+        {
+          "source": "originals/Возьмите/11.mp4",
+          "coverage": 0.977,
+          "issues": [],
+          "p95RotationStep": 0.22079536661797447,
+          "maxRotationStep": 0.962597817367868
+        },
+        {
+          "source": "originals/Возьмите/19.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.26103755111176874,
+          "maxRotationStep": 1.3613576372103768
+        },
+        {
+          "source": "originals/Возьмите/07.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.22677383255566577,
+          "maxRotationStep": 1.4799447439137028
+        },
+        {
+          "source": "originals/Возьмите/15.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.28559239518858315,
+          "maxRotationStep": 1.4772284955614767
+        },
+        {
+          "source": "originals/Возьмите/01.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.25358116942344977,
+          "maxRotationStep": 1.4909201025426497
+        },
+        {
+          "source": "originals/Возьмите/21.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2796920334657348,
+          "maxRotationStep": 1.4962030407611653
+        },
+        {
+          "source": "originals/Возьмите/20.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.29390742997418473,
+          "maxRotationStep": 1.5125334123729237
+        },
+        {
+          "source": "originals/Возьмите/24.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.26223816118148185,
+          "maxRotationStep": 1.5256457903213618
+        },
+        {
+          "source": "originals/Возьмите/17.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.32773273890675136,
+          "maxRotationStep": 1.5830578652679272
+        },
+        {
+          "source": "originals/Возьмите/03.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.29387630082745564,
+          "maxRotationStep": 1.5927378371998742
+        },
+        {
+          "source": "originals/Возьмите/18.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2653524456883241,
+          "maxRotationStep": 1.6047691870892167
+        },
+        {
+          "source": "originals/Возьмите/05.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.24384396073639306,
+          "maxRotationStep": 1.6298893157313101
+        },
+        {
+          "source": "originals/Возьмите/22.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.32863913960873,
+          "maxRotationStep": 1.675482053793535
+        },
+        {
+          "source": "originals/Возьмите/06.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.27388540920213783,
+          "maxRotationStep": 2.4233863990572
+        },
+        {
+          "source": "originals/Возьмите/04.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2816422820185469,
+          "maxRotationStep": 2.489121058117609
+        },
+        {
+          "source": "originals/Возьмите/16.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.29088987653003573,
+          "maxRotationStep": 2.505203465471473
+        },
+        {
+          "source": "originals/Возьмите/08.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.25880696407634884,
+          "maxRotationStep": 2.5216345287114788
+        },
+        {
+          "source": "originals/Возьмите/25.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.20534629140958235,
+          "maxRotationStep": 2.575673788282642
+        },
+        {
+          "source": "originals/Возьмите/02.mp4",
+          "coverage": 0.975,
+          "issues": [],
+          "p95RotationStep": 0.26974442480324395,
+          "maxRotationStep": 3.1161782166687453
+        }
+      ]
+    },
+    {
+      "word": "Для",
+      "source": "originals/Для/03.mp4",
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.49847,
+        "end": 1.76128,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true,
+          "softenTrackingEndpoints": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      },
+      "quality": {
+        "frames": 39,
+        "hands": {
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "candidates": [
+        {
+          "source": "originals/Для/03.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.1888605580653548,
+          "maxRotationStep": 0.7118233560353737
+        },
+        {
+          "source": "originals/Для/23.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2586673742073932,
+          "maxRotationStep": 1.0444731298443788
+        },
+        {
+          "source": "originals/Для/01.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.16629626644644738,
+          "maxRotationStep": 1.073177250463152
+        },
+        {
+          "source": "originals/Для/04.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2064670586580122,
+          "maxRotationStep": 1.0887626128684782
+        },
+        {
+          "source": "originals/Для/16.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.18332049081085894,
+          "maxRotationStep": 1.2476988802328712
+        },
+        {
+          "source": "originals/Для/05.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.26546452276635035,
+          "maxRotationStep": 1.4849713601217323
+        },
+        {
+          "source": "originals/Для/21.mp4",
+          "coverage": 0.978,
+          "issues": [],
+          "p95RotationStep": 0.24812221356768727,
+          "maxRotationStep": 1.531252623238856
+        },
+        {
+          "source": "originals/Для/12.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.23000323441563295,
+          "maxRotationStep": 1.6247755702456312
+        },
+        {
+          "source": "originals/Для/11.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2971976178627892,
+          "maxRotationStep": 1.6224451135317663
+        },
+        {
+          "source": "originals/Для/02.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.24089203783983318,
+          "maxRotationStep": 1.64160392121039
+        },
+        {
+          "source": "originals/Для/13.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.199837725450909,
+          "maxRotationStep": 1.751479728313461
+        },
+        {
+          "source": "originals/Для/10.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.17410703257344748,
+          "maxRotationStep": 1.7795364524549844
+        },
+        {
+          "source": "originals/Для/19.mp4",
+          "coverage": 0.98,
+          "issues": [],
+          "p95RotationStep": 0.22287652053600795,
+          "maxRotationStep": 1.708079270175495
+        },
+        {
+          "source": "originals/Для/22.mp4",
+          "coverage": 0.976,
+          "issues": [],
+          "p95RotationStep": 0.24551577924169726,
+          "maxRotationStep": 1.7130676436292391
+        },
+        {
+          "source": "originals/Для/06.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2917402511384154,
+          "maxRotationStep": 2.5761869707623104
+        },
+        {
+          "source": "originals/Для/08.mp4",
+          "coverage": 0.979,
+          "issues": [],
+          "p95RotationStep": 0.227010010021793,
+          "maxRotationStep": 2.593665788441331
+        },
+        {
+          "source": "originals/Для/20.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.22172148004323988,
+          "maxRotationStep": 2.751044941983621
+        },
+        {
+          "source": "originals/Для/17.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.23285016733373917,
+          "maxRotationStep": 2.759617342270473
+        },
+        {
+          "source": "originals/Для/09.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2203404578330199,
+          "maxRotationStep": 2.8283554310939008
+        },
+        {
+          "source": "originals/Для/18.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.24215012968056834,
+          "maxRotationStep": 2.8473974991063926
+        },
+        {
+          "source": "originals/Для/25.mp4",
+          "coverage": 0.974,
+          "issues": [],
+          "p95RotationStep": 0.24864657161217338,
+          "maxRotationStep": 2.897533040037674
+        },
+        {
+          "source": "originals/Для/07.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.23562430723063946,
+          "maxRotationStep": 3.026838879045673
+        },
+        {
+          "source": "originals/Для/14.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.27377131651699554,
+          "maxRotationStep": 3.074115471940514
+        },
+        {
+          "source": "originals/Для/24.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2171325613150734,
+          "maxRotationStep": 3.10308317037504
+        },
+        {
+          "source": "originals/Для/15.mp4",
+          "coverage": 0.979,
+          "issues": [],
+          "p95RotationStep": 0.24263017039772972,
+          "maxRotationStep": 3.104111979142841
+        }
+      ]
+    },
+    {
+      "word": "Здесь",
+      "source": "originals/Здесь/21.mp4",
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.53173,
+        "end": 1.86104,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true,
+          "softenTrackingEndpoints": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      },
+      "quality": {
+        "frames": 41,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "candidates": [
+        {
+          "source": "originals/Здесь/21.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.30294686507557145,
+          "maxRotationStep": 0.8871438136816834
+        },
+        {
+          "source": "originals/Здесь/01.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.20356477865147193,
+          "maxRotationStep": 0.9397427040771082
+        },
+        {
+          "source": "originals/Здесь/24.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.30909842725487313,
+          "maxRotationStep": 0.9479409950155695
+        },
+        {
+          "source": "originals/Здесь/25.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.28150720471959667,
+          "maxRotationStep": 0.9540614842069155
+        },
+        {
+          "source": "originals/Здесь/05.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.23179508762815274,
+          "maxRotationStep": 0.9698709374667185
+        },
+        {
+          "source": "originals/Здесь/16.mp4",
+          "coverage": 0.974,
+          "issues": [],
+          "p95RotationStep": 0.23942439728979142,
+          "maxRotationStep": 0.8795772588587504
+        },
+        {
+          "source": "originals/Здесь/20.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.27484852927207243,
+          "maxRotationStep": 1.0023581664003711
+        },
+        {
+          "source": "originals/Здесь/10.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.23976338906659533,
+          "maxRotationStep": 1.022914300849412
+        },
+        {
+          "source": "originals/Здесь/19.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.21238887069887985,
+          "maxRotationStep": 1.0374529536086177
+        },
+        {
+          "source": "originals/Здесь/12.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.3110825719310184,
+          "maxRotationStep": 1.020423886025933
+        },
+        {
+          "source": "originals/Здесь/06.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.275774283048175,
+          "maxRotationStep": 1.033411211498915
+        },
+        {
+          "source": "originals/Здесь/02.mp4",
+          "coverage": 0.98,
+          "issues": [],
+          "p95RotationStep": 0.28727502170963876,
+          "maxRotationStep": 0.9520895601971389
+        },
+        {
+          "source": "originals/Здесь/15.mp4",
+          "coverage": 0.977,
+          "issues": [],
+          "p95RotationStep": 0.229699926367969,
+          "maxRotationStep": 1.002884763273569
+        },
+        {
+          "source": "originals/Здесь/14.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.251437308264744,
+          "maxRotationStep": 1.1040388456155332
+        },
+        {
+          "source": "originals/Здесь/13.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2686373368320077,
+          "maxRotationStep": 1.1074662797304542
+        },
+        {
+          "source": "originals/Здесь/04.mp4",
+          "coverage": 0.976,
+          "issues": [],
+          "p95RotationStep": 0.31195623342666984,
+          "maxRotationStep": 1.0310376087642399
+        },
+        {
+          "source": "originals/Здесь/11.mp4",
+          "coverage": 0.984,
+          "issues": [],
+          "p95RotationStep": 0.26721846402495114,
+          "maxRotationStep": 1.102337900237946
+        },
+        {
+          "source": "originals/Здесь/09.mp4",
+          "coverage": 0.973,
+          "issues": [],
+          "p95RotationStep": 0.34780074730526983,
+          "maxRotationStep": 1.1010346630093397
+        },
+        {
+          "source": "originals/Здесь/23.mp4",
+          "coverage": 0.951,
+          "issues": [],
+          "p95RotationStep": 0.2916732848824483,
+          "maxRotationStep": 1.0698626947381584
+        },
+        {
+          "source": "originals/Здесь/17.mp4",
+          "coverage": 0.907,
+          "issues": [],
+          "p95RotationStep": 0.2765359982465823,
+          "maxRotationStep": 1.0922768350906928
+        },
+        {
+          "source": "originals/Здесь/08.mp4",
+          "coverage": 0.923,
+          "issues": [],
+          "p95RotationStep": 0.38553967287927604,
+          "maxRotationStep": 1.6237598818788004
+        },
+        {
+          "source": "originals/Здесь/22.mp4",
+          "coverage": 0.971,
+          "issues": [],
+          "p95RotationStep": 0.37502061330254177,
+          "maxRotationStep": 2.684193608893654
+        },
+        {
+          "source": "originals/Здесь/18.mp4",
+          "coverage": 0.884,
+          "issues": [
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.2695867284070508,
+          "maxRotationStep": 1.5536720817622898
+        },
+        {
+          "source": "originals/Здесь/03.mp4",
+          "coverage": 0.891,
+          "issues": [
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.35369508230918123,
+          "maxRotationStep": 3.077115813187358
+        },
+        {
+          "source": "originals/Здесь/07.mp4",
+          "coverage": 0.66,
+          "issues": [
+            "left_tracking_gaps",
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.3437148343114423,
+          "maxRotationStep": 1.762268326213277
+        }
+      ]
+    },
+    {
+      "word": "Комиссии",
+      "source": "originals/Комиссии/01.mp4",
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.63209,
+        "end": 2.69471,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true,
+          "softenTrackingEndpoints": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      },
+      "quality": {
+        "frames": 63,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "candidates": [
+        {
+          "source": "originals/Комиссии/01.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.12286120712677301,
+          "maxRotationStep": 0.6583760771075254
+        },
+        {
+          "source": "originals/Комиссии/20.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.1496461566746423,
+          "maxRotationStep": 0.6517380563532846
+        },
+        {
+          "source": "originals/Комиссии/15.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.15301990933622664,
+          "maxRotationStep": 0.6567194499526564
+        },
+        {
+          "source": "originals/Комиссии/22.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.16698106423914869,
+          "maxRotationStep": 0.6870356378303522
+        },
+        {
+          "source": "originals/Комиссии/12.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.15350818857876886,
+          "maxRotationStep": 0.737185075283994
+        },
+        {
+          "source": "originals/Комиссии/25.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.16447882406912923,
+          "maxRotationStep": 0.8256207282157788
+        },
+        {
+          "source": "originals/Комиссии/16.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.15551448654171576,
+          "maxRotationStep": 0.8290722784821009
+        },
+        {
+          "source": "originals/Комиссии/21.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.16657547815759388,
+          "maxRotationStep": 0.8577055804289283
+        },
+        {
+          "source": "originals/Комиссии/09.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.15089890779025633,
+          "maxRotationStep": 0.9116257522745631
+        },
+        {
+          "source": "originals/Комиссии/13.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.14330858443509634,
+          "maxRotationStep": 0.9393048803057542
+        },
+        {
+          "source": "originals/Комиссии/24.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.1659187721976779,
+          "maxRotationStep": 0.9479761817389756
+        },
+        {
+          "source": "originals/Комиссии/14.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.16424577094869927,
+          "maxRotationStep": 0.9578485309489608
+        },
+        {
+          "source": "originals/Комиссии/06.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.139107241104981,
+          "maxRotationStep": 0.9638824004649772
+        },
+        {
+          "source": "originals/Комиссии/10.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.15037510194301767,
+          "maxRotationStep": 0.9888151529766158
+        },
+        {
+          "source": "originals/Комиссии/03.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.14032274170471495,
+          "maxRotationStep": 0.9929397199840838
+        },
+        {
+          "source": "originals/Комиссии/07.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.126371724894679,
+          "maxRotationStep": 1.0021798415473127
+        },
+        {
+          "source": "originals/Комиссии/02.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.14326174751613147,
+          "maxRotationStep": 1.0095784381218933
+        },
+        {
+          "source": "originals/Комиссии/19.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.17157864641962878,
+          "maxRotationStep": 1.0072422393915423
+        },
+        {
+          "source": "originals/Комиссии/08.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.13848159027581888,
+          "maxRotationStep": 1.017041601645652
+        },
+        {
+          "source": "originals/Комиссии/05.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.14775011228077436,
+          "maxRotationStep": 1.0345403649013225
+        },
+        {
+          "source": "originals/Комиссии/17.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.15114589817202884,
+          "maxRotationStep": 1.0360469505410375
+        },
+        {
+          "source": "originals/Комиссии/23.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.15720830981017872,
+          "maxRotationStep": 1.0468199136038252
+        },
+        {
+          "source": "originals/Комиссии/11.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.17119920898049548,
+          "maxRotationStep": 1.0456346014838833
+        },
+        {
+          "source": "originals/Комиссии/18.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.1715308973863943,
+          "maxRotationStep": 1.0728513231710708
+        },
+        {
+          "source": "originals/Комиссии/04.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.14650123649605737,
+          "maxRotationStep": 1.501383295694956
+        }
+      ]
+    },
+    {
+      "word": "Нет",
+      "source": "originals/Нет/11.mp4",
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.56614,
+        "end": 2.16465,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true,
+          "softenTrackingEndpoints": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      },
+      "quality": {
+        "frames": 49,
+        "hands": {
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "candidates": [
+        {
+          "source": "originals/Нет/11.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.08293895100195965,
+          "maxRotationStep": 0.8506454787149852
+        },
+        {
+          "source": "originals/Нет/07.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.12226117157090047,
+          "maxRotationStep": 0.8938998803330352
+        },
+        {
+          "source": "originals/Нет/04.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.11549867274516133,
+          "maxRotationStep": 0.9106782590529827
+        },
+        {
+          "source": "originals/Нет/06.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.1300535135811912,
+          "maxRotationStep": 0.9124332684762799
+        },
+        {
+          "source": "originals/Нет/08.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.11787348662137893,
+          "maxRotationStep": 0.9174893380351257
+        },
+        {
+          "source": "originals/Нет/18.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.10476436560993942,
+          "maxRotationStep": 0.9343266338239608
+        },
+        {
+          "source": "originals/Нет/05.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.11206234161270175,
+          "maxRotationStep": 0.9744448060507663
+        },
+        {
+          "source": "originals/Нет/01.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.18160686491977218,
+          "maxRotationStep": 0.9619682217299227
+        },
+        {
+          "source": "originals/Нет/21.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.12967390282371077,
+          "maxRotationStep": 0.9778360753397327
+        },
+        {
+          "source": "originals/Нет/17.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.10269517679022226,
+          "maxRotationStep": 0.9857022107749648
+        },
+        {
+          "source": "originals/Нет/13.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.090225729060097,
+          "maxRotationStep": 0.9964230883012102
+        },
+        {
+          "source": "originals/Нет/10.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.12950466381530987,
+          "maxRotationStep": 0.9941521601076627
+        },
+        {
+          "source": "originals/Нет/20.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.10714175662670444,
+          "maxRotationStep": 1.0020555936404774
+        },
+        {
+          "source": "originals/Нет/15.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.10712750970006289,
+          "maxRotationStep": 1.0025594473238546
+        },
+        {
+          "source": "originals/Нет/14.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.10900189428628777,
+          "maxRotationStep": 1.0035511612479526
+        },
+        {
+          "source": "originals/Нет/22.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.1164279428979546,
+          "maxRotationStep": 1.0426999957353904
+        },
+        {
+          "source": "originals/Нет/24.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.13223176952455298,
+          "maxRotationStep": 1.0560853190194086
+        },
+        {
+          "source": "originals/Нет/19.mp4",
+          "coverage": 0.981,
+          "issues": [],
+          "p95RotationStep": 0.1290970966753114,
+          "maxRotationStep": 1.0077337785461273
+        },
+        {
+          "source": "originals/Нет/16.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.1190453431430247,
+          "maxRotationStep": 1.0997471599578723
+        },
+        {
+          "source": "originals/Нет/23.mp4",
+          "coverage": 0.976,
+          "issues": [],
+          "p95RotationStep": 0.16804533684758285,
+          "maxRotationStep": 1.0252965685235238
+        },
+        {
+          "source": "originals/Нет/02.mp4",
+          "coverage": 0.98,
+          "issues": [],
+          "p95RotationStep": 0.16243533879641386,
+          "maxRotationStep": 1.1466015760017583
+        },
+        {
+          "source": "originals/Нет/09.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.1262668879533117,
+          "maxRotationStep": 1.274163194267301
+        },
+        {
+          "source": "originals/Нет/25.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.16135681025158063,
+          "maxRotationStep": 1.290156404152325
+        },
+        {
+          "source": "originals/Нет/12.mp4",
+          "coverage": 0.979,
+          "issues": [],
+          "p95RotationStep": 0.1612606395084106,
+          "maxRotationStep": 1.2990730165782025
+        },
+        {
+          "source": "originals/Нет/03.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.13401946854531688,
+          "maxRotationStep": 1.4842668816474123
+        }
+      ]
+    },
+    {
+      "word": "Подпишите",
+      "source": "originals/Подпишите/09.mp4",
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.43358,
+        "end": 1.66762,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true,
+          "softenTrackingEndpoints": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      },
+      "quality": {
+        "frames": 38,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "candidates": [
+        {
+          "source": "originals/Подпишите/09.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.13272217053625884,
+          "maxRotationStep": 0.5186616569631008
+        },
+        {
+          "source": "originals/Подпишите/14.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.13902703109101566,
+          "maxRotationStep": 0.6706997119573445
+        },
+        {
+          "source": "originals/Подпишите/03.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.1407025836540631,
+          "maxRotationStep": 0.6442052646478448
+        },
+        {
+          "source": "originals/Подпишите/05.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.1738710376261393,
+          "maxRotationStep": 0.5959452145207857
+        },
+        {
+          "source": "originals/Подпишите/19.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.18447258551217852,
+          "maxRotationStep": 0.6632409580026867
+        },
+        {
+          "source": "originals/Подпишите/15.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.19333325496407294,
+          "maxRotationStep": 0.6301242886643492
+        },
+        {
+          "source": "originals/Подпишите/11.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.19481918677762475,
+          "maxRotationStep": 0.591648960755627
+        },
+        {
+          "source": "originals/Подпишите/04.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2047808099655535,
+          "maxRotationStep": 0.6970098495558434
+        },
+        {
+          "source": "originals/Подпишите/22.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.27913353736299645,
+          "maxRotationStep": 0.6774073613912311
+        },
+        {
+          "source": "originals/Подпишите/23.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.18494210779762635,
+          "maxRotationStep": 0.7247072659727003
+        },
+        {
+          "source": "originals/Подпишите/16.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.17828327810946368,
+          "maxRotationStep": 0.742511229244031
+        },
+        {
+          "source": "originals/Подпишите/21.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2761917778120492,
+          "maxRotationStep": 0.9510670202555884
+        },
+        {
+          "source": "originals/Подпишите/02.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.17441702633088785,
+          "maxRotationStep": 0.9743991082701003
+        },
+        {
+          "source": "originals/Подпишите/12.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.23064721419277653,
+          "maxRotationStep": 0.9708438015309504
+        },
+        {
+          "source": "originals/Подпишите/06.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.15914384462768058,
+          "maxRotationStep": 1.0096543950656458
+        },
+        {
+          "source": "originals/Подпишите/25.mp4",
+          "coverage": 0.976,
+          "issues": [],
+          "p95RotationStep": 0.15933593904114401,
+          "maxRotationStep": 0.977229330492152
+        },
+        {
+          "source": "originals/Подпишите/20.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.221051902171285,
+          "maxRotationStep": 1.2470948498232348
+        },
+        {
+          "source": "originals/Подпишите/10.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.1773531166886604,
+          "maxRotationStep": 1.374008469896502
+        },
+        {
+          "source": "originals/Подпишите/13.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.18340005231434764,
+          "maxRotationStep": 1.7482102614044748
+        },
+        {
+          "source": "originals/Подпишите/17.mp4",
+          "coverage": 0.885,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.20797472368989617,
+          "maxRotationStep": 1.019537463203744
+        },
+        {
+          "source": "originals/Подпишите/08.mp4",
+          "coverage": 0.842,
+          "issues": [
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.21393519308289743,
+          "maxRotationStep": 1.5689609565578602
+        },
+        {
+          "source": "originals/Подпишите/24.mp4",
+          "coverage": 0.898,
+          "issues": [
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.31579533364697127,
+          "maxRotationStep": 2.942722581516228
+        },
+        {
+          "source": "originals/Подпишите/07.mp4",
+          "coverage": 0.886,
+          "issues": [
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.2523385356023582,
+          "maxRotationStep": 3.13397027962668
+        },
+        {
+          "source": "originals/Подпишите/01.mp4",
+          "coverage": 0.821,
+          "issues": [
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.21023538653370372,
+          "maxRotationStep": 3.1338260469829002
+        },
+        {
+          "source": "originals/Подпишите/18.mp4",
+          "coverage": 0.868,
+          "issues": [
+            "left_tracking_gaps",
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.2134039116941923,
+          "maxRotationStep": 1.5660228907621696
+        }
+      ]
+    },
+    {
+      "word": "Ручку",
+      "source": "originals/Ручку/12.mp4",
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.39879,
+        "end": 2.06041,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true,
+          "softenTrackingEndpoints": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      },
+      "quality": {
+        "frames": 51,
+        "hands": {
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "candidates": [
+        {
+          "source": "originals/Ручку/12.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.07561730225419902,
+          "maxRotationStep": 0.6596102787970434
+        },
+        {
+          "source": "originals/Ручку/17.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.0805105268290806,
+          "maxRotationStep": 0.564192581184164
+        },
+        {
+          "source": "originals/Ручку/04.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.08243827717107245,
+          "maxRotationStep": 0.5676029859345278
+        },
+        {
+          "source": "originals/Ручку/19.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.08492033303688011,
+          "maxRotationStep": 0.6310217597197332
+        },
+        {
+          "source": "originals/Ручку/22.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.085306787586029,
+          "maxRotationStep": 0.6166204363266309
+        },
+        {
+          "source": "originals/Ручку/21.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.08556640629777561,
+          "maxRotationStep": 0.5202573158741868
+        },
+        {
+          "source": "originals/Ручку/11.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.08889947166392274,
+          "maxRotationStep": 0.5884597657562314
+        },
+        {
+          "source": "originals/Ручку/02.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.09745252935467531,
+          "maxRotationStep": 0.6644073232471017
+        },
+        {
+          "source": "originals/Ручку/10.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.10265610041824513,
+          "maxRotationStep": 0.6374546422003987
+        },
+        {
+          "source": "originals/Ручку/09.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.10624216908396517,
+          "maxRotationStep": 0.6252937014253215
+        },
+        {
+          "source": "originals/Ручку/16.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.10732313749893974,
+          "maxRotationStep": 0.5190075377601945
+        },
+        {
+          "source": "originals/Ручку/25.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.10965222348123231,
+          "maxRotationStep": 0.5873113304453316
+        },
+        {
+          "source": "originals/Ручку/07.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.12727056685135213,
+          "maxRotationStep": 0.6279512978479264
+        },
+        {
+          "source": "originals/Ручку/14.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.08646826333877974,
+          "maxRotationStep": 0.7280692409599919
+        },
+        {
+          "source": "originals/Ручку/08.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.10395033210388586,
+          "maxRotationStep": 0.7324947796066174
+        },
+        {
+          "source": "originals/Ручку/18.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.12099805224323062,
+          "maxRotationStep": 0.7406923220334671
+        },
+        {
+          "source": "originals/Ручку/03.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.0855320337146123,
+          "maxRotationStep": 0.7624709848119078
+        },
+        {
+          "source": "originals/Ручку/13.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.10316616409109937,
+          "maxRotationStep": 0.7663065745209364
+        },
+        {
+          "source": "originals/Ручку/05.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.08959781798212922,
+          "maxRotationStep": 0.7968900371848968
+        },
+        {
+          "source": "originals/Ручку/24.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.1036222193698972,
+          "maxRotationStep": 0.8224629721846893
+        },
+        {
+          "source": "originals/Ручку/01.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.10402829347824293,
+          "maxRotationStep": 0.8787089713199477
+        },
+        {
+          "source": "originals/Ручку/06.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.12179868052819287,
+          "maxRotationStep": 0.882670398411611
+        },
+        {
+          "source": "originals/Ручку/15.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.11019874404826303,
+          "maxRotationStep": 0.9318885605174364
+        },
+        {
+          "source": "originals/Ручку/23.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.0882335865080915,
+          "maxRotationStep": 0.9646322313843733
+        },
+        {
+          "source": "originals/Ручку/20.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.07911061803604821,
+          "maxRotationStep": 1.0465529078132048
+        }
+      ]
+    },
+    {
+      "word": "Страницы",
+      "source": "originals/Страницы/10.mp4",
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.63265,
+        "end": 4.26209,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true,
+          "softenTrackingEndpoints": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      },
+      "quality": {
+        "frames": 110,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "candidates": [
+        {
+          "source": "originals/Страницы/10.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.25221992536761634,
+          "maxRotationStep": 0.8934502554570668
+        },
+        {
+          "source": "originals/Страницы/04.mp4",
+          "coverage": 0.971,
+          "issues": [],
+          "p95RotationStep": 0.2786260028083687,
+          "maxRotationStep": 0.8238883408524048
+        },
+        {
+          "source": "originals/Страницы/20.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2648928629684496,
+          "maxRotationStep": 1.005078041309574
+        },
+        {
+          "source": "originals/Страницы/14.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2534051375773566,
+          "maxRotationStep": 1.032150997132189
+        },
+        {
+          "source": "originals/Страницы/09.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.24214575996990093,
+          "maxRotationStep": 1.0977318246406227
+        },
+        {
+          "source": "originals/Страницы/07.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.26848492462212836,
+          "maxRotationStep": 1.1117318329784867
+        },
+        {
+          "source": "originals/Страницы/08.mp4",
+          "coverage": 0.982,
+          "issues": [],
+          "p95RotationStep": 0.2845303573940877,
+          "maxRotationStep": 1.113808011427932
+        },
+        {
+          "source": "originals/Страницы/11.mp4",
+          "coverage": 0.991,
+          "issues": [],
+          "p95RotationStep": 0.2861982482391567,
+          "maxRotationStep": 1.176022640765219
+        },
+        {
+          "source": "originals/Страницы/25.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.28721861236803065,
+          "maxRotationStep": 1.2946424881384397
+        },
+        {
+          "source": "originals/Страницы/22.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2732639782429887,
+          "maxRotationStep": 1.3838227437045418
+        },
+        {
+          "source": "originals/Страницы/06.mp4",
+          "coverage": 0.99,
+          "issues": [],
+          "p95RotationStep": 0.2629115565419256,
+          "maxRotationStep": 1.4300604166131312
+        },
+        {
+          "source": "originals/Страницы/23.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.24003423318198408,
+          "maxRotationStep": 1.4865293962367039
+        },
+        {
+          "source": "originals/Страницы/02.mp4",
+          "coverage": 0.982,
+          "issues": [],
+          "p95RotationStep": 0.29841442177347455,
+          "maxRotationStep": 1.4163617459302604
+        },
+        {
+          "source": "originals/Страницы/12.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2526736614496372,
+          "maxRotationStep": 1.499188100927168
+        },
+        {
+          "source": "originals/Страницы/24.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2380788662705149,
+          "maxRotationStep": 1.6489851733198462
+        },
+        {
+          "source": "originals/Страницы/15.mp4",
+          "coverage": 0.974,
+          "issues": [],
+          "p95RotationStep": 0.2744178392515198,
+          "maxRotationStep": 1.5709558177165797
+        },
+        {
+          "source": "originals/Страницы/03.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2915681836799394,
+          "maxRotationStep": 1.7434959281282931
+        },
+        {
+          "source": "originals/Страницы/13.mp4",
+          "coverage": 0.983,
+          "issues": [],
+          "p95RotationStep": 0.27382380348770163,
+          "maxRotationStep": 2.5229527154913525
+        },
+        {
+          "source": "originals/Страницы/21.mp4",
+          "coverage": 0.974,
+          "issues": [],
+          "p95RotationStep": 0.28149956054273895,
+          "maxRotationStep": 3.1127139742056706
+        },
+        {
+          "source": "originals/Страницы/01.mp4",
+          "coverage": 0.967,
+          "issues": [],
+          "p95RotationStep": 0.3334681304090673,
+          "maxRotationStep": 3.105513391176292
+        },
+        {
+          "source": "originals/Страницы/17.mp4",
+          "coverage": 0.957,
+          "issues": [
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.28099271224605893,
+          "maxRotationStep": 1.5729539929902665
+        },
+        {
+          "source": "originals/Страницы/05.mp4",
+          "coverage": 0.946,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.2901881999070949,
+          "maxRotationStep": 1.534183578433085
+        },
+        {
+          "source": "originals/Страницы/19.mp4",
+          "coverage": 0.945,
+          "issues": [
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.29518120475511317,
+          "maxRotationStep": 1.666677172035341
+        },
+        {
+          "source": "originals/Страницы/16.mp4",
+          "coverage": 0.952,
+          "issues": [
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.2773662108172063,
+          "maxRotationStep": 3.1394324022981093
+        },
+        {
+          "source": "originals/Страницы/18.mp4",
+          "coverage": 0.923,
+          "issues": [
+            "right_tracking_gaps"
+          ],
+          "p95RotationStep": 0.30722785920861584,
+          "maxRotationStep": 3.1077905196055875
+        }
+      ]
+    },
+    {
+      "word": "Услуга",
+      "source": "originals/Услуга/14.mp4",
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.60058,
+        "end": 2.10202,
+        "interpolatedHandFrames": 1,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true,
+          "softenTrackingEndpoints": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      },
+      "quality": {
+        "frames": 46,
+        "hands": {
+          "left": {
+            "coverage": 0.978,
+            "maxGapFrames": 1
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 1
+      },
+      "candidates": [
+        {
+          "source": "originals/Услуга/14.mp4",
+          "coverage": 0.978,
+          "issues": [],
+          "p95RotationStep": 0.284754570162222,
+          "maxRotationStep": 1.0237868400936683
+        },
+        {
+          "source": "originals/Услуга/20.mp4",
+          "coverage": 0.925,
+          "issues": [],
+          "p95RotationStep": 0.16833709687476506,
+          "maxRotationStep": 1.113374972358699
+        },
+        {
+          "source": "originals/Услуга/03.mp4",
+          "coverage": 0.936,
+          "issues": [],
+          "p95RotationStep": 0.3077253468833068,
+          "maxRotationStep": 1.8601026807364744
+        },
+        {
+          "source": "originals/Услуга/13.mp4",
+          "coverage": 0.883,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.10063407101831727,
+          "maxRotationStep": 0.8016478248793706
+        },
+        {
+          "source": "originals/Услуга/23.mp4",
+          "coverage": 0.904,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.07792695024439326,
+          "maxRotationStep": 0.930266773225989
+        },
+        {
+          "source": "originals/Услуга/25.mp4",
+          "coverage": 0.911,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.17766101258653139,
+          "maxRotationStep": 1.0045968959941403
+        },
+        {
+          "source": "originals/Услуга/02.mp4",
+          "coverage": 0.902,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.15883259332368574,
+          "maxRotationStep": 1.0103432896877496
+        },
+        {
+          "source": "originals/Услуга/19.mp4",
+          "coverage": 0.895,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.1614122702828185,
+          "maxRotationStep": 1.0118991003977984
+        },
+        {
+          "source": "originals/Услуга/22.mp4",
+          "coverage": 0.878,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.08462506814218734,
+          "maxRotationStep": 0.9763854285208684
+        },
+        {
+          "source": "originals/Услуга/01.mp4",
+          "coverage": 0.885,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.12892196555837765,
+          "maxRotationStep": 1.001583034417633
+        },
+        {
+          "source": "originals/Услуга/10.mp4",
+          "coverage": 0.894,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.17597842173808628,
+          "maxRotationStep": 1.0518936282463596
+        },
+        {
+          "source": "originals/Услуга/09.mp4",
+          "coverage": 0.863,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.22394129897856538,
+          "maxRotationStep": 0.9350106374873808
+        },
+        {
+          "source": "originals/Услуга/07.mp4",
+          "coverage": 0.894,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.18739317175758258,
+          "maxRotationStep": 1.0916244211388877
+        },
+        {
+          "source": "originals/Услуга/12.mp4",
+          "coverage": 0.867,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.1288605692267348,
+          "maxRotationStep": 0.9992993983722205
+        },
+        {
+          "source": "originals/Услуга/08.mp4",
+          "coverage": 0.851,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.11942297740164096,
+          "maxRotationStep": 0.9475400494408338
+        },
+        {
+          "source": "originals/Услуга/21.mp4",
+          "coverage": 0.869,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.19404962032955703,
+          "maxRotationStep": 1.0154504947019378
+        },
+        {
+          "source": "originals/Услуга/24.mp4",
+          "coverage": 0.877,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.1379142928956037,
+          "maxRotationStep": 1.1058413838650716
+        },
+        {
+          "source": "originals/Услуга/11.mp4",
+          "coverage": 0.857,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.19779576041208966,
+          "maxRotationStep": 1.0292262175633389
+        },
+        {
+          "source": "originals/Услуга/16.mp4",
+          "coverage": 0.867,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.2472085192649464,
+          "maxRotationStep": 1.0626607168840232
+        },
+        {
+          "source": "originals/Услуга/17.mp4",
+          "coverage": 0.839,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.13133330381397562,
+          "maxRotationStep": 1.0732265631963576
+        },
+        {
+          "source": "originals/Услуга/15.mp4",
+          "coverage": 0.841,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.20391869015476533,
+          "maxRotationStep": 1.0816842564582614
+        },
+        {
+          "source": "originals/Услуга/06.mp4",
+          "coverage": 0.867,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.1159738575392107,
+          "maxRotationStep": 1.3588196120553302
+        },
+        {
+          "source": "originals/Услуга/04.mp4",
+          "coverage": 0.84,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.31156091547147907,
+          "maxRotationStep": 1.4542247795201282
+        },
+        {
+          "source": "originals/Услуга/18.mp4",
+          "coverage": 0.745,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.23569835684704146,
+          "maxRotationStep": 1.094922588752107
+        },
+        {
+          "source": "originals/Услуга/05.mp4",
+          "coverage": 0.84,
+          "issues": [
+            "left_tracking_gaps"
+          ],
+          "p95RotationStep": 0.2893092851022302,
+          "maxRotationStep": 1.5017668650406886
+        }
+      ]
+    },
+    {
+      "word": "Эта",
+      "source": "originals/Эта/20.mp4",
+      "processing": {
+        "method": "MediaPipe Holistic 0.10.21; pose-guided anatomical hand regions; 1280x720; source frame rate; face landmarks discarded",
+        "start": 0.66596,
+        "end": 1.73148,
+        "interpolatedHandFrames": 0,
+        "shortGapLimit": {
+          "maxFrames": 2,
+          "maxSeconds": 0.12
+        },
+        "rotationSmoothing": {
+          "windowFrames": 3,
+          "passes": 1,
+          "preservesFrameTimes": true,
+          "softenTrackingEndpoints": true
+        },
+        "analyzedTakes": 25,
+        "recognitionHoldoutUnchanged": true
+      },
+      "quality": {
+        "frames": 33,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true,
+        "shortGapHandFrames": 0
+      },
+      "candidates": [
+        {
+          "source": "originals/Эта/20.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2770682729336569,
+          "maxRotationStep": 0.7789299718371887
+        },
+        {
+          "source": "originals/Эта/17.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2454840778885239,
+          "maxRotationStep": 0.8046082880810108
+        },
+        {
+          "source": "originals/Эта/19.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.22129418367666162,
+          "maxRotationStep": 0.8129857974879956
+        },
+        {
+          "source": "originals/Эта/23.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.23708802795523284,
+          "maxRotationStep": 0.856236926469873
+        },
+        {
+          "source": "originals/Эта/09.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2795259419948937,
+          "maxRotationStep": 0.8894476674241841
+        },
+        {
+          "source": "originals/Эта/07.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.25610511970394734,
+          "maxRotationStep": 0.9430754961671042
+        },
+        {
+          "source": "originals/Эта/05.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2949153460915003,
+          "maxRotationStep": 0.9431182965658977
+        },
+        {
+          "source": "originals/Эта/02.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.3218977820103044,
+          "maxRotationStep": 0.9530806619102685
+        },
+        {
+          "source": "originals/Эта/25.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.28570699818759315,
+          "maxRotationStep": 0.9736803926614279
+        },
+        {
+          "source": "originals/Эта/18.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.21506385177579868,
+          "maxRotationStep": 1.0226203017745923
+        },
+        {
+          "source": "originals/Эта/06.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.25738754567323113,
+          "maxRotationStep": 1.0263305270842773
+        },
+        {
+          "source": "originals/Эта/12.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2750333868091044,
+          "maxRotationStep": 1.0363300467876932
+        },
+        {
+          "source": "originals/Эта/21.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2472893733240136,
+          "maxRotationStep": 1.0435845084736595
+        },
+        {
+          "source": "originals/Эта/15.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2600600788875028,
+          "maxRotationStep": 1.0440992376691816
+        },
+        {
+          "source": "originals/Эта/24.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.28224931318034374,
+          "maxRotationStep": 1.0408065718392387
+        },
+        {
+          "source": "originals/Эта/14.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2931199221224305,
+          "maxRotationStep": 1.0471044476323608
+        },
+        {
+          "source": "originals/Эта/01.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.3572560104514536,
+          "maxRotationStep": 1.0471452788187063
+        },
+        {
+          "source": "originals/Эта/10.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2726672744406412,
+          "maxRotationStep": 1.0782942747941002
+        },
+        {
+          "source": "originals/Эта/08.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.33723155005198585,
+          "maxRotationStep": 1.1490261668340551
+        },
+        {
+          "source": "originals/Эта/16.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2716847625221148,
+          "maxRotationStep": 1.1922166146157929
+        },
+        {
+          "source": "originals/Эта/22.mp4",
+          "coverage": 0.968,
+          "issues": [],
+          "p95RotationStep": 0.29227237868810413,
+          "maxRotationStep": 1.2223930399687692
+        },
+        {
+          "source": "originals/Эта/13.mp4",
+          "coverage": 0.971,
+          "issues": [],
+          "p95RotationStep": 0.29640388917628857,
+          "maxRotationStep": 1.236586869469137
+        },
+        {
+          "source": "originals/Эта/04.mp4",
+          "coverage": 1,
+          "issues": [],
+          "p95RotationStep": 0.2940867433078566,
+          "maxRotationStep": 1.4678923279621419
+        },
+        {
+          "source": "originals/Эта/11.mp4",
+          "coverage": 0.972,
+          "issues": [],
+          "p95RotationStep": 0.29417180616932553,
+          "maxRotationStep": 1.3906033668168136
+        },
+        {
+          "source": "originals/Эта/03.mp4",
+          "coverage": 0.972,
+          "issues": [],
+          "p95RotationStep": 0.38878183451172355,
+          "maxRotationStep": 1.6039994776534097
+        }
+      ]
+    }
+  ],
+  "visualQA": "Browser control disabled; source/rig/time/quaternion and continuity checks used.",
+  "status": "technical_checks_passed",
+  "qualityBefore": {
+    "words": 23,
+    "with90DegreeJumps": 11,
+    "jumps90": 267,
+    "rows": [
+      {
+        "id": "bank-бесплатная",
+        "label": "Бесплатная",
+        "frames": 39,
+        "duration": 1.26886,
+        "maxStepDegrees": 47.02,
+        "maximumSampleInterval": 0.0334,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-вас",
+        "label": "Вас",
+        "frames": 12,
+        "duration": 1.09826,
+        "maxStepDegrees": 172.93,
+        "maximumSampleInterval": 0.09985,
+        "jumps90": 13,
+        "jumps60": 21
+      },
+      {
+        "id": "bank-внизу",
+        "label": "Внизу",
+        "frames": 15,
+        "duration": 1.39935,
+        "maxStepDegrees": 179.94,
+        "maximumSampleInterval": 0.09996,
+        "jumps90": 29,
+        "jumps60": 41
+      },
+      {
+        "id": "bank-возьмите",
+        "label": "Возьмите",
+        "frames": 12,
+        "duration": 1.10216,
+        "maxStepDegrees": 170.32,
+        "maximumSampleInterval": 0.1002,
+        "jumps90": 21,
+        "jumps60": 43
+      },
+      {
+        "id": "bank-для",
+        "label": "Для",
+        "frames": 14,
+        "duration": 1.30465,
+        "maxStepDegrees": 96.69,
+        "maximumSampleInterval": 0.10036,
+        "jumps90": 1,
+        "jumps60": 14
+      },
+      {
+        "id": "bank-документ",
+        "label": "Документ",
+        "frames": 33,
+        "duration": 1.0698,
+        "maxStepDegrees": 50.2,
+        "maximumSampleInterval": 0.03344,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-здесь",
+        "label": "Здесь",
+        "frames": 17,
+        "duration": 1.59386,
+        "maxStepDegrees": 179.32,
+        "maximumSampleInterval": 0.09962,
+        "jumps90": 65,
+        "jumps60": 100
+      },
+      {
+        "id": "bank-комиссии",
+        "label": "Комиссии",
+        "frames": 16,
+        "duration": 1.49999,
+        "maxStepDegrees": 179,
+        "maximumSampleInterval": 0.1,
+        "jumps90": 3,
+        "jumps60": 6
+      },
+      {
+        "id": "bank-нет",
+        "label": "Нет",
+        "frames": 18,
+        "duration": 1.70244,
+        "maxStepDegrees": 172.68,
+        "maximumSampleInterval": 0.10015,
+        "jumps90": 17,
+        "jumps60": 33
+      },
+      {
+        "id": "bank-подпишите",
+        "label": "Подпишите",
+        "frames": 13,
+        "duration": 1.19934,
+        "maxStepDegrees": 174.28,
+        "maximumSampleInterval": 0.09995,
+        "jumps90": 6,
+        "jumps60": 13
+      },
+      {
+        "id": "bank-ручку",
+        "label": "Ручку",
+        "frames": 17,
+        "duration": 1.59924,
+        "maxStepDegrees": 178.65,
+        "maximumSampleInterval": 0.09996,
+        "jumps90": 29,
+        "jumps60": 37
+      },
+      {
+        "id": "bank-страницы",
+        "label": "Страницы",
+        "frames": 42,
+        "duration": 4.09794,
+        "maxStepDegrees": 178.06,
+        "maximumSampleInterval": 0.09995,
+        "jumps90": 53,
+        "jumps60": 109
+      },
+      {
+        "id": "bank-услуга",
+        "label": "Услуга",
+        "frames": 17,
+        "duration": 1.6,
+        "maxStepDegrees": 82.23,
+        "maximumSampleInterval": 0.1,
+        "jumps90": 0,
+        "jumps60": 2
+      },
+      {
+        "id": "bank-эта",
+        "label": "Эта",
+        "frames": 16,
+        "duration": 1.50071,
+        "maxStepDegrees": 174.78,
+        "maximumSampleInterval": 0.10005,
+        "jumps90": 30,
+        "jumps60": 61
+      },
+      {
+        "id": "bank-будет",
+        "label": "Будет",
+        "frames": 52,
+        "duration": 1.70249,
+        "maxStepDegrees": 33.39,
+        "maximumSampleInterval": 0.03339,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-ваша",
+        "label": "Ваша",
+        "frames": 37,
+        "duration": 1.2,
+        "maxStepDegrees": 37.45,
+        "maximumSampleInterval": 0.03334,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-готова",
+        "label": "Готова",
+        "frames": 30,
+        "duration": 0.96543,
+        "maxStepDegrees": 37.34,
+        "maximumSampleInterval": 0.0333,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-минуты",
+        "label": "Минуты",
+        "frames": 53,
+        "duration": 1.73416,
+        "maxStepDegrees": 34.51,
+        "maximumSampleInterval": 0.03335,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-три",
+        "label": "Три",
+        "frames": 40,
+        "duration": 1.29998,
+        "maxStepDegrees": 42.65,
+        "maximumSampleInterval": 0.03334,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-через",
+        "label": "Через",
+        "frames": 43,
+        "duration": 1.39574,
+        "maxStepDegrees": 19.53,
+        "maximumSampleInterval": 0.03324,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-пожалуйста",
+        "label": "Пожалуйста",
+        "frames": 50,
+        "duration": 1.62899,
+        "maxStepDegrees": 36.15,
+        "maximumSampleInterval": 0.03325,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-подождите",
+        "label": "Подождите",
+        "frames": 42,
+        "duration": 1.37066,
+        "maxStepDegrees": 41.28,
+        "maximumSampleInterval": 0.03344,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-карта",
+        "label": "Карта",
+        "frames": 40,
+        "duration": 1.29666,
+        "maxStepDegrees": 48.58,
+        "maximumSampleInterval": 0.03325,
+        "jumps90": 0,
+        "jumps60": 0
+      }
+    ],
+    "note": "Technical discontinuity and sampling checks; not linguistic or visual approval of a sign."
+  },
+  "qualityAfter": {
+    "words": 23,
+    "with90DegreeJumps": 0,
+    "jumps90": 0,
+    "rows": [
+      {
+        "id": "bank-бесплатная",
+        "label": "Бесплатная",
+        "frames": 39,
+        "duration": 1.26886,
+        "maxStepDegrees": 47.02,
+        "maximumSampleInterval": 0.0334,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-вас",
+        "label": "Вас",
+        "frames": 45,
+        "duration": 1.46596,
+        "maxStepDegrees": 25.82,
+        "maximumSampleInterval": 0.03332,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-внизу",
+        "label": "Внизу",
+        "frames": 37,
+        "duration": 1.19421,
+        "maxStepDegrees": 38.67,
+        "maximumSampleInterval": 0.03318,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-возьмите",
+        "label": "Возьмите",
+        "frames": 40,
+        "duration": 1.30614,
+        "maxStepDegrees": 45.79,
+        "maximumSampleInterval": 0.0335,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-для",
+        "label": "Для",
+        "frames": 39,
+        "duration": 1.26281,
+        "maxStepDegrees": 40.78,
+        "maximumSampleInterval": 0.03324,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-документ",
+        "label": "Документ",
+        "frames": 33,
+        "duration": 1.0698,
+        "maxStepDegrees": 50.2,
+        "maximumSampleInterval": 0.03344,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-здесь",
+        "label": "Здесь",
+        "frames": 41,
+        "duration": 1.32931,
+        "maxStepDegrees": 50.83,
+        "maximumSampleInterval": 0.03324,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-комиссии",
+        "label": "Комиссии",
+        "frames": 63,
+        "duration": 2.06262,
+        "maxStepDegrees": 37.72,
+        "maximumSampleInterval": 0.03327,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-нет",
+        "label": "Нет",
+        "frames": 49,
+        "duration": 1.59851,
+        "maxStepDegrees": 48.74,
+        "maximumSampleInterval": 0.03331,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-подпишите",
+        "label": "Подпишите",
+        "frames": 38,
+        "duration": 1.23404,
+        "maxStepDegrees": 29.72,
+        "maximumSampleInterval": 0.03336,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-ручку",
+        "label": "Ручку",
+        "frames": 51,
+        "duration": 1.66162,
+        "maxStepDegrees": 37.79,
+        "maximumSampleInterval": 0.03324,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-страницы",
+        "label": "Страницы",
+        "frames": 110,
+        "duration": 3.62944,
+        "maxStepDegrees": 51.19,
+        "maximumSampleInterval": 0.0333,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-услуга",
+        "label": "Услуга",
+        "frames": 46,
+        "duration": 1.50144,
+        "maxStepDegrees": 58.66,
+        "maximumSampleInterval": 0.03337,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-эта",
+        "label": "Эта",
+        "frames": 33,
+        "duration": 1.06552,
+        "maxStepDegrees": 44.63,
+        "maximumSampleInterval": 0.0333,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-будет",
+        "label": "Будет",
+        "frames": 52,
+        "duration": 1.70249,
+        "maxStepDegrees": 33.39,
+        "maximumSampleInterval": 0.03339,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-ваша",
+        "label": "Ваша",
+        "frames": 37,
+        "duration": 1.2,
+        "maxStepDegrees": 37.45,
+        "maximumSampleInterval": 0.03334,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-готова",
+        "label": "Готова",
+        "frames": 30,
+        "duration": 0.96543,
+        "maxStepDegrees": 37.34,
+        "maximumSampleInterval": 0.0333,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-минуты",
+        "label": "Минуты",
+        "frames": 53,
+        "duration": 1.73416,
+        "maxStepDegrees": 34.51,
+        "maximumSampleInterval": 0.03335,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-три",
+        "label": "Три",
+        "frames": 40,
+        "duration": 1.29998,
+        "maxStepDegrees": 42.65,
+        "maximumSampleInterval": 0.03334,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-через",
+        "label": "Через",
+        "frames": 43,
+        "duration": 1.39574,
+        "maxStepDegrees": 19.53,
+        "maximumSampleInterval": 0.03324,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-пожалуйста",
+        "label": "Пожалуйста",
+        "frames": 50,
+        "duration": 1.62899,
+        "maxStepDegrees": 36.15,
+        "maximumSampleInterval": 0.03325,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-подождите",
+        "label": "Подождите",
+        "frames": 42,
+        "duration": 1.37066,
+        "maxStepDegrees": 41.28,
+        "maximumSampleInterval": 0.03344,
+        "jumps90": 0,
+        "jumps60": 0
+      },
+      {
+        "id": "bank-карта",
+        "label": "Карта",
+        "frames": 40,
+        "duration": 1.29666,
+        "maxStepDegrees": 48.58,
+        "maximumSampleInterval": 0.03325,
+        "jumps90": 0,
+        "jumps60": 0
+      }
+    ],
+    "note": "Technical discontinuity and sampling checks; not linguistic or visual approval of a sign."
+  }
+}
