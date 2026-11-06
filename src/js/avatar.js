@@ -25,10 +25,10 @@ const ALL_CLOTHES = [...new Set(Object.values(OUTFITS).flat())];
 const OUTFIT = 'classic';
 // Цвета ткани (sRGB) для выбранного комплекта.
 const CLOTH_COLORS = {
-  'Qol tailored collar': '#151517',   // пиджак
-  'Qol casual knit': '#151517',       // рукава пиджака
-  'Qol ivory blouse': '#f4f3f0',      // рубашка и манжеты
-  'Qol academic vest': '#151517',
+  'Qol tailored collar': '#ffffff',   // пиджак: цвет и фактура в текстуре модели
+  'Qol casual knit': '#ffffff',       // рукава пиджака
+  'Qol ivory blouse': '#ffffff',      // рубашка и манжеты
+  'Qol academic vest': '#ffffff',
 };
 
 function applyOutfit(root, outfit = OUTFIT) {
@@ -71,7 +71,7 @@ const MATERIALS = {
   'Std_Nails': { envMapIntensity: 0.35 },
   'Std_Skin_Body.001': { roughness: 0.6, envMapIntensity: 0.35 },
   'Std_Skin_Arm.001': { roughness: 0.6, envMapIntensity: 0.35 },
-  'Qol black hair / unified satin': { color: '#2a1c14', roughness: 0.42, envMapIntensity: 1.4 },
+  'Qol black hair / unified satin': { color: '#ffffff', roughness: 0.42, envMapIntensity: 1.2 },
   'Qol tailored collar': { roughness: 0.78 },
   'Qol casual knit': { roughness: 0.78 },
   'Qol ivory blouse': { roughness: 0.7 },
@@ -122,14 +122,6 @@ function enhanceRealism(m) {
     m.normalMap = skinDetail; m.normalScale.set(0.16, 0.16);
     m.sheen = 0.18; m.sheenColor.set(0xffd9c4); m.sheenRoughness = 0.6;   // «персиковый пушок» на свету
     m.roughness = 0.58; m.needsUpdate = true;
-  } else if (EYE.test(m.name)) {
-    m.clearcoat = 1; m.clearcoatRoughness = 0.04; m.needsUpdate = true;      // влажный блеск
-  } else if (HAIR.test(m.name)) {
-    m.sheen = 0.45; m.sheenColor.set(0x8c6b50); m.sheenRoughness = 0.45; m.roughness = 0.5; m.needsUpdate = true;
-  } else if (FABRIC.test(m.name)) {
-    fabricDetail ||= makeDetailNormal(256, 22, 1.6, true);
-    m.normalMap = fabricDetail; m.normalScale.set(0.3, 0.3);
-    m.sheen = 0.3; m.sheenColor.set(0x3b4a5a); m.sheenRoughness = 0.6; m.needsUpdate = true;
   }
 }
 function tuneMaterials(root) {
@@ -203,10 +195,10 @@ const JACKET = {
   body: 'Qol_Business_Jacket_Body',
   shirt: 'Qol_Business_Ivory_Blouse',
   lapelWidth: 0.06,
-  lapelColor: '#1b1b20',
-  lapelEdge: '#4d4d55',
-  seamColor: '#060607',
-  buttonColor: '#0b0b0c',
+  lapelColor: '#1f2735',
+  lapelEdge: '#4a5a70',
+  seamColor: '#0d121a',
+  buttonColor: '#0d121a',
 };
 
 function addJacketDetails(root) {
