@@ -212,7 +212,7 @@ async function sign(text, stage) {
 let heroVisible = false, heroEnabled = true, heroRunning = false, heroVersion = 0;
 if (reducedMotion.matches) heroEnabled = false;
 async function startWelcome() {
-  if (!heroVisible || !heroEnabled || document.hidden || heroRunning) return;
+  if (!heroVisible || !heroEnabled || document.hidden || heroRunning || $('#trailerDialog')?.open) return;
   const version = ++heroVersion; heroRunning = true;
   const current = () => version === heroVersion && heroVisible && heroEnabled && !document.hidden;
   try {
@@ -227,6 +227,8 @@ async function startWelcome() {
   finally { if (version === heroVersion && !isPlaying()) heroRunning = false; }
 }
 function pauseWelcome() { heroVersion++; if (heroRunning) stop(); heroRunning = false; progress.onEnd(); }
+document.addEventListener('qol:trailer-open', pauseWelcome);
+document.addEventListener('qol:trailer-close', startWelcome);
 heroPlay.addEventListener('click', () => { heroEnabled = !heroEnabled; if (heroEnabled) startWelcome(); else pauseWelcome(); });
 new IntersectionObserver(entries => { heroVisible = entries[0].isIntersecting; if (heroVisible) startWelcome(); else pauseWelcome(); }, { threshold: .2 }).observe(heroStage);
 document.addEventListener('visibilitychange', () => { if (document.hidden) pauseWelcome(); else startWelcome(); });

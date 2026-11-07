@@ -10,7 +10,7 @@ const APP = process.env.APP === '1';
 
 await rm('dist', { recursive: true, force: true });
 await mkdir('dist', { recursive: true });
-for (const entry of ['index.html', 'styles.css', 'js', 'data', 'assets']) {
+for (const entry of ['index.html', 'styles.css', 'trailer.css', 'js', 'data', 'assets']) {
   await cp(`src/${entry}`, `dist/${entry}`, { recursive: true });
 }
 
