@@ -1,0 +1,265 @@
+{
+  "revision": "20261107-c",
+  "wordDecisions": [
+    {
+      "word": "Будет",
+      "label": "БУДЕТ",
+      "sourceEntryId": "761daeea41d97285",
+      "sourceSha256": "0caddcdf9bd19b2a2afa92da5fb891bfe32690b7c21a5409cf3f2644c265c666",
+      "sourceUrl": "https://signbridge.kz",
+      "motionSource": "signbridge"
+    },
+    {
+      "word": "Пожалуйста",
+      "label": "ПОЖАЛУЙСТА",
+      "sourceEntryId": "eeede0829766d36d",
+      "sourceSha256": "da606c710e90c4a2ae01a287b9bbca7d00a710f0613915ec6bd9a0455f9d730b",
+      "sourceUrl": "https://signbridge.kz",
+      "motionSource": "signbridge"
+    },
+    {
+      "word": "Вас",
+      "label": "ТЫ",
+      "substitution": "Вас → Ты, explicitly approved by user",
+      "sourceEntryId": "f521c34a9d34aa50",
+      "sourceSha256": "91ee0174512b727b43df9e35ca2bba2ead92add2c8bb24aad55c2cfac7890a8b",
+      "sourceUrl": "https://signbridge.kz",
+      "motionSource": "signbridge"
+    }
+  ],
+  "videoRefinements": [
+    {
+      "word": "Готова",
+      "source": "originals/Готова/14.mp4",
+      "sha256": "45b4103c96160300e093170b42f0720c0dbc8478a2866c1e1a0c6e53bd7140cb",
+      "start": 0.46578,
+      "end": 1.49716,
+      "sourceQuality": {
+        "frames": 32,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true
+      },
+      "metrics": {
+        "midpointP95": 0.029804272576269917,
+        "midpointMean": 0.007504829944142272,
+        "maxStep": 0.4861941446380304
+      },
+      "contact": {
+        "sourceIndexContactFrames": 13,
+        "maxWristCorrectionMetres": 0.022728295337018325,
+        "contactTarget": "observed left/right index fingertips only",
+        "fingerRotationsChanged": false,
+        "sourceStrongContactFrames": 10,
+        "beforeContactGapMetres": 0.02954264931409083,
+        "afterContactGapMetres": 0.00023306132446079638
+      },
+      "interpolatedHandFrames": 0,
+      "selectionCandidates": 15,
+      "sourceTakesReviewed": 25,
+      "method": "Five-frame symmetric landmark filter; measured skeletal retargeting; three-frame quaternion stabilization; measured index contact constraint for Готова only."
+    },
+    {
+      "word": "Здесь",
+      "source": "originals/Здесь/01.mp4",
+      "sha256": "1468b852e052bca7f6d45150e163590d93074782753840b454bdc83575fd9c83",
+      "start": 0.50179,
+      "end": 1.80645,
+      "sourceQuality": {
+        "frames": 40,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true
+      },
+      "metrics": {
+        "midpointP95": 0.03889230455654532,
+        "midpointMean": 0.00972971388682876,
+        "maxStep": 0.921345400337982
+      },
+      "contact": null,
+      "interpolatedHandFrames": 0,
+      "selectionCandidates": 20,
+      "sourceTakesReviewed": 25,
+      "method": "Five-frame symmetric landmark filter; measured skeletal retargeting; three-frame quaternion stabilization; measured index contact constraint for Готова only."
+    },
+    {
+      "word": "Страницы",
+      "source": "originals/Страницы/09.mp4",
+      "sha256": "bff80c6b17cf60c2e543b94f6e26cc7952725ead11ff572284b2301f79be84cc",
+      "start": 0.49871,
+      "end": 4.18916,
+      "sourceQuality": {
+        "frames": 112,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true
+      },
+      "metrics": {
+        "midpointP95": 0.0566822751325881,
+        "midpointMean": 0.011171463268199514,
+        "maxStep": 0.7022015217079334
+      },
+      "contact": null,
+      "interpolatedHandFrames": 0,
+      "selectionCandidates": 12,
+      "sourceTakesReviewed": 25,
+      "method": "Five-frame symmetric landmark filter; measured skeletal retargeting; three-frame quaternion stabilization; measured index contact constraint for Готова only."
+    },
+    {
+      "word": "Ручку",
+      "source": "originals/Ручку/22.mp4",
+      "sha256": "9df7c005e37972a117ece74da3805d76429210304aa65004d87be11980641798",
+      "start": 0.43428,
+      "end": 2.20478,
+      "sourceQuality": {
+        "frames": 54,
+        "hands": {
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true
+      },
+      "metrics": {
+        "midpointP95": 0.012717408426411976,
+        "midpointMean": 0.0026810921633173,
+        "maxStep": 0.4191979773262847
+      },
+      "contact": null,
+      "interpolatedHandFrames": 0,
+      "selectionCandidates": 25,
+      "sourceTakesReviewed": 25,
+      "method": "Five-frame symmetric landmark filter; measured skeletal retargeting; three-frame quaternion stabilization; measured index contact constraint for Готова only."
+    },
+    {
+      "word": "Для",
+      "source": "originals/Для/16.mp4",
+      "sha256": "52a78feb28371c8979a53f6c5506962da432e3f8b8c182c7f06ec59d6ec77953",
+      "start": 0.56694,
+      "end": 2.00095,
+      "sourceQuality": {
+        "frames": 44,
+        "hands": {
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true
+      },
+      "metrics": {
+        "midpointP95": 0.038971971345070376,
+        "midpointMean": 0.006749431280986079,
+        "maxStep": 0.561942824063029
+      },
+      "contact": null,
+      "interpolatedHandFrames": 0,
+      "selectionCandidates": 13,
+      "sourceTakesReviewed": 25,
+      "method": "Five-frame symmetric landmark filter; measured skeletal retargeting; three-frame quaternion stabilization; measured index contact constraint for Готова only."
+    },
+    {
+      "word": "Услуга",
+      "source": "originals/Услуга/14.mp4",
+      "sha256": "2afef8de926a68e3a6fff0c87e7097672d7046e9fefe7bea78808e5580657f35",
+      "start": 0.60058,
+      "end": 2.10202,
+      "sourceQuality": {
+        "frames": 46,
+        "hands": {
+          "left": {
+            "coverage": 0.978,
+            "maxGapFrames": 1
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true
+      },
+      "metrics": {
+        "midpointP95": 0.06098443856974104,
+        "midpointMean": 0.01338967239839105,
+        "maxStep": 1.0185685133539537
+      },
+      "contact": null,
+      "interpolatedHandFrames": 1,
+      "selectionCandidates": 2,
+      "sourceTakesReviewed": 25,
+      "method": "Five-frame symmetric landmark filter; measured skeletal retargeting; three-frame quaternion stabilization; measured index contact constraint for Готова only."
+    },
+    {
+      "word": "Эта",
+      "source": "originals/Эта/18.mp4",
+      "sha256": "9857695b4be0960c531e3463f9c12e9c4cd386a2b82873fbb9bf764fc9bdd9cb",
+      "start": 0.63201,
+      "end": 1.8295,
+      "sourceQuality": {
+        "frames": 37,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true
+      },
+      "metrics": {
+        "midpointP95": 0.04173666665304171,
+        "midpointMean": 0.010500897465217077,
+        "maxStep": 0.61324980588634
+      },
+      "contact": null,
+      "interpolatedHandFrames": 0,
+      "selectionCandidates": 20,
+      "sourceTakesReviewed": 25,
+      "method": "Five-frame symmetric landmark filter; measured skeletal retargeting; three-frame quaternion stabilization; measured index contact constraint for Готова only."
+    }
+  ],
+  "cameraModelChanged": false,
+  "meaningExclusions": [
+    "Карта: geographic-map meaning rejected",
+    "Готова: SignBridge variant rejected",
+    "Ручку: SignBridge variant rejected",
+    "Для: SignBridge variant rejected",
+    "Эта/Это: differing variant retained from user recording"
+  ],
+  "technicalReview": "Offline avatar renders and temporal/rig checks; linguistic approval remains with the user."
+}

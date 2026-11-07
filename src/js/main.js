@@ -203,9 +203,10 @@ const bankCatalog = fetch('data/bank-catalog.json?v=__BUILD__').then(r => { if(!
 async function sign(text, stage) {
   const example = SOURCE_EXAMPLES.find(e => e.texts.some(value => normalizeExample(value) === normalizeExample(text)));
   if (!example) throw new Error('example_only');
-  const missing = missingWords(example, await bankCatalog);
+  const catalog = await bankCatalog;
+  const missing = missingWords(example, catalog);
   if (missing.length) throw new Error('missing_recordings:' + missing.join(', '));
-  if (stage === studioStage) pauseWelcome();
+  if (stage === studioStage) { pauseWelcome(); renderMotionSources(example,catalog); }
   await avatarReady; mount(stage); await playSourceMotions(example.ids, progress); setHeroButton();
   return [{text, found:true}];
 }
@@ -267,6 +268,14 @@ sampleBtn.addEventListener('click', () => {
 examplesPanel.addEventListener('keydown', e => { if (e.key === 'Escape') { closeExamples(); sampleBtn.focus(); } });
 
 // Подпись под персонажем: слова из словаря подчёркнуты, остальные показываются по буквам.
+function renderMotionSources(example,catalog) {
+  const line=$('#motionAttribution');if(!line)return;
+  const words=new Set(example.words.map(normalizeExample));
+  const imported=catalog.entries.filter(e=>e.motionSource==='signbridge'&&words.has(normalizeExample(e.label)));
+  line.replaceChildren();line.hidden=!imported.length;if(!imported.length)return;
+  const link=document.createElement('a');link.href='https://signbridge.kz/';link.target='_blank';link.rel='noopener noreferrer';link.textContent='SignBridge';
+  line.append(link,' · '+imported.map(e=>e.label+(e.performedLabel&&e.performedLabel!==e.label?' → '+e.performedLabel:'')).join(', '));
+}
 function renderCaption(words) {
   const caption = $('#resultCaption');
   caption.replaceChildren(...words.flatMap((w, i) => {
