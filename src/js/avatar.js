@@ -368,6 +368,7 @@ function startSequence(timeline, callbacks = {}, returning = false) {
   motionAction = mixer.clipAction(timeline.clip);
   motionAction.setLoop(THREE.LoopOnce, 1); motionAction.clampWhenFinished = true;
   motionAction.reset().play();
+  motionAction.timeScale = callbacks.rate ?? 1;
   activeSequence = { timeline, callbacks, action: motionAction, returning };
   playing = !returning; curlTarget = null; mixer.update(0);
 }
@@ -375,7 +376,7 @@ function updateSequence() {
   const sequence = activeSequence;
   if (!sequence) return;
   const position = Math.min(sequence.timeline.duration, sequence.action.time);
-  sequence.callbacks.onFrame?.(null, position / sequence.timeline.duration);
+  sequence.callbacks.onFrame?.(null, position / sequence.timeline.duration, { time: position, words: sequence.timeline.words });
   if (activeSequence !== sequence || position < sequence.timeline.duration - 1e-5) return;
   const callback = sequence.callbacks.onEnd;
   clearMotion(); playing = false; restoreStanding(); callback?.();
@@ -433,6 +434,10 @@ export function stop({ immediate = false } = {}) {
 }
 
 export const isPlaying = () => playing;
+// Скорость проигрывания текущего жеста (только для запусков, где передан callbacks.rate).
+export function setPlaybackRate(rate) {
+  if (activeSequence && activeSequence.callbacks.rate !== undefined && motionAction) { activeSequence.callbacks.rate = rate; motionAction.timeScale = rate; }
+}
 
 const q = new THREE.Quaternion(), e = new THREE.Euler();
 function applyFingers(dt) {

@@ -2,7 +2,7 @@ import { connectTelegram } from './telegram.js?v=__BUILD__';
 import { BANK_3D_EXAMPLES, normalizeExample, wordMotionId, missingWords } from './bank-examples.js?v=__BUILD__';
 // Интерфейс страницы: язык, тема, анимации, примеры, студия.
 import { translations, LANGUAGES, DEFAULT_LANGUAGE } from './i18n.js?v=__BUILD__';
-import { loadAvatar, mount, followVisible, enableOrbit, playSourceMotions, stop, isPlaying } from './avatar-lazy.js?v=__BUILD__';
+import { loadAvatar, mount, followVisible, enableOrbit, playSourceMotions, stop, isPlaying, setPlaybackRate } from './avatar-lazy.js?v=__BUILD__';
 import { initCamera } from './camera.js?v=__BUILD__';
 
 const $ = s => document.querySelector(s);
@@ -45,14 +45,16 @@ function setLang(next) {
 }
 // выпадающий выбор языка (как на qol-ai.app)
 const langPicker = $('#langPicker'), langTrigger = $('#langTrigger'), langMenu = $('#langMenu');
+const langIsOpen = () => langPicker.classList.contains('open');
 function toggleLangMenu(open) {
-  langMenu.hidden = !open;
+  langMenu.inert = !open;
+  langMenu.setAttribute('aria-hidden', String(!open));
   langTrigger.setAttribute('aria-expanded', String(open));
   langPicker.classList.toggle('open', open);
 }
-langTrigger?.addEventListener('click', e => { e.stopPropagation(); toggleLangMenu(langMenu.hidden); });
-document.addEventListener('click', e => { if (langMenu && !langMenu.hidden && !langPicker.contains(e.target)) toggleLangMenu(false); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && langMenu && !langMenu.hidden) { toggleLangMenu(false); langTrigger.focus(); } });
+langTrigger?.addEventListener('click', e => { e.stopPropagation(); toggleLangMenu(!langIsOpen()); });
+document.addEventListener('click', e => { if (langPicker && langIsOpen() && !langPicker.contains(e.target)) toggleLangMenu(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && langPicker && langIsOpen()) { toggleLangMenu(false); langTrigger.focus(); } });
 $$('[data-lang]').forEach(btn => btn.addEventListener('click', () => {
   toggleLangMenu(false);
   if (btn.dataset.lang === lang) return;
@@ -214,6 +216,31 @@ const progress = { onFrame: (_, p) => { heroTrack.style.width = (p * 100) + '%';
 
 const SOURCE_EXAMPLES = BANK_3D_EXAMPLES.map(e => ({...e, ids:e.words.map(wordMotionId), texts:[e.text]}));
 const bankCatalog = fetch('data/bank-catalog.json?v=__BUILD__').then(r => { if(!r.ok) throw Error('catalog_unavailable'); return r.json(); });
+// скорость как на YouTube + подсветка текущего слова + клик по слову
+const SPEEDS = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
+let speed = Number(storage.get('qolai-speed')) || 1;
+if (!SPEEDS.includes(speed)) speed = 1;
+let currentExample = null;
+function highlightWord(index) {
+  $$('#resultCaption .word').forEach(el => el.classList.toggle('now', Number(el.dataset.i) === index));
+}
+function studioCallbacks(offset) {
+  return {
+    rate: speed,
+    onFrame: (_, __, info) => {
+      if (!info) return;
+      let idx = -1;
+      info.words.forEach((w, i) => { if (info.time >= w.start - 0.15) idx = i; });
+      highlightWord(idx < 0 ? -1 : idx + offset);
+    },
+    onEnd: () => highlightWord(-1),
+  };
+}
+async function playOneWord(index) {
+  if (!currentExample) return;
+  try { await avatarReady; mount(studioStage); await playSourceMotions([currentExample.ids[index]], studioCallbacks(index)); }
+  catch { $('#prototypeStatus').textContent = t('motionError'); }
+}
 async function sign(text, stage) {
   const example = SOURCE_EXAMPLES.find(e => e.texts.some(value => normalizeExample(value) === normalizeExample(text)));
   if (!example) throw new Error('example_only');
@@ -221,8 +248,12 @@ async function sign(text, stage) {
   const missing = missingWords(example, catalog);
   if (missing.length) throw new Error('missing_recordings:' + missing.join(', '));
   if (stage === studioStage) { pauseWelcome(); }
-  await avatarReady; mount(stage); await playSourceMotions(example.ids, progress); setHeroButton();
-  return [{text, found:true}];
+  await avatarReady; mount(stage);
+  currentExample = example;
+  if (stage === studioStage) await playSourceMotions(example.ids, studioCallbacks(0));
+  else await playSourceMotions(example.ids, progress);
+  setHeroButton();
+  return example.words.map(w => ({ text: w, found: true }));
 }
 let heroVisible = false, heroEnabled = true, heroRunning = false, heroVersion = 0;
 if (reducedMotion.matches) heroEnabled = false;
@@ -285,10 +316,13 @@ examplesPanel.addEventListener('keydown', e => { if (e.key === 'Escape') { close
 function renderCaption(words) {
   const caption = $('#resultCaption');
   caption.replaceChildren(...words.flatMap((w, i) => {
-    const span = document.createElement('span');
+    const span = document.createElement('button');
+    span.type = 'button';
     span.textContent = w.text;
-    if (w.found) span.className = 'in-dict';
-    return i ? [' ', span] : [span];
+    span.className = 'word';
+    span.dataset.i = i;
+    span.addEventListener('click', () => playOneWord(i));
+    return [span];
   }));
 }
 
@@ -314,6 +348,27 @@ async function generate() {
   catch { showStudio('empty'); $('#prototypeStatus').textContent = t('motionError'); }
 }
 $('#generateBtn').addEventListener('click', generate);
+const speedPicker = $('#speedPicker'), speedBtn = $('#speedBtn'), speedMenu = $('#speedMenu');
+function renderSpeed() {
+  $('#speedLabel').textContent = speed === 1 ? '1×' : speed + '×';
+  $$('#speedMenu .speed-opt').forEach(b => { const on = Number(b.dataset.rate) === speed; b.classList.toggle('active', on); b.setAttribute('aria-checked', String(on)); });
+}
+for (const r of SPEEDS) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'speed-opt'; b.dataset.rate = r; b.setAttribute('role', 'menuitemradio');
+  b.textContent = r === 1 ? t('speedNormal') : r + '×';
+  if (r === 1) b.dataset.i18n = 'speedNormal';
+  b.addEventListener('click', () => { speed = r; storage.set('qolai-speed', String(r)); setPlaybackRate(r); renderSpeed(); toggleSpeed(false); });
+  speedMenu.append(b);
+}
+function toggleSpeed(open) {
+  speedMenu.inert = !open; speedMenu.setAttribute('aria-hidden', String(!open));
+  speedBtn.setAttribute('aria-expanded', String(open)); speedPicker.classList.toggle('open', open);
+}
+speedBtn.addEventListener('click', e => { e.stopPropagation(); toggleSpeed(!speedPicker.classList.contains('open')); });
+document.addEventListener('click', e => { if (!speedPicker.contains(e.target)) toggleSpeed(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleSpeed(false); });
+renderSpeed();
 $('#replayBtn').addEventListener('click', () => sign(input.value, studioStage).catch(()=>{ $('#prototypeStatus').textContent=t('motionError'); }));
 
 // ---------- камера ----------
@@ -358,6 +413,10 @@ requestAnimationFrame(() => requestAnimationFrame(() => html.classList.remove('i
 
 // ---------- интерактив: ripple на кнопках, полоса прокрутки, подсветка раздела в меню ----------
 (() => {
+  $$('.btn.primary').forEach(b => b.addEventListener('pointermove', e => {
+    const r = b.getBoundingClientRect();
+    b.style.setProperty('--mx', (e.clientX - r.left) + 'px'); b.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  }));
   const BTN = '.btn,.generate-btn,.cam-btn,.mode-tab,.result-actions button,.composer-head button,.cam-chip,.lang-trigger,.lang-option';
   document.addEventListener('pointerdown', e => {
     const b = e.target.closest(BTN);
@@ -384,12 +443,24 @@ requestAnimationFrame(() => requestAnimationFrame(() => html.classList.remove('i
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   update();
 
-  const links = $$('.nav-links a[href^="#"]:not([data-open-tab])');
-  const map = new Map(links.map(a => [document.querySelector(a.getAttribute('href')), a]).filter(([s]) => s));
-  if (map.size && 'IntersectionObserver' in window) {
+  const links = $$('.nav-links a[href^="#"]');
+  const tabs = $('.mode-tabs');
+  let section = null;
+  const paint = () => {
+    const tab = tabs?.dataset.active === 'camera' ? 'camera' : 'video';
+    links.forEach(a => {
+      const href = a.getAttribute('href');
+      const own = a.dataset.openTab;
+      const on = href === section && (href !== '#studio' || (own ? own === tab && tab === 'camera' : tab === 'video'));
+      a.classList.toggle('is-active', on);
+    });
+  };
+  if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(entries => {
-      entries.forEach(en => { if (en.isIntersecting) links.forEach(a => a.classList.toggle('is-active', a === map.get(en.target))); });
+      entries.forEach(en => { if (en.isIntersecting) { section = '#' + en.target.id; paint(); } });
     }, { rootMargin: '-45% 0px -50% 0px' });
-    map.forEach((_, s) => io.observe(s));
+    new Set(links.map(a => a.getAttribute('href'))).forEach(h => { const s = document.querySelector(h); if (s) io.observe(s); });
   }
+  links.forEach(a => a.addEventListener('click', () => { section = a.getAttribute('href'); setTimeout(paint, 0); }));
+  if (tabs) new MutationObserver(paint).observe(tabs, { attributes: true, attributeFilter: ['data-active'] });
 })();

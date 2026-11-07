@@ -19,3 +19,4 @@ export function loadAvatar(url,callbacks={}){
 export const playSourceMotions=async(...args)=>(await ready()).playSourceMotions(...args);
 export const stop=(...args)=>avatar?.stop(...args);
 export const isPlaying=()=>avatar?.isPlaying()||false;
+export const setPlaybackRate=(...args)=>avatar?.setPlaybackRate(...args);
