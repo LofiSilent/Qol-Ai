@@ -35,7 +35,7 @@
       <div class="nav-actions">
         <div class="lang-picker" id="langPicker">
           <button class="lang-trigger" id="langTrigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="langMenu" aria-label="Language"><span id="langCurrent">ҚАЗ</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
-          <div class="lang-menu" id="langMenu" role="listbox" aria-label="Language" hidden>
+          <div class="lang-menu" id="langMenu" role="listbox" aria-label="Language" aria-hidden="true" inert>
             <button class="lang-option active" type="button" role="option" data-lang="kk"><b>ҚАЗ</b><span>Қазақша</span></button>
             <button class="lang-option" type="button" role="option" data-lang="ru"><b>РУС</b><span>Русский</span></button>
             <button class="lang-option" type="button" role="option" data-lang="en"><b>ENG</b><span>English</span></button>
@@ -56,7 +56,7 @@
         <h1><span data-i18n="heroLine1">Текст становится</span><br><em data-i18n="heroLine2">понятным.</em></h1>
         <p data-i18n="heroText">Введите текст — 3D-персонаж покажет его на языке жестов.</p>
         <div class="hero-actions">
-          <a class="btn primary magnetic" href="#studio"><span data-i18n="tryNow">Попробовать сейчас</span><span class="arrow">↗</span></a>
+          <a class="btn primary" href="#studio"><span data-i18n="tryNow">Попробовать сейчас</span><span class="arrow">↗</span></a>
           <a class="text-link" href="#trailer" data-trailer-flight><span class="play">▶</span><span data-i18n="watchDemo">Как это работает</span></a>
         </div>
       </div>
@@ -112,7 +112,7 @@
           <div class="preview-panel" id="previewPanel">
             <div class="preview-empty" id="previewEmpty"><span class="hand-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="4"/><path d="m10 8 6 4-6 4Z"/></svg></span><h3 data-i18n="previewTitle">Здесь появится 3D-персонаж</h3><p data-i18n="previewText">Введите текст и нажмите «Показать жестами»</p></div>
             <div class="generating" id="generating"><div class="scan-avatar"><div class="scan-line"></div><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="4"/><path d="m10 8 6 4-6 4Z"/></svg></span></div><strong data-i18n="processing">Подбираем жесты…</strong><div class="progress"><i></i></div><small id="progressText">0%</small></div>
-            <div class="result" id="result"><div class="result-stage"><div class="stage3d" id="studioStage"></div><div class="result-caption" id="resultCaption"></div></div><div class="result-actions"><button id="replayBtn">↻ <span data-i18n="replay">Повторить</span></button></div></div>
+            <div class="result" id="result"><div class="result-stage"><div class="stage3d" id="studioStage"></div><div class="result-caption" id="resultCaption"></div></div><div class="result-actions"><button id="replayBtn">↻ <span data-i18n="replay">Повторить</span></button><div class="speed-picker" id="speedPicker"><button id="speedBtn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="speedMenu"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg><span id="speedLabel">1×</span></button><div class="speed-menu" id="speedMenu" role="menu" aria-hidden="true" inert><div class="speed-title" data-i18n="speed">Скорость</div></div></div></div></div>
           </div>
         </div>
         <div class="studio-grid cam-grid reveal" id="panelCamera" role="tabpanel" aria-labelledby="tabCamera" hidden>
@@ -203,7 +203,6 @@
             <input class="trailer-volume" id="trailerVolume" type="range" min="0" max="1" step="0.05" value="1" aria-label="Громкость">
           </div>
           <div class="trailer-options">
-            <span class="trailer-quality" aria-label="1080p">HD</span>
             <select class="trailer-speed" id="trailerSpeed" aria-label="Скорость воспроизведения"><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option></select>
             <button class="trailer-control" id="trailerFullscreen" type="button" aria-label="Полный экран"><svg class="trailer-icon-expand" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5"/></svg><svg class="trailer-icon-contract" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h5V3M21 8h-5V3M8 21v-5H3M16 21v-5h5"/></svg></button>
           </div>

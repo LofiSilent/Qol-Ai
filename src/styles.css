@@ -495,3 +495,58 @@ filter:drop-shadow(0 0 5px rgba(198,159,122,1)) drop-shadow(0 0 12px rgba(198,15
 .studio-section .generate-btn{height:54px;min-height:54px;border-radius:12px;font-weight:700;font-size:14px;letter-spacing:.01em;background:linear-gradient(135deg,#d4b08c,#C69F7A 55%,#b98d66);color:#0E3D66;border:1px solid transparent;box-shadow:0 8px 24px color-mix(in srgb,#C69F7A 38%,transparent),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .25s}
 .studio-section .generate-btn:hover{filter:none;transform:translateY(-3px);box-shadow:0 14px 32px color-mix(in srgb,#C69F7A 50%,transparent),inset 0 1px 0 rgba(255,255,255,.4)}
 .studio-section .generate-btn:active{transform:scale(.98)}
+
+/* ---------- язык: пилюля раскрывается вниз как на qol-ai.app ---------- */
+.lang-picker{position:relative;isolation:isolate;z-index:60;width:98px;height:46px;display:block}
+.lang-picker:before{content:"";position:absolute;top:0;right:0;width:100%;height:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:23px;background:var(--surface);z-index:0;pointer-events:none;transition:width .45s cubic-bezier(.22,1,.36,1),height .45s cubic-bezier(.22,1,.36,1),border-radius .45s,box-shadow .35s,border-color .25s,background .25s}
+.lang-picker:hover:before{border-color:var(--lime)}
+.lang-picker.open:before{width:184px;height:calc(100% + 142px);border-radius:24px;border-color:var(--lime);box-shadow:0 20px 54px rgba(8,30,52,.32)}
+.lang-trigger,.lang-trigger:hover{position:relative;z-index:1;width:100%;height:46px;min-height:46px;padding:0 16px;gap:9px;border:0;border-radius:23px;background:transparent;box-shadow:none;font:700 14px Manrope,sans-serif}
+.lang-trigger svg{width:13px;height:13px}
+.lang-menu,.lang-menu[hidden]{display:block;position:absolute;z-index:1;top:46px;right:0;width:184px;min-width:0;padding:2px 8px 8px;border:0;border-radius:0;background:transparent;box-shadow:none;animation:none;visibility:hidden;pointer-events:none;transition:visibility 0s .3s}
+.lang-picker.open .lang-menu{visibility:visible;pointer-events:auto;transition:visibility 0s}
+.lang-option{min-height:42px;font-size:13px;opacity:0;transform:translateY(-8px);transition:opacity .25s,transform .35s cubic-bezier(.22,1,.36,1),background .18s}
+.lang-picker.open .lang-option{opacity:1;transform:none}
+.lang-picker.open .lang-option:nth-child(1){transition-delay:.12s,.12s,0s}
+.lang-picker.open .lang-option:nth-child(2){transition-delay:.18s,.18s,0s}
+.lang-picker.open .lang-option:nth-child(3){transition-delay:.24s,.24s,0s}
+.lang-option b{font-size:14px}
+@media(max-width:700px){.lang-picker{width:88px;height:42px}.lang-trigger{height:42px;min-height:42px;font-size:13px}.lang-menu{top:42px;width:164px}.lang-picker.open:before{width:164px;height:calc(100% + 140px)}}
+
+/* ---------- скорость проигрывания (как на YouTube) ---------- */
+.result-actions{display:flex;align-items:center;gap:10px}
+.result-actions #replayBtn{flex:1}
+.speed-picker{position:relative;flex:none}
+.result-actions #speedBtn{flex:none;display:flex;align-items:center;gap:8px;min-width:84px;justify-content:center}
+#speedBtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.speed-picker.open #speedBtn svg,#speedBtn:hover svg{transform:rotate(90deg)}
+#speedLabel{font-weight:800;min-width:2.4ch;text-align:left}
+.speed-menu{position:absolute;z-index:30;right:0;bottom:calc(100% + 10px);width:214px;padding:8px;border-radius:16px;background:rgba(10,30,50,.96);color:#F7F5EF;border:1px solid rgba(247,245,239,.14);box-shadow:0 22px 56px rgba(2,10,20,.5);backdrop-filter:blur(14px);opacity:0;visibility:hidden;pointer-events:none;transform:translateY(10px) scale(.96);transform-origin:bottom right;transition:opacity .2s,transform .28s cubic-bezier(.22,1,.36,1),visibility 0s .28s}
+.speed-picker.open .speed-menu{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:opacity .2s,transform .28s cubic-bezier(.22,1,.36,1),visibility 0s}
+.speed-title{padding:8px 10px 8px;font:700 11px Manrope,sans-serif;letter-spacing:.04em;opacity:.6}
+.result-actions .speed-opt,.result-actions .speed-opt:hover{display:flex;align-items:center;justify-content:space-between;flex:none;width:100%;min-height:40px;padding:10px 12px;border:0;border-radius:10px;background:transparent;color:#F7F5EF;font:600 13px Manrope,sans-serif;text-align:left;box-shadow:none;transform:none}
+.result-actions .speed-opt:hover{background:rgba(247,245,239,.1)}
+.result-actions .speed-opt.active{background:color-mix(in srgb,#C69F7A 28%,transparent)}
+.speed-opt.active:after{content:"✓";color:#d9b68d;font-weight:800}
+
+/* ---------- подпись: слова — кнопки, текущее слово подсвечивается ---------- */
+.result-caption{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;width:max-content;max-width:92%;padding:8px;background:rgba(8,20,28,.55);backdrop-filter:blur(10px);border-radius:16px}
+.result-caption .word{padding:6px 12px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(255,255,255,.08);color:#fff;font:600 13px Manrope,sans-serif;cursor:pointer;transition:background .2s,color .2s,transform .25s cubic-bezier(.22,1,.36,1),box-shadow .25s,border-color .2s}
+.result-caption .word:hover{background:rgba(255,255,255,.22);transform:translateY(-2px)}
+.result-caption .word.now{background:#C69F7A;border-color:#C69F7A;color:#0E3D66;transform:translateY(-3px) scale(1.07);box-shadow:0 8px 20px rgba(198,159,122,.5)}
+.result-caption .word:focus-visible{outline:2px solid #C69F7A;outline-offset:2px}
+
+/* ---------- «Попробовать сейчас»: без тряски, живая подсветка ---------- */
+.btn.primary{--mx:50%;--my:50%;background:linear-gradient(110deg,#d4b08c,#C69F7A 35%,#e2c4a3 55%,#C69F7A 75%,#b98d66);background-size:240% 100%;background-position:0 0;gap:22px;padding:15px 16px 15px 24px;border-radius:999px}
+.btn.primary:before{content:"";position:absolute;inset:0;background:radial-gradient(150px circle at var(--mx) var(--my),rgba(255,255,255,.5),transparent 65%);opacity:0;transition:opacity .3s;pointer-events:none}
+.btn.primary:hover{background-position:100% 0;transition:background-position 1.2s ease,transform .22s cubic-bezier(.22,1,.36,1),box-shadow .25s;animation:btnBreath 2.2s ease-in-out infinite}
+.btn.primary:hover:before{opacity:1}
+@keyframes btnBreath{0%,100%{box-shadow:0 14px 32px color-mix(in srgb,#C69F7A 45%,transparent),0 0 0 0 rgba(198,159,122,.45)}50%{box-shadow:0 18px 40px color-mix(in srgb,#C69F7A 60%,transparent),0 0 0 9px rgba(198,159,122,0)}}
+.btn.primary .arrow{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:rgba(14,61,102,.12);font-size:17px;line-height:1;transition:transform .45s cubic-bezier(.22,1,.36,1),background .3s,color .3s}
+.btn.primary:hover .arrow{transform:rotate(45deg) scale(1.08);background:#0E3D66;color:#e8cfae}
+@media(prefers-reduced-motion:reduce){.btn.primary:hover{animation:none}}
+
+.btn.primary>*{position:relative;z-index:1}
+.btn.primary:before{background:radial-gradient(150px circle at var(--mx) var(--my),rgba(255,255,255,.42),transparent 65
+.btn.primary>*{position:relative;z-index:1}
+.btn.primary:before{background:radial-gradient(150px circle at var(--mx) var(--my),rgba(255,255,255,.42),transparent 65%)}

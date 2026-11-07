@@ -56,3 +56,16 @@
 .trailer-section:focus{outline:none}
 @keyframes trailerWind{from{transform:translateY(165vh) scaleY(.65)}to{transform:translateY(-80vh) scaleY(1.15)}}
 @media(prefers-reduced-motion:reduce){.trailer-flight{display:none}.trailer-flight i{animation:none}}
+
+/* ---------- плеер трейлера: минимализм, без значков и логотипа поверх видео ---------- */
+.trailer-quality,.trailer-player-brand,.trailer-player-heading{display:none!important}
+.trailer-player-header{padding:14px 18px 56px;background:linear-gradient(rgba(3,9,16,.55),transparent)}
+.trailer-close{width:38px;height:38px;border:0;background:rgba(255,255,255,.14);transition:background .2s,transform .25s}
+.trailer-close:hover{background:rgba(255,255,255,.26);transform:rotate(90deg)}
+.trailer-center-play{width:72px;height:72px;border:0;background:rgba(255,255,255,.16);backdrop-filter:blur(10px);color:#fff;transition:transform .3s cubic-bezier(.22,1,.36,1),background .25s,opacity .3s}
+.trailer-center-play:hover{background:rgba(255,255,255,.3);color:#fff;transform:translate(-50%,-50%) scale(1.08)}
+.trailer-controls{left:0;right:0;bottom:0;transform:none;width:100%;padding:56px 22px 14px;border:0;border-radius:0;box-shadow:none;backdrop-filter:none;background:linear-gradient(transparent,rgba(3,9,16,.82))}
+.trailer-speed{border:0;background:transparent;color:#F7F5EF;font-weight:600;padding:4px 2px;cursor:pointer}
+.trailer-speed:hover{color:#e8cfae}
+.trailer-time{opacity:.8;font-size:12px}
+@media(max-width:760px){.trailer-controls{width:100%;bottom:0;padding:44px 12px 10px;border-radius:0}}
