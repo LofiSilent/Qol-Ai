@@ -380,4 +380,3 @@ html.i18n-pending .nav-wrap .lang-switch button,html.i18n-pending .nav-wrap .the
 
 .cam-controls{flex-wrap:wrap}.cam-controls .cam-status{color:var(--text);opacity:1;flex-basis:100%;min-height:1.6em;line-height:1.6}.cam-capture-hint{margin:12px 0 0;color:var(--muted);font-size:12px;line-height:1.6}#camCapture[aria-pressed="true"]{background:var(--orange);color:#102438;border-color:var(--orange)}
 
-.motion-attribution{margin:8px 0;font:500 11px/1.5 Manrope,sans-serif;color:var(--muted)}.motion-attribution a{color:inherit;text-underline-offset:3px}.motion-attribution[hidden]{display:none}
