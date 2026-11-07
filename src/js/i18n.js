@@ -5,6 +5,13 @@ export const DEFAULT_LANGUAGE = 'kk';
 
 export const translations = {
   kk: {
+    trailerKicker: "ТРЕЙЛЕР",
+    trailerTitle: "Qol AI қалай жұмыс істейді",
+    trailerWatch: "Трейлерді көру",
+    trailerClose: "Трейлерді жабу",
+    trailerPlayFallback: "Көруді бастау үшін ойнатқыштағы ▶ түймесін басыңыз.",
+    trailerError: "Трейлер жүктелмеді. Бетті жаңартып, қайталаңыз.",
+
     navStudio: "Студия",
     navHow: "Қалай жұмыс істейді",
     navImpact: "Мүмкіндіктер",
@@ -84,6 +91,13 @@ export const translations = {
     tabCamera: "Ымдарды тану",
   },
   ru: {
+    trailerKicker: "ТРЕЙЛЕР",
+    trailerTitle: "Qol AI в действии",
+    trailerWatch: "Смотреть трейлер",
+    trailerClose: "Закрыть трейлер",
+    trailerPlayFallback: "Нажмите ▶ в плеере, чтобы начать просмотр.",
+    trailerError: "Не удалось загрузить трейлер. Обновите страницу и попробуйте ещё раз.",
+
     navStudio: "Студия",
     navHow: "Как это работает",
     navImpact: "Возможности",
@@ -163,6 +177,13 @@ export const translations = {
     tabCamera: "Распознать жесты",
   },
   en: {
+    trailerKicker: "TRAILER",
+    trailerTitle: "Qol AI in action",
+    trailerWatch: "Watch the trailer",
+    trailerClose: "Close trailer",
+    trailerPlayFallback: "Press ▶ in the player to start watching.",
+    trailerError: "Could not load the trailer. Refresh the page and try again.",
+
     navStudio: "Studio",
     navHow: "How it works",
     navImpact: "Features",
