@@ -1,0 +1,232 @@
+{
+  "revision": "20261107-d",
+  "scope": [
+    "Минуты",
+    "Здесь",
+    "Страницы",
+    "Услуга",
+    "Для",
+    "Эта"
+  ],
+  "cameraModelChanged": false,
+  "technicalReview": "Source video frame review, offline avatar renders, timing and quaternion continuity checks. User review is still needed for sign meaning.",
+  "words": [
+    {
+      "word": "Минуты",
+      "score": 0.05663949782814276,
+      "source": "originals/Минуты/15.mp4",
+      "sha256": "338152425d340889ac9e64993b838b99c5c45e6989a79c17ce23c09907ad752d",
+      "start": 0.53385,
+      "end": 2.23549,
+      "sourceQuality": {
+        "frames": 52,
+        "hands": {
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true
+      },
+      "metrics": {
+        "midpointP95": 0.01594371622935269,
+        "maxStep": 0.29361163800282286
+      },
+      "contact": null,
+      "interpolatedHandFrames": 0,
+      "before": {
+        "midpointP95": 0.035824584247019196,
+        "maxStep": 0.6022788224777066
+      },
+      "method": "Existing source take retained except minutes; isolated quaternion outlier suppression and five-frame symmetric rotation filtering; index phalange contact for Эта."
+    },
+    {
+      "word": "Здесь",
+      "score": 0.10518133514599018,
+      "source": "originals/Здесь/01.mp4",
+      "sha256": "1468b852e052bca7f6d45150e163590d93074782753840b454bdc83575fd9c83",
+      "start": 0.50179,
+      "end": 1.80645,
+      "sourceQuality": {
+        "frames": 40,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true
+      },
+      "metrics": {
+        "midpointP95": 0.02903382902097043,
+        "maxStep": 0.6026616027692965
+      },
+      "contact": null,
+      "interpolatedHandFrames": 0,
+      "before": {
+        "midpointP95": 0.03950854161334121,
+        "maxStep": 0.9480180242562548
+      },
+      "method": "Existing source take retained except minutes; isolated quaternion outlier suppression and five-frame symmetric rotation filtering; index phalange contact for Эта."
+    },
+    {
+      "word": "Страницы",
+      "score": 0.13754031533192704,
+      "source": "originals/Страницы/09.mp4",
+      "sha256": "bff80c6b17cf60c2e543b94f6e26cc7952725ead11ff572284b2301f79be84cc",
+      "start": 0.49871,
+      "end": 4.18916,
+      "sourceQuality": {
+        "frames": 112,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true
+      },
+      "metrics": {
+        "midpointP95": 0.039870637988497624,
+        "maxStep": 0.5976133788811393
+      },
+      "contact": null,
+      "interpolatedHandFrames": 0,
+      "before": {
+        "midpointP95": 0.05718830256903104,
+        "maxStep": 0.7176821487222005
+      },
+      "method": "Existing source take retained except minutes; isolated quaternion outlier suppression and five-frame symmetric rotation filtering; index phalange contact for Эта."
+    },
+    {
+      "word": "Услуга",
+      "score": 0.14095784576775686,
+      "source": "originals/Услуга/14.mp4",
+      "sha256": "2afef8de926a68e3a6fff0c87e7097672d7046e9fefe7bea78808e5580657f35",
+      "start": 0.60058,
+      "end": 2.10202,
+      "sourceQuality": {
+        "frames": 46,
+        "hands": {
+          "left": {
+            "coverage": 0.978,
+            "maxGapFrames": 1
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true
+      },
+      "metrics": {
+        "midpointP95": 0.038776262037221065,
+        "maxStep": 0.600968655203122
+      },
+      "contact": null,
+      "interpolatedHandFrames": 1,
+      "before": {
+        "midpointP95": 0.061422362753753026,
+        "maxStep": 1.0193834094938057
+      },
+      "method": "Existing source take retained except minutes; isolated quaternion outlier suppression and five-frame symmetric rotation filtering; index phalange contact for Эта."
+    },
+    {
+      "word": "Для",
+      "score": 0.08729097393548796,
+      "source": "originals/Для/16.mp4",
+      "sha256": "52a78feb28371c8979a53f6c5506962da432e3f8b8c182c7f06ec59d6ec77953",
+      "start": 0.56694,
+      "end": 2.00095,
+      "sourceQuality": {
+        "frames": 44,
+        "hands": {
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true
+      },
+      "metrics": {
+        "midpointP95": 0.02442481476448535,
+        "maxStep": 0.4672176547343969
+      },
+      "contact": null,
+      "interpolatedHandFrames": 0,
+      "before": {
+        "midpointP95": 0.03932460366499586,
+        "maxStep": 0.5632489968778901
+      },
+      "method": "Existing source take retained except minutes; isolated quaternion outlier suppression and five-frame symmetric rotation filtering; index phalange contact for Эта."
+    },
+    {
+      "word": "Эта",
+      "score": 0.125159842464165,
+      "source": "originals/Эта/18.mp4",
+      "sha256": "9857695b4be0960c531e3463f9c12e9c4cd386a2b82873fbb9bf764fc9bdd9cb",
+      "start": 0.63201,
+      "end": 1.8295,
+      "sourceQuality": {
+        "frames": 37,
+        "hands": {
+          "left": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          },
+          "right": {
+            "coverage": 1,
+            "maxGapFrames": 0
+          }
+        },
+        "issues": [],
+        "reviewRequired": true
+      },
+      "metrics": {
+        "midpointP95": 0.03736744167282286,
+        "maxStep": 0.435250581523214
+      },
+      "contact": {
+        "sourceIndexContactFrames": 16,
+        "maxWristCorrectionMetres": 0.05045825145722018,
+        "contactTarget": "observed left/right index phalanges",
+        "fingerRotationsChanged": false,
+        "sourceStrongContactFrames": 13,
+        "fullyConstrainedTimes": [
+          0.29937,
+          0.33264000000000005,
+          0.3659,
+          0.39915999999999996,
+          0.4324300000000001,
+          0.8648500000000001,
+          0.89812,
+          0.9313800000000001,
+          0.9646399999999999,
+          0.9979100000000001
+        ],
+        "surfaceGapMetres": 0.006,
+        "beforeContactGapMetres": 0.08785308622202795,
+        "afterContactGapMetres": 0.009623511657298063
+      },
+      "interpolatedHandFrames": 0,
+      "before": {
+        "midpointP95": 0.04299004709804673,
+        "maxStep": 0.6185883770194762
+      },
+      "method": "Existing source take retained except minutes; isolated quaternion outlier suppression and five-frame symmetric rotation filtering; index phalange contact for Эта."
+    }
+  ]
+}
