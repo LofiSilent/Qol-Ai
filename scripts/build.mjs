@@ -50,6 +50,12 @@ html = html.replace(/\s*<link rel="preconnect"[^>]*>/g, '')
   .replace('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js', './vendor/three/build/three.module.js')
   .replace('https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/', './vendor/three/examples/jsm/')
   .replace('https://cdn.jsdelivr.net/npm/meshoptimizer@1.3.0/meshopt_decoder.mjs', './vendor/meshoptimizer/meshopt_decoder.mjs');
+// Start the 3D model and the WebGL module graph downloading in parallel with main.js,
+// instead of after the whole import chain (main.js -> avatar.js -> three -> GLTFLoader) has been fetched.
+const earlyModules = ['js/avatar.js?v=__BUILD__', 'js/avatar-download.js?v=__BUILD__', 'js/motion-sequence.js?v=__BUILD__',
+  'vendor/three/build/three.module.js', 'vendor/three/examples/jsm/loaders/GLTFLoader.js', 'vendor/three/examples/jsm/utils/BufferGeometryUtils.js',
+  'vendor/three/examples/jsm/environments/RoomEnvironment.js', 'vendor/meshoptimizer/meshopt_decoder.mjs'];
+html = html.replace('</head>', `  <link rel="preload" as="fetch" href="${modelPath}" crossorigin>\n${earlyModules.map(h => `  <link rel="modulepreload" href="${h}">`).join('\n')}\n</head>`);
 if (APP) html = html.replace('<html lang="kk"', '<html lang="kk" class="native-app"');
 if (/cdn\.jsdelivr\.net|fonts\.googleapis\.com|<script src="https:\/\/telegram/.test(html)) throw new Error('Initial HTML still depends on external services');
 await writeFile('dist/index.html', html);

@@ -464,3 +464,11 @@ requestAnimationFrame(() => requestAnimationFrame(() => html.classList.remove('i
   links.forEach(a => a.addEventListener('click', () => { section = a.getAttribute('href'); setTimeout(paint, 0); }));
   if (tabs) new MutationObserver(paint).observe(tabs, { attributes: true, attributeFilter: ['data-active'] });
 })();
+
+// декоративные анимации блоков работают только в зоне видимости — не мешают загрузке 3D
+(() => {
+  const live = $$('.steps, .stat-cards');
+  if (!live.length || !('IntersectionObserver' in window)) { live.forEach(el => el.classList.add('live')); return; }
+  const io = new IntersectionObserver(entries => entries.forEach(en => en.target.classList.toggle('live', en.isIntersecting)), { rootMargin: '80px' });
+  live.forEach(el => io.observe(el));
+})();
