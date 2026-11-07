@@ -33,8 +33,13 @@
         <a href="#impact" data-i18n="navImpact">Возможности</a>
       </div>
       <div class="nav-actions">
-        <div class="lang-switch" aria-label="Language">
-          <button class="active" data-lang="kk">ҚАЗ</button><button data-lang="ru">РУС</button><button data-lang="en">ENG</button>
+        <div class="lang-picker" id="langPicker">
+          <button class="lang-trigger" id="langTrigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="langMenu" aria-label="Language"><span id="langCurrent">ҚАЗ</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
+          <div class="lang-menu" id="langMenu" role="listbox" aria-label="Language" hidden>
+            <button class="lang-option active" type="button" role="option" data-lang="kk"><b>ҚАЗ</b><span>Қазақша</span></button>
+            <button class="lang-option" type="button" role="option" data-lang="ru"><b>РУС</b><span>Русский</span></button>
+            <button class="lang-option" type="button" role="option" data-lang="en"><b>ENG</b><span>English</span></button>
+          </div>
         </div>
         <button class="theme-toggle" id="themeToggle" aria-label="Switch theme">
           <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>

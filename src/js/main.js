@@ -38,11 +38,23 @@ function setLang(next) {
   $$('[data-i18n]').forEach(el => { const v = t(el.dataset.i18n); if (v) el.textContent = v; });
   $$('[data-i18n-html]').forEach(el => { const v = t(el.dataset.i18nHtml); if (v) el.innerHTML = v; });
   $$('[data-i18n-placeholder]').forEach(el => { el.placeholder = t(el.dataset.i18nPlaceholder); });
-  $$('[data-lang]').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  $$('[data-lang]').forEach(b => { b.classList.toggle('active', b.dataset.lang === lang); b.setAttribute('aria-selected', String(b.dataset.lang === lang)); });
+  const cur = $('#langCurrent'); if (cur) cur.textContent = { kk: 'ҚАЗ', ru: 'РУС', en: 'ENG' }[lang];
   document.title = t('pageTitle');
   camera?.refresh();
 }
+// выпадающий выбор языка (как на qol-ai.app)
+const langPicker = $('#langPicker'), langTrigger = $('#langTrigger'), langMenu = $('#langMenu');
+function toggleLangMenu(open) {
+  langMenu.hidden = !open;
+  langTrigger.setAttribute('aria-expanded', String(open));
+  langPicker.classList.toggle('open', open);
+}
+langTrigger?.addEventListener('click', e => { e.stopPropagation(); toggleLangMenu(langMenu.hidden); });
+document.addEventListener('click', e => { if (langMenu && !langMenu.hidden && !langPicker.contains(e.target)) toggleLangMenu(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && langMenu && !langMenu.hidden) { toggleLangMenu(false); langTrigger.focus(); } });
 $$('[data-lang]').forEach(btn => btn.addEventListener('click', () => {
+  toggleLangMenu(false);
   if (btn.dataset.lang === lang) return;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) { setLang(btn.dataset.lang); return; }
   html.classList.add('lang-switching');
@@ -343,3 +355,41 @@ $$('a[href="#studio"]:not([data-open-tab])').forEach(a => a.addEventListener('cl
 
 // страница показывается только после применения языка и темы — без вспышки старых значений
 requestAnimationFrame(() => requestAnimationFrame(() => html.classList.remove('i18n-pending')));
+
+// ---------- интерактив: ripple на кнопках, полоса прокрутки, подсветка раздела в меню ----------
+(() => {
+  const BTN = '.btn,.generate-btn,.cam-btn,.mode-tab,.result-actions button,.composer-head button,.cam-chip,.lang-trigger,.lang-option';
+  document.addEventListener('pointerdown', e => {
+    const b = e.target.closest(BTN);
+    if (!b || b.disabled || reducedMotion.matches) return;
+    const r = b.getBoundingClientRect();
+    const d = Math.max(r.width, r.height) * 2;
+    const s = document.createElement('span');
+    s.className = 'ripple';
+    s.style.cssText = `width:${d}px;height:${d}px;left:${e.clientX - r.left - d / 2}px;top:${e.clientY - r.top - d / 2}px`;
+    b.append(s);
+    s.addEventListener('animationend', () => s.remove());
+  });
+
+  const bar = document.createElement('div');
+  bar.className = 'scroll-progress';
+  bar.setAttribute('aria-hidden', 'true');
+  document.body.append(bar);
+  let ticking = false;
+  const update = () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
+    ticking = false;
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  update();
+
+  const links = $$('.nav-links a[href^="#"]:not([data-open-tab])');
+  const map = new Map(links.map(a => [document.querySelector(a.getAttribute('href')), a]).filter(([s]) => s));
+  if (map.size && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) links.forEach(a => a.classList.toggle('is-active', a === map.get(en.target))); });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    map.forEach((_, s) => io.observe(s));
+  }
+})();
