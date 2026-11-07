@@ -5,6 +5,18 @@ export const DEFAULT_LANGUAGE = 'kk';
 
 export const translations = {
   kk: {
+    trailerResume: "Ойнату",
+    trailerPause: "Кідірту",
+    trailerBack10: "10 секунд артқа",
+    trailerForward10: "10 секунд алға",
+    trailerSeek: "Ойнату орны",
+    trailerMute: "Дыбысты өшіру",
+    trailerUnmute: "Дыбысты қосу",
+    trailerVolume: "Дыбыс деңгейі",
+    trailerSpeed: "Ойнату жылдамдығы",
+    trailerFullscreen: "Толық экран",
+    trailerExitFullscreen: "Терезе режимі",
+
     trailerKicker: "ТРЕЙЛЕР",
     trailerTitle: "Qol AI қалай жұмыс істейді",
     trailerWatch: "Трейлерді көру",
@@ -91,6 +103,18 @@ export const translations = {
     tabCamera: "Ымдарды тану",
   },
   ru: {
+    trailerResume: "Воспроизвести",
+    trailerPause: "Пауза",
+    trailerBack10: "Назад на 10 секунд",
+    trailerForward10: "Вперёд на 10 секунд",
+    trailerSeek: "Позиция воспроизведения",
+    trailerMute: "Выключить звук",
+    trailerUnmute: "Включить звук",
+    trailerVolume: "Громкость",
+    trailerSpeed: "Скорость воспроизведения",
+    trailerFullscreen: "Полный экран",
+    trailerExitFullscreen: "Оконный режим",
+
     trailerKicker: "ТРЕЙЛЕР",
     trailerTitle: "Qol AI в действии",
     trailerWatch: "Смотреть трейлер",
@@ -177,6 +201,18 @@ export const translations = {
     tabCamera: "Распознать жесты",
   },
   en: {
+    trailerResume: "Play",
+    trailerPause: "Pause",
+    trailerBack10: "Back 10 seconds",
+    trailerForward10: "Forward 10 seconds",
+    trailerSeek: "Playback position",
+    trailerMute: "Mute",
+    trailerUnmute: "Unmute",
+    trailerVolume: "Volume",
+    trailerSpeed: "Playback speed",
+    trailerFullscreen: "Full screen",
+    trailerExitFullscreen: "Window mode",
+
     trailerKicker: "TRAILER",
     trailerTitle: "Qol AI in action",
     trailerWatch: "Watch the trailer",
