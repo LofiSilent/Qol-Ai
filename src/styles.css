@@ -380,3 +380,47 @@ html.i18n-pending .nav-wrap .lang-switch button,html.i18n-pending .nav-wrap .the
 
 .cam-controls{flex-wrap:wrap}.cam-controls .cam-status{color:var(--text);opacity:1;flex-basis:100%;min-height:1.6em;line-height:1.6}.cam-capture-hint{margin:12px 0 0;color:var(--muted);font-size:12px;line-height:1.6}#camCapture[aria-pressed="true"]{background:var(--orange);color:#102438;border-color:var(--orange)}
 
+html,body{overflow-x:clip}
+@media(max-width:700px){
+.hero{grid-template-columns:minmax(0,1fr)}
+.hero-copy,.hero-visual{min-width:0;max-width:100%}
+.avatar-card{width:min(420px,100%)}
+.avatar-card .avatar-scene,.avatar-card .stage3d{width:100%;max-width:100%}
+.lang-switch button{padding:6px 8px;font-size:10px}
+.eyebrow{font-size:11px;letter-spacing:.1em}
+.nav{gap:6px}
+}
+
+/* ---------- «Как это работает»: точка бежит от шага к шагу, на входе «расплывается» вверх и вниз, затем идёт дальше ---------- */
+@media(min-width:901px){
+.steps .connector{overflow:visible;z-index:3}
+.steps .connector i{top:-3px;left:0;opacity:0;box-shadow:0 0 12px 2px rgba(198,159,122,.65);animation:stepDot 6s cubic-bezier(.45,0,.2,1) infinite}
+.steps>.connector:nth-child(2) i{animation-delay:.4s}
+.steps>.connector:nth-child(4) i{animation-delay:2.4s}
+@keyframes stepDot{0%{left:0;opacity:0;transform:scale(.6)}4%{opacity:1;transform:scale(1)}22%{left:calc(100% - 7px);opacity:1;transform:scale(1)}24%{left:calc(100% - 7px);opacity:0;transform:scale(1.8)}100%{left:calc(100% - 7px);opacity:0}}
+.steps .connector::after{content:"";position:absolute;right:-2px;top:50%;width:4px;height:300px;margin-top:-150px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(198,159,122,.95) 0%,rgba(198,159,122,.4) 45%,transparent 72%);filter:blur(3px);mix-blend-mode:screen;opacity:0;transform:scaleY(.04) scaleX(1);pointer-events:none;animation:stepBurst 6s ease-out infinite}
+.steps>.connector:nth-child(2)::after{animation-delay:1.7s}
+.steps>.connector:nth-child(4)::after{animation-delay:3.7s}
+@keyframes stepBurst{0%{opacity:0;transform:scaleY(.04) scaleX(1)}5%{opacity:1;transform:scaleY(.22) scaleX(2.2)}30%{opacity:0;transform:scaleY(1) scaleX(11)}100%{opacity:0;transform:scaleY(1) scaleX(11)}}
+.steps .step{animation:stepGlow 6s ease-in-out infinite}
+.steps>.step:nth-child(3){animation-delay:1.7s}
+.steps>.step:nth-child(5){animation-delay:3.7s}
+@keyframes stepGlow{0%{border-color:var(--line);box-shadow:none}6%{border-color:var(--lime);box-shadow:0 0 0 1px var(--lime),0 0 38px rgba(198,159,122,.28)}24%{border-color:var(--line);box-shadow:none}100%{border-color:var(--line);box-shadow:none}}
+}
+/* телефон: те же шаги по вертикали — точка бежит сверху вниз, на входе расплывается в стороны */
+@media(max-width:900px){
+.steps .connector{overflow:visible;z-index:3}
+.steps .connector i{left:-3px;top:0;opacity:0;box-shadow:0 0 12px 2px rgba(198,159,122,.65);animation:stepDotV 6s cubic-bezier(.45,0,.2,1) infinite}
+.steps>.connector:nth-child(2) i{animation-delay:.4s}
+.steps>.connector:nth-child(4) i{animation-delay:2.4s}
+@keyframes stepDotV{0%{top:0;opacity:0;transform:scale(.6)}4%{opacity:1;transform:scale(1)}22%{top:calc(100% - 7px);opacity:1;transform:scale(1)}24%{top:calc(100% - 7px);opacity:0;transform:scale(1.8)}100%{top:calc(100% - 7px);opacity:0}}
+.steps .connector::after{content:"";position:absolute;left:50%;bottom:-2px;height:4px;width:260px;margin-left:-130px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(198,159,122,.95) 0%,rgba(198,159,122,.4) 45%,transparent 72%);filter:blur(3px);opacity:0;transform:scaleX(.04) scaleY(1);pointer-events:none;animation:stepBurstV 6s ease-out infinite}
+.steps>.connector:nth-child(2)::after{animation-delay:1.7s}
+.steps>.connector:nth-child(4)::after{animation-delay:3.7s}
+@keyframes stepBurstV{0%{opacity:0;transform:scaleX(.04) scaleY(1)}5%{opacity:1;transform:scaleX(.22) scaleY(2.2)}30%{opacity:0;transform:scaleX(1) scaleY(11)}100%{opacity:0;transform:scaleX(1) scaleY(11)}}
+.steps .step{animation:stepGlow 6s ease-in-out infinite}
+.steps>.step:nth-child(3){animation-delay:1.7s}
+.steps>.step:nth-child(5){animation-delay:3.7s}
+@keyframes stepGlow{0%{border-color:var(--line);box-shadow:none}6%{border-color:var(--lime);box-shadow:0 0 0 1px var(--lime),0 0 38px rgba(198,159,122,.28)}24%{border-color:var(--line);box-shadow:none}100%{border-color:var(--line);box-shadow:none}}
+}
+@media(prefers-reduced-motion:reduce){.steps .connector i,.steps .connector::after,.steps .step{animation:none!important}.steps .connector i{opacity:1}}
