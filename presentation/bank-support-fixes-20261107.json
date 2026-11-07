@@ -1,0 +1,54 @@
+{
+  "revision": "20261107-e",
+  "scope": [
+    "Страницы",
+    "Услуга",
+    "Для"
+  ],
+  "cameraModelChanged": false,
+  "pages": {
+    "source": "originals/Страницы/09.mp4",
+    "holdStart": 2.95,
+    "holdEnd": 3.16,
+    "reason": "Support hand stays open while the opposite hand occludes it. Stabilize left support hand only after the final page-turn begins; right-hand articulation unchanged."
+  },
+  "service": {
+    "source": "originals/Услуга/14.mp4",
+    "sourcePoseAt": 0.75,
+    "sourceStart": 0.60058,
+    "sourceEnd": 2.10202,
+    "method": "Hold the observed support-palm; align the knife-hand fingers and straighten interphalangeal joints as in the source; drive two-bone right-arm contact/lift from the source video at its original timestamps.",
+    "minimumContactGap": 0.013999995423733314,
+    "maximumContactGap": 0.06899999647965828,
+    "leftPalmAnchor": [
+      -0.1823959469795227,
+      6.271271705627441,
+      1.2870960474014281
+    ],
+    "rightContactAnchor": [
+      -0.35246163606643677,
+      8.815146446228027,
+      -1.8737783432006836
+    ],
+    "rightPalmRotation": [
+      -0.028619817333664976,
+      0.8183019526562177,
+      0.568498567492996,
+      -0.0798260533664113
+    ],
+    "leftPalmNormal": [
+      -0.26882144349460657,
+      0.8862368813580486,
+      -0.3772521989839636
+    ]
+  },
+  "for": {
+    "source": "https://signbridge.kz",
+    "providerLabel": "ДЛЯ",
+    "sourceUrl": "https://storage.yandexcloud.kz/signbridge-animations/uploads/2026/07/29/d7f8b815-c5ae-4250-ae70-67ec0647f9a0_үшін_V.vrma",
+    "sourceSha256": "a7a1ca47e58588b10ab151a670ead3bf1323c051018306e5b0b5df9029b2be4a",
+    "duration": 1.625,
+    "userApproved": true
+  },
+  "review": "Source frames, offline posed-avatar renders and temporal checks; linguistic review remains with the user."
+}
