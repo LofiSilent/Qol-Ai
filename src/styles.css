@@ -439,3 +439,59 @@ filter:drop-shadow(0 0 5px rgba(198,159,122,1)) drop-shadow(0 0 12px rgba(198,15
 .stat-card .langs b:nth-child(2){animation-delay:1s}.stat-card .langs b:nth-child(3){animation-delay:2s}
 @keyframes statLang{0%,28%,100%{background:transparent;color:var(--muted);border-color:var(--line)}8%,20%{background:var(--lime);color:#0E3D66;border-color:var(--lime)}}
 @media(prefers-reduced-motion:reduce){.stat-card::after,.stat-card::before,.stat-card strong,.stat-art,.stat-card .langs b{animation:none!important}}
+
+/* ---------- выбор языка: пилюля + выпадающий список (как на qol-ai.app) ---------- */
+.lang-picker{position:relative;display:inline-flex}
+.lang-trigger{display:flex;align-items:center;justify-content:center;gap:8px;min-height:38px;min-width:66px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--text);font:700 12px Manrope,sans-serif;letter-spacing:.02em;cursor:pointer;position:relative;overflow:hidden;transition:border-color .2s,background .2s,box-shadow .2s}
+.lang-trigger:hover{border-color:var(--lime);box-shadow:0 4px 16px color-mix(in srgb,var(--lime) 22%,transparent)}
+.lang-trigger svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+.lang-picker.open .lang-trigger{border-color:var(--lime)}
+.lang-picker.open .lang-trigger svg{transform:rotate(180deg)}
+.lang-menu{position:absolute;z-index:100;top:calc(100% + 8px);right:0;min-width:168px;padding:6px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 50px rgba(8,30,52,.28);transform-origin:top right;animation:langMenuIn .2s cubic-bezier(.22,1,.36,1)}
+.lang-menu[hidden]{display:none}
+@keyframes langMenuIn{from{opacity:0;transform:translateY(-6px) scale(.96)}to{opacity:1;transform:none}}
+.lang-option{width:100%;display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:42px;padding:10px 13px;border:0;border-radius:11px;background:transparent;color:var(--text);font:600 12px Manrope,sans-serif;cursor:pointer;text-align:left;position:relative;overflow:hidden;transition:background .18s}
+.lang-option b{font-weight:800;letter-spacing:.04em}
+.lang-option span{opacity:.55;font-weight:500}
+.lang-option:hover,.lang-option:focus-visible{background:color-mix(in srgb,var(--text) 8%,transparent);outline:0}
+.lang-option.active{background:color-mix(in srgb,var(--lime) 22%,transparent)}
+.lang-option.active b:after{content:"✓";margin-left:8px;color:var(--lime)}
+
+/* ---------- кнопки: единый стиль, блик, подъём, ripple ---------- */
+.btn,.generate-btn,.cam-btn,.result-actions button,.composer-head button,.cam-chip{position:relative;overflow:hidden;cursor:pointer;transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .25s,background .25s,border-color .25s,color .25s,filter .2s}
+.btn,.cam-btn,.result-actions button,.composer-head button{border-radius:12px}
+.btn.primary,.generate-btn,.cam-btn.primary{background:linear-gradient(135deg,#d4b08c,#C69F7A 55%,#b98d66);color:#0E3D66;border:1px solid transparent;box-shadow:0 8px 24px color-mix(in srgb,#C69F7A 38%,transparent),inset 0 1px 0 rgba(255,255,255,.35)}
+.btn.primary:hover,.generate-btn:hover,.cam-btn.primary:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 14px 32px color-mix(in srgb,#C69F7A 50%,transparent),inset 0 1px 0 rgba(255,255,255,.4);filter:none}
+.btn.primary:active,.generate-btn:active,.cam-btn.primary:active:not(:disabled){transform:translateY(0) scale(.97);box-shadow:0 4px 12px color-mix(in srgb,#C69F7A 40%,transparent)}
+.btn.primary:after,.generate-btn:after,.cam-btn.primary:after{content:"";position:absolute;top:0;bottom:0;left:-70%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);pointer-events:none;transition:left .7s ease}
+.btn.primary:hover:after,.generate-btn:hover:after,.cam-btn.primary:hover:not(:disabled):after{left:130%}
+.btn .arrow,.btn.ghost{transition:transform .25s cubic-bezier(.22,1,.36,1)}
+.btn:hover .arrow{transform:translate(4px,-4px)}
+.btn.ghost,.cam-btn:not(.primary),.result-actions button,.composer-head button{border:1px solid color-mix(in srgb,var(--text) 22%,transparent);background:transparent;color:var(--text)}
+.btn.ghost:hover,.cam-btn:not(.primary):hover:not(:disabled),.result-actions button:hover,.composer-head button:hover{transform:translateY(-3px);border-color:var(--lime);background:color-mix(in srgb,var(--lime) 14%,transparent);box-shadow:0 10px 24px rgba(8,30,52,.14);color:var(--text)}
+.btn.ghost:active,.cam-btn:not(.primary):active:not(:disabled),.result-actions button:active,.composer-head button:active{transform:scale(.97)}
+.cam-btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.cam-chip:hover{transform:translateY(-2px);border-color:var(--lime)}
+.cam-chip:active{transform:scale(.97)}
+.mode-tab{position:relative;overflow:hidden;cursor:pointer}
+.mode-tab:not(.active):hover{background:color-mix(in srgb,var(--lime) 10%,transparent);color:var(--text)}
+.theme-toggle{transition:transform .35s cubic-bezier(.22,1,.36,1),border-color .2s,box-shadow .2s}
+.theme-toggle:hover{transform:rotate(25deg);border-color:var(--lime);box-shadow:0 4px 16px color-mix(in srgb,var(--lime) 22%,transparent)}
+.theme-toggle:active{transform:scale(.9)}
+:is(.btn,.generate-btn,.cam-btn,.mode-tab,.result-actions button,.composer-head button,.cam-chip,.lang-trigger,.lang-option,.theme-toggle):focus-visible{outline:2px solid var(--lime);outline-offset:3px}
+.ripple{position:absolute;border-radius:50%;background:currentColor;opacity:.22;transform:scale(0);pointer-events:none;animation:ripple .6s ease-out forwards}
+@keyframes ripple{to{transform:scale(1);opacity:0}}
+
+/* ---------- интерактив: полоса прокрутки и активный раздел ---------- */
+.scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--lime),#e2c4a3);transform-origin:0 50%;transform:scaleX(0);z-index:120;pointer-events:none;will-change:transform}
+.nav-links a{position:relative}
+.nav-links a:after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--lime);transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.nav-links a:hover:after,.nav-links a.is-active:after{transform:scaleX(1)}
+.nav-links a.is-active{color:var(--text)}
+@media(max-width:700px){.lang-trigger{min-height:36px;min-width:58px;padding:6px 11px}.lang-menu{min-width:150px}}
+@media(prefers-reduced-motion:reduce){.ripple,.btn:after,.generate-btn:after,.cam-btn:after,.lang-menu{animation:none!important;transition:none!important}.scroll-progress{display:none}}
+
+.generate-btn,.studio-section .generate-btn{left:auto;right:auto;bottom:auto}
+.studio-section .generate-btn{height:54px;min-height:54px;border-radius:12px;font-weight:700;font-size:14px;letter-spacing:.01em;background:linear-gradient(135deg,#d4b08c,#C69F7A 55%,#b98d66);color:#0E3D66;border:1px solid transparent;box-shadow:0 8px 24px color-mix(in srgb,#C69F7A 38%,transparent),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .25s}
+.studio-section .generate-btn:hover{filter:none;transform:translateY(-3px);box-shadow:0 14px 32px color-mix(in srgb,#C69F7A 50%,transparent),inset 0 1px 0 rgba(255,255,255,.4)}
+.studio-section .generate-btn:active{transform:scale(.98)}
