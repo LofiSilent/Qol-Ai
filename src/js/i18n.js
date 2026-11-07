@@ -5,6 +5,17 @@ export const DEFAULT_LANGUAGE = 'kk';
 
 export const translations = {
   kk: {
+    camCapturing: "Қолдар көрінеді — ымды толық көрсетіңіз.",
+    camManualCapturing: "Сұрақты толық көрсетіп, «Дайын» түймесін басыңыз.",
+    camManualNoHand: "Тану жүріп жатыр, бірақ қолдар көрінбейді. Қолдарыңызды кадрға әкеліңіз.",
+    camRecognized: "Ым танылды.",
+    camTooShort: "Қолдар жеткілікті көрінбеді. Ымды толық қайталаңыз.",
+    camPause: "Ымдар арасында қысқа кідіріс жасаңыз.",
+    camWaitingVideo: "Камера жаңа кадрларды бермейді. Оны тоқтатып, қайта қосыңыз.",
+    camRecordCapture: "Толық ымды тану",
+    camFinishCapture: "Дайын",
+    camCaptureHint: "Автоматты тану жауап бермесе: «Толық ымды тану» түймесін басып, сұрақты толық көрсетіңіз де, «Дайын» түймесін басыңыз.",
+
     trailerResume: "Ойнату",
     trailerPause: "Кідірту",
     trailerBack10: "10 секунд артқа",
@@ -103,6 +114,17 @@ export const translations = {
     tabCamera: "Ымдарды тану",
   },
   ru: {
+    camCapturing: "Вижу руки — показывайте жест целиком.",
+    camManualCapturing: "Покажите весь вопрос, затем нажмите «Готово».",
+    camManualNoHand: "Захват идёт, но руки не видны. Подведите их в кадр.",
+    camRecognized: "Жест распознан.",
+    camTooShort: "Руки были видны слишком мало. Повторите жест целиком.",
+    camPause: "Сделайте короткую паузу между жестами.",
+    camWaitingVideo: "Камера не передаёт новые кадры. Остановите и включите её снова.",
+    camRecordCapture: "Распознать целиком",
+    camFinishCapture: "Готово",
+    camCaptureHint: "Если автоматический режим не реагирует: нажмите «Распознать целиком», покажите весь вопрос и нажмите «Готово».",
+
     trailerResume: "Воспроизвести",
     trailerPause: "Пауза",
     trailerBack10: "Назад на 10 секунд",
@@ -201,6 +223,17 @@ export const translations = {
     tabCamera: "Распознать жесты",
   },
   en: {
+    camCapturing: "Hands visible — show the complete sign.",
+    camManualCapturing: "Show the complete question, then press Done.",
+    camManualNoHand: "Capture is active, but hands are not visible. Bring them into the frame.",
+    camRecognized: "Sign recognized.",
+    camTooShort: "Hands were visible for too few frames. Repeat the complete sign.",
+    camPause: "Pause briefly between signs.",
+    camWaitingVideo: "The camera is not sending new frames. Stop and restart it.",
+    camRecordCapture: "Capture full sign",
+    camFinishCapture: "Done",
+    camCaptureHint: "If automatic recognition does not respond: select Capture full sign, show the entire question, then press Done.",
+
     trailerResume: "Play",
     trailerPause: "Pause",
     trailerBack10: "Back 10 seconds",
