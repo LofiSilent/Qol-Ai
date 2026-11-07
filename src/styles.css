@@ -550,3 +550,5 @@ filter:drop-shadow(0 0 5px rgba(198,159,122,1)) drop-shadow(0 0 12px rgba(198,15
 .btn.primary:before{background:radial-gradient(150px circle at var(--mx) var(--my),rgba(255,255,255,.42),transparent 65
 .btn.primary>*{position:relative;z-index:1}
 .btn.primary:before{background:radial-gradient(150px circle at var(--mx) var(--my),rgba(255,255,255,.42),transparent 65%)}
+
+.btn.primary{justify-content:center;gap:0;padding:17px 34px;min-width:230px}
