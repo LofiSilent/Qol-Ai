@@ -1,3 +1,4 @@
+import {createTrailerFlight} from './trailer-flight.js?v=__BUILD__';
 import {createTrailerControls} from './trailer-controls.js?v=__BUILD__';
 import {createTrailerPlayer} from './trailer-player.js?v=__BUILD__';
 import {translations,DEFAULT_LANGUAGE} from './i18n.js?v=__BUILD__';
@@ -9,3 +10,6 @@ if(trigger&&dialog){
  const localize=()=>{controls.refresh();trigger.setAttribute('aria-label',text('trailerWatch'));$('trailerClose').setAttribute('aria-label',text('trailerClose'));$('trailerVideo').setAttribute('aria-label',text('trailerTitle'));dialog.querySelectorAll('[data-trailer-copy]').forEach(el=>{el.textContent=text(el.dataset.trailerCopy);});};
  new MutationObserver(localize).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});localize();
 }
+
+const flightLink=document.querySelector('[data-trailer-flight]');
+if(flightLink&&$('trailer')&&$('trailerFlight'))createTrailerFlight({link:flightLink,target:$('trailer'),overlay:$('trailerFlight'),win:window,doc:document});
