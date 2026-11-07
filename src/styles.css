@@ -396,19 +396,18 @@ html,body{overflow-x:clip}
 .steps .step::before{content:"";position:absolute;inset:-1px;padding:3px;pointer-events:none;z-index:2;opacity:0;--start:270deg;
 background:conic-gradient(from var(--start),transparent calc(var(--p) - 55deg),var(--lime) var(--p),transparent calc(var(--p) + .01deg)),conic-gradient(from var(--start),transparent calc(360deg - var(--p) - .01deg),var(--lime) calc(360deg - var(--p)),transparent calc(360deg - var(--p) + 55deg));
 -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
-filter:drop-shadow(0 0 5px rgba(198,159,122,1)) drop-shadow(0 0 12px rgba(198,159,122,.7));animation:stepBeam 4.4s linear infinite}
-.steps>.step:first-child::before{display:none}.steps>.step:first-child{animation:none}
-.steps>.step:nth-child(3)::before{animation-delay:.6s}
-.steps>.step:nth-child(5)::before{animation-delay:2.1s}
-@keyframes stepBeam{0%{--p:0deg;opacity:1}20%{--p:180deg;opacity:1}24%{--p:180deg;opacity:0}100%{--p:180deg;opacity:0}}
-.steps .step{animation:stepGlow 4.4s ease-out infinite}
-.steps>.step:nth-child(3){animation-delay:.6s}
-.steps>.step:nth-child(5){animation-delay:2.1s}
-@keyframes stepGlow{0%{box-shadow:none}20%{box-shadow:0 0 34px rgba(198,159,122,.25)}34%,100%{box-shadow:none}}
+filter:drop-shadow(0 0 5px rgba(198,159,122,1)) drop-shadow(0 0 12px rgba(198,159,122,.7));animation:stepBeam 4.2s linear infinite}
+.steps>.step:nth-child(3)::before{animation-delay:1.5s}
+.steps>.step:nth-child(5)::before{animation-delay:3s}
+@keyframes stepBeam{0%{--p:0deg;opacity:1}21%{--p:180deg;opacity:1}25%{--p:180deg;opacity:0}100%{--p:180deg;opacity:0}}
+.steps .step{animation:stepGlow 4.2s ease-out infinite}
+.steps>.step:nth-child(3){animation-delay:1.5s}
+.steps>.step:nth-child(5){animation-delay:3s}
+@keyframes stepGlow{0%{box-shadow:none}21%{box-shadow:0 0 34px rgba(198,159,122,.25)}36%,100%{box-shadow:none}}
 .steps .connector{overflow:visible;z-index:3}
-.steps .connector i{opacity:0;box-shadow:0 0 12px 2px rgba(198,159,122,.65);animation:stepDot 4.4s linear infinite}
-.steps>.connector:nth-child(2) i{animation-delay:0s}
-.steps>.connector:nth-child(4) i{animation-delay:1.5s}
+.steps .connector i{opacity:0;box-shadow:0 0 12px 2px rgba(198,159,122,.65);animation:stepDot 4.2s linear infinite}
+.steps>.connector:nth-child(2) i{animation-delay:.9s}
+.steps>.connector:nth-child(4) i{animation-delay:2.4s}
 @media(min-width:901px){
 .steps .connector i{top:-3px;left:0}
 @keyframes stepDot{0%{left:0;opacity:0}2%{opacity:1}13%{left:calc(100% - 7px);opacity:1}14%,100%{left:calc(100% - 7px);opacity:0}}
@@ -419,3 +418,24 @@ filter:drop-shadow(0 0 5px rgba(198,159,122,1)) drop-shadow(0 0 12px rgba(198,15
 @keyframes stepDot{0%{top:0;opacity:0}2%{opacity:1}13%{top:calc(100% - 7px);opacity:1}14%,100%{top:calc(100% - 7px);opacity:0}}
 }
 @media(prefers-reduced-motion:reduce){.steps .connector i,.steps .step,.steps .step::before{animation:none!important}.steps .connector i{opacity:1}}
+
+/* ---------- блок «Один текст»: живые карточки ---------- */
+.stat-card::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.2),transparent);transform:skewX(-18deg);pointer-events:none;animation:statSheen 7s ease-in-out infinite}
+.stat-card.dark::after{animation-delay:2.3s}.stat-card.outline::after{animation-delay:4.6s}
+@keyframes statSheen{0%{left:-60%}22%,100%{left:130%}}
+.stat-card{transition:transform .35s,box-shadow .35s}.stat-card:hover{transform:translateY(-6px);box-shadow:0 22px 50px rgba(8,30,52,.3)}
+.stat-card.lime{perspective:600px}
+.stat-card.lime strong{transform-origin:0 50%;animation:statFlip 5s ease-in-out infinite}
+@keyframes statFlip{0%,100%{transform:rotateY(0)}30%{transform:rotateY(-24deg) translateX(4px)}60%{transform:rotateY(20deg)}}
+.stat-art{animation:statDrift 3.2s ease-in-out infinite}
+@keyframes statDrift{0%,100%{transform:translate(-18px,18px);opacity:.12}50%{transform:translate(0,0);opacity:.3}}
+.stat-card.dark::before{content:"";position:absolute;top:24px;right:24px;width:9px;height:9px;border-radius:50%;background:#7CE0A3;box-shadow:0 0 0 0 rgba(124,224,163,.6);animation:statLive 1.8s ease-out infinite}
+@keyframes statLive{0%{box-shadow:0 0 0 0 rgba(124,224,163,.6)}100%{box-shadow:0 0 0 16px rgba(124,224,163,0)}}
+.stat-card.dark .wave i{background:var(--lime)}
+.stat-card.outline strong{display:block;width:max-content;transform-origin:0 50%;animation:statTick 4.5s ease-in-out infinite}
+@keyframes statTick{0%,100%{transform:scale(1)}8%{transform:scale(1.18)}16%{transform:scale(1)}}
+.stat-card .langs{display:flex;gap:10px;font:700 12px Unbounded}
+.stat-card .langs b{padding:7px 11px;border:1px solid var(--line);border-radius:20px;color:var(--muted);animation:statLang 3s ease-in-out infinite}
+.stat-card .langs b:nth-child(2){animation-delay:1s}.stat-card .langs b:nth-child(3){animation-delay:2s}
+@keyframes statLang{0%,28%,100%{background:transparent;color:var(--muted);border-color:var(--line)}8%,20%{background:var(--lime);color:#0E3D66;border-color:var(--lime)}}
+@media(prefers-reduced-motion:reduce){.stat-card::after,.stat-card::before,.stat-card strong,.stat-art,.stat-card .langs b{animation:none!important}}
