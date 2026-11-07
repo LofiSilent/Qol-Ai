@@ -22,6 +22,7 @@
     "@capacitor/core": "^7.4.0",
     "@fontsource/manrope": "^5.1.0",
     "@fontsource/unbounded": "^5.1.0",
+    "meshoptimizer": "1.3.0",
     "three": "0.160.0"
   }
 }

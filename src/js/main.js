@@ -1,7 +1,8 @@
+import { connectTelegram } from './telegram.js?v=__BUILD__';
 import { BANK_3D_EXAMPLES, normalizeExample, wordMotionId, missingWords } from './bank-examples.js?v=__BUILD__';
 // Интерфейс страницы: язык, тема, анимации, примеры, студия.
 import { translations, LANGUAGES, DEFAULT_LANGUAGE } from './i18n.js?v=__BUILD__';
-import { loadAvatar, mount, followVisible, enableOrbit, playSourceMotions, stop, isPlaying } from './avatar.js?v=__BUILD__';
+import { loadAvatar, mount, followVisible, enableOrbit, playSourceMotions, stop, isPlaying } from './avatar-lazy.js?v=__BUILD__';
 import { initCamera } from './camera.js?v=__BUILD__';
 
 const $ = s => document.querySelector(s);
@@ -14,14 +15,15 @@ const storage = {
 };
 
 // ---------- Telegram Mini App ----------
-const telegram = window.Telegram?.WebApp?.initData ? window.Telegram.WebApp : null;
-if (telegram) {
+let telegram = null;
+connectTelegram(app => {
+  telegram = app;
   telegram.ready();
   telegram.expand();
   html.classList.add('telegram-mini-app');
   if (telegram.colorScheme) html.dataset.theme = telegram.colorScheme;
   telegram.onEvent('themeChanged', () => { html.dataset.theme = telegram.colorScheme; });
-}
+});
 
 let camera = null;
 // ---------- язык ----------

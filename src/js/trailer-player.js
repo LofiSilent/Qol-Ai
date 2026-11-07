@@ -20,6 +20,9 @@ export function createTrailerPlayer({trigger,dialog,player,video,closeButton,sta
   dialog.showModal();openState=true;doc.body.style.overflow='hidden';trigger.setAttribute('aria-expanded','true');message('');
   if(video.dataset?.qolCustomControls)video.controls=false;
   emit('qol:trailer-open');if(video.dataset?.qolCustomControls)video.focus?.({preventScroll:true});else closeButton.focus({preventScroll:true});
+  if(video.dataset?.src&&!video.getAttribute?.('src')){
+   video.src=video.dataset.src;if(video.dataset.poster)video.poster=video.dataset.poster;video.load();
+  }
   if(video.ended)video.currentTime=0;
   // Start both operations synchronously while transient user activation is present.
   try{Promise.resolve(video.play()).catch(()=>{if(dialog.open)message('trailerPlayFallback');});}catch{message('trailerPlayFallback');}

@@ -27,6 +27,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts
       - name: Build website
         run: npm run build
       - name: Configure GitHub Pages

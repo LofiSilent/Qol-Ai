@@ -5,6 +5,7 @@ import {buildMotionSequence} from './motion-sequence.js?v=__BUILD__';
 // Поверх неё можно задать форму правой руки (сгиб пальцев) для слов из словаря.
 // Один WebGL-рендерер на страницу; холст переносится между «слотами» (первый экран, студия).
 import * as THREE from 'three';
+import { MeshoptDecoder } from 'meshopt-decoder';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
@@ -115,7 +116,7 @@ export async function loadAvatar(url, { onProgress, onPreparing, onReady, onErro
     const bytes = await downloadAvatar(url, { onProgress });
     onPreparing?.();
     const resourcePath = new URL('.', new URL(url, location.href)).href;
-    const gltf = await new GLTFLoader().parseAsync(bytes, resourcePath);
+    const gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(bytes, resourcePath);
     model = gltf.scene;
     scene.add(model);
     model.traverse(o => {
