@@ -482,14 +482,8 @@ filter:drop-shadow(0 0 5px rgba(198,159,122,1)) drop-shadow(0 0 12px rgba(198,15
 .ripple{position:absolute;border-radius:50%;background:currentColor;opacity:.22;transform:scale(0);pointer-events:none;animation:ripple .6s ease-out forwards}
 @keyframes ripple{to{transform:scale(1);opacity:0}}
 
-/* ---------- интерактив: полоса прокрутки и активный раздел ---------- */
-.scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--lime),#e2c4a3);transform-origin:0 50%;transform:scaleX(0);z-index:120;pointer-events:none;will-change:transform}
-.nav-links a{position:relative}
-.nav-links a:after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--lime);transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.22,1,.36,1)}
-.nav-links a:hover:after,.nav-links a.is-active:after{transform:scaleX(1)}
-.nav-links a.is-active{color:var(--text)}
 @media(max-width:700px){.lang-trigger{min-height:36px;min-width:58px;padding:6px 11px}.lang-menu{min-width:150px}}
-@media(prefers-reduced-motion:reduce){.ripple,.btn:after,.generate-btn:after,.cam-btn:after,.lang-menu{animation:none!important;transition:none!important}.scroll-progress{display:none}}
+@media(prefers-reduced-motion:reduce){.ripple,.btn:after,.generate-btn:after,.cam-btn:after,.lang-menu{animation:none!important;transition:none!important}}
 
 .generate-btn,.studio-section .generate-btn{left:auto;right:auto;bottom:auto}
 .studio-section .generate-btn{height:54px;min-height:54px;border-radius:12px;font-weight:700;font-size:14px;letter-spacing:.01em;background:linear-gradient(135deg,#d4b08c,#C69F7A 55%,#b98d66);color:#0E3D66;border:1px solid transparent;box-shadow:0 8px 24px color-mix(in srgb,#C69F7A 38%,transparent),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .25s}
@@ -545,10 +539,22 @@ filter:drop-shadow(0 0 5px rgba(198,159,122,1)) drop-shadow(0 0 12px rgba(198,15
 .btn.primary .arrow{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:rgba(14,61,102,.12);font-size:17px;line-height:1;transition:transform .45s cubic-bezier(.22,1,.36,1),background .3s,color .3s}
 .btn.primary:hover .arrow{transform:rotate(45deg) scale(1.08);background:#0E3D66;color:#e8cfae}
 @media(prefers-reduced-motion:reduce){.btn.primary:hover{animation:none}}
-
-.btn.primary>*{position:relative;z-index:1}
-.btn.primary:before{background:radial-gradient(150px circle at var(--mx) var(--my),rgba(255,255,255,.42),transparent 65
 .btn.primary>*{position:relative;z-index:1}
 .btn.primary:before{background:radial-gradient(150px circle at var(--mx) var(--my),rgba(255,255,255,.42),transparent 65%)}
 
 .btn.primary{justify-content:center;gap:0;padding:17px 34px;min-width:230px}
+
+/* ---------- меню: один скользящий индикатор активного пункта ---------- */
+.nav-links{position:relative}
+.nav-indicator{position:absolute;left:0;bottom:-8px;height:2px;width:0;border-radius:2px;background:var(--lime);opacity:0;pointer-events:none;transition:transform .5s cubic-bezier(.22,1,.36,1),width .5s cubic-bezier(.22,1,.36,1),opacity .3s}
+.nav-links a.is-active{color:var(--text)}
+
+/* студия: подпись со словами не должна раздвигать колонку */
+.preview-panel,.result,.result-stage,.studio-grid>*{min-width:0}
+.result{max-width:100%}
+.result-stage{max-width:100%}
+.result-caption{width:fit-content;max-width:calc(100% - 24px)}
+.result-caption .word{font-size:12px;padding:5px 10px}
+.result-stage{grid-template-columns:minmax(0,1fr)}
+.result-caption{justify-self:center}
+.preview-panel{grid-template-columns:minmax(0,1fr)}

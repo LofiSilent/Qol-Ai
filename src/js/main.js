@@ -430,19 +430,6 @@ requestAnimationFrame(() => requestAnimationFrame(() => html.classList.remove('i
     s.addEventListener('animationend', () => s.remove());
   });
 
-  const bar = document.createElement('div');
-  bar.className = 'scroll-progress';
-  bar.setAttribute('aria-hidden', 'true');
-  document.body.append(bar);
-  let ticking = false;
-  const update = () => {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    bar.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
-    ticking = false;
-  };
-  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-  update();
-
   const links = $$('.nav-links a[href^="#"]');
   const tabs = $('.mode-tabs');
   let section = null;
@@ -454,7 +441,20 @@ requestAnimationFrame(() => requestAnimationFrame(() => html.classList.remove('i
       const on = href === section && (href !== '#studio' || (own ? own === tab && tab === 'camera' : tab === 'video'));
       a.classList.toggle('is-active', on);
     });
+    moveIndicator();
   };
+  const navLinks = $('.nav-links');
+  const indicator = document.createElement('i');
+  indicator.className = 'nav-indicator';
+  navLinks.append(indicator);
+  function moveIndicator() {
+    const a = navLinks.querySelector('a.is-active');
+    if (!a) { indicator.style.opacity = '0'; return; }
+    indicator.style.opacity = '1';
+    indicator.style.width = a.offsetWidth + 'px';
+    indicator.style.transform = `translateX(${a.offsetLeft}px)`;
+  }
+  addEventListener('resize', moveIndicator);
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(entries => {
       entries.forEach(en => { if (en.isIntersecting) { section = '#' + en.target.id; paint(); } });
