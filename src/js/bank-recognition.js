@@ -31,9 +31,24 @@ export function matchWord(frames,model){
  return ranked[0];
 }
 export class RecordedSignCamera {
- constructor({video,canvas,modelUrl,onStatus,onWord}){Object.assign(this,{video,canvas,modelUrl,onStatus,onWord});this.generation=0;this.stream=null;this.running=false;this.raf=0;}
+ constructor({video,canvas,modelUrl,onStatus,onWord}){Object.assign(this,{video,canvas,modelUrl,onStatus,onWord});this.generation=0;this.stream=null;this.running=false;this.raf=0;this.manual=false;this.feedbackUntil=0;this.lastStatus=null;}
+ setStatus(key){if(this.lastStatus!==key){this.lastStatus=key;this.onStatus?.(key);}}
+ beginCapture(){
+  if(!this.running)return false;
+  this.manual=true;this.manualStartedAt=performance.now()/1000;this.samples=[];this.previous=null;this.feedbackUntil=0;this.setStatus('manualCapturing');return true;
+ }
+ completeCapture(now=performance.now()/1000){
+  const frames=(this.samples||[]).map(s=>s.frame);this.samples=[];this.previous=null;this.manual=false;this.feedbackUntil=now+2;
+  if(!frames.length){this.setStatus('nohand');return null;}
+  if(frames.length<10){this.setStatus('tooShort');return null;}
+  if(now-this.lastEmit<=1){this.setStatus('pause');return null;}
+  let result;try{result=matchWord(frames,this.model);}catch{this.setStatus('error');return null;}
+  this.setStatus(result?'recognized':'uncertain');
+  if(result){this.lastEmit=now;this.onWord(result.label);}return result;
+ }
+ finishCapture(){if(!this.running||!this.manual)return null;return this.completeCapture();}
  async start(){
-  this.stop();const version=++this.generation;this.onStatus('loading');let detector;
+  this.stop();const version=++this.generation;this.setStatus('loading');let detector;
   try{
    const [model,vision]=await Promise.all([fetch(this.modelUrl).then(r=>{if(!r.ok)throw Error('model');return r.json();}),import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21/vision_bundle.mjs')]);
    if(version!==this.generation)return;
@@ -44,22 +59,29 @@ export class RecordedSignCamera {
    if(version!==this.generation){stream.getTracks().forEach(t=>t.stop());detector.close();return;}
    this.stream=stream;this.detector=detector;this.model=model;this.video.srcObject=stream;await this.video.play();
    if(version!==this.generation)return;
-   this.running=true;this.samples=[];this.lastVideo=-1;this.lastSample=0;this.lastMotion=0;this.lastHand=0;this.previous=null;this.lastEmit=0;this.onStatus('live');this.tick();
-  }catch(e){detector?.close();if(version===this.generation){this.stop();this.onStatus(e.name==='NotAllowedError'?'denied':'error');}}
+   this.running=true;this.samples=[];this.lastVideo=-1;this.lastSample=0;this.lastMotion=0;this.lastHand=0;this.previous=null;this.lastEmit=0;this.feedbackUntil=0;this.manual=false;this.lastFrameAt=performance.now()/1000;this.setStatus('live');this.tick();
+  }catch(e){detector?.close();if(version===this.generation){this.stop();this.setStatus(e.name==='NotAllowedError'?'denied':'error');}}
  }
  tick(){
   if(!this.running)return;this.raf=requestAnimationFrame(()=>this.tick());const now=performance.now()/1000;
-  if(this.video.readyState<2||this.video.currentTime===this.lastVideo||now-this.lastSample<1/12)return;
+  if(this.video.readyState<2||this.video.currentTime===this.lastVideo){this.lastFrameAt??=now;if(now-this.lastFrameAt>3)this.setStatus('waitingVideo');return;}
+  if(now-this.lastSample<1/12)return;
+  this.lastFrameAt=now;
   this.lastSample=now;this.lastVideo=this.video.currentTime;
-  let result;try{result=this.detector.detectForVideo(this.video,now*1000);}catch{this.stop();this.onStatus('error');return;}
-  const frame=descriptor(result,this.previous);const ctx=this.canvas?.getContext('2d');
-  if(ctx){this.canvas.width=this.video.videoWidth;this.canvas.height=this.video.videoHeight;ctx.clearRect(0,0,this.canvas.width,this.canvas.height);ctx.fillStyle='#c69f7a';for(const hand of result.landmarks)for(const p of hand){ctx.beginPath();ctx.arc(p.x*this.canvas.width,p.y*this.canvas.height,3,0,7);ctx.fill();}}
+  let result;try{result=this.detector.detectForVideo(this.video,now*1000);}catch{this.stop();this.setStatus('error');return;}
+  const frame=descriptor(result,this.previous);
   if(frame){this.lastHand=now;if(!this.samples.length||!this.previous||distance(frame,this.previous)>.035)this.lastMotion=now;this.previous=frame;this.samples.push({time:now,frame});}
   const capture=this.model.capture||{},elapsed=this.samples.length?now-this.samples[0].time:0;
-  if(this.samples.length&&((!frame&&now-this.lastHand>(capture.absenceSeconds??.3))||(elapsed>=(capture.minSeconds??0)&&now-this.lastMotion>(capture.restSeconds??.65))||(elapsed>(capture.maxSeconds??5)))){
-   const frames=this.samples.map(s=>s.frame);this.samples=[];this.previous=null;
-   if(frames.length>=10&&now-this.lastEmit>1){const result=matchWord(frames,this.model);this.onStatus(result?'live':'uncertain');if(result){this.lastEmit=now;this.onWord(result.label);}}
+  if(this.manual){
+   this.setStatus(frame?'manualCapturing':'manualNoHand');
+   if(now-this.manualStartedAt>=(capture.maxSeconds??8))this.completeCapture(now);
+   return;
   }
+  if(this.samples.length&&((!frame&&now-this.lastHand>(capture.absenceSeconds??.3))||(elapsed>=(capture.minSeconds??0)&&now-this.lastMotion>(capture.restSeconds??.65))||(elapsed>(capture.maxSeconds??5)))){
+   this.completeCapture(now);return;
+  }
+  if(now>=(this.feedbackUntil||0))this.setStatus(frame?'capturing':'nohand');
+
  }
- stop(){this.generation++;this.running=false;cancelAnimationFrame(this.raf);this.stream?.getTracks().forEach(t=>t.stop());this.stream=null;this.detector?.close();this.detector=null;this.video.srcObject=null;this.onStatus?.('stopped');}
+ stop(){this.generation++;this.running=false;this.manual=false;this.samples=[];this.previous=null;this.feedbackUntil=0;cancelAnimationFrame(this.raf);this.stream?.getTracks().forEach(t=>t.stop());this.stream=null;this.detector?.close();this.detector=null;this.video.srcObject=null;this.setStatus('stopped');}
 }

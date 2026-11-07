@@ -377,3 +377,5 @@ html.i18n-pending .nav-wrap .lang-switch button,html.i18n-pending .nav-wrap .the
 .impact-proof-number .number-orbit{right:-115px;bottom:-140px;opacity:.32;animation:none;box-shadow:0 0 0 38px rgba(198,159,122,.035)}
 .impact-proof-number:hover,[data-theme="light"] .impact-proof-number:hover{box-shadow:0 24px 54px rgba(16,46,65,.19)}
 @media(max-width:600px){.impact-proof-number{min-height:250px;padding:28px;gap:16px}.impact-proof-number em{font-size:14px}}
+
+.cam-controls{flex-wrap:wrap}.cam-controls .cam-status{color:var(--text);opacity:1;flex-basis:100%;min-height:1.6em;line-height:1.6}.cam-capture-hint{margin:12px 0 0;color:var(--muted);font-size:12px;line-height:1.6}#camCapture[aria-pressed="true"]{background:var(--orange);color:#102438;border-color:var(--orange)}
