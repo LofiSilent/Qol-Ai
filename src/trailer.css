@@ -5,15 +5,15 @@
 .trailer-heading .kicker{font-size:10px;letter-spacing:.2em}
 .trailer-preview{display:block;position:relative;width:100%;max-width:720px;margin-inline:auto;aspect-ratio:16/9;padding:0;border:1px solid color-mix(in srgb,var(--orange) 42%,var(--line));border-radius:22px;overflow:hidden;background:var(--navy,#102438);color:var(--cream,#f3ead8);cursor:pointer;text-align:left;box-shadow:0 18px 52px color-mix(in srgb,var(--navy) 20%,transparent);isolation:isolate}
 .trailer-preview>img{display:block;width:100%;height:100%;object-fit:contain;transition:transform .45s ease,filter .45s ease}
-.trailer-preview:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 45%,rgba(5,17,29,.68));z-index:1}
+
 .trailer-preview:hover>img{transform:scale(1.025);filter:brightness(.9)}
 .trailer-preview:focus-visible{outline:3px solid var(--orange);outline-offset:6px}
 .trailer-play-icon{position:absolute;z-index:2;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:80px;height:80px;border-radius:50%;border:1px solid rgba(235,204,166,.9);background:rgba(12,33,51,.73);color:var(--cream,#f3ead8);backdrop-filter:blur(12px);box-shadow:0 0 0 9px rgba(226,193,151,.1),0 10px 32px #0005;transition:background .25s,box-shadow .25s}
 .trailer-play-icon svg{width:25px;height:25px;fill:currentColor;margin-left:4px}
 .trailer-preview:hover .trailer-play-icon{background:var(--orange,#c69f7a);color:#102438;box-shadow:0 0 0 13px rgba(226,193,151,.13),0 12px 36px #0006}
-.trailer-preview-bar{position:absolute;z-index:2;inset:auto 20px 17px;display:flex;align-items:center;justify-content:space-between;gap:14px;font:600 12px/1.4 Manrope,sans-serif;color:#f3ead8}
-.trailer-preview-label{display:flex;align-items:center;gap:9px}.trailer-preview-dot{width:6px;height:6px;border-radius:50%;background:var(--orange,#c69f7a);box-shadow:0 0 0 4px #c69f7a18}
-.trailer-duration{padding:5px 9px;border:1px solid #f3ead830;border-radius:6px;background:#10243866;font-size:10px;font-variant-numeric:tabular-nums;letter-spacing:.03em}.trailer-duration>span{margin-inline:4px;opacity:.55}
+
+
+
 .trailer-dialog{position:fixed;inset:0;margin:0;padding:0;border:0;width:100vw;max-width:none;height:100vh;height:100dvh;max-height:none;background:#081421;color:#f3ead8;overflow:hidden;overscroll-behavior:contain}
 .trailer-dialog:not([open]){display:none}.trailer-dialog::backdrop{background:#081421}
 .trailer-player{--film-sand:#d9b68d;--film-cream:#f5edde;--film-line:#d9b68d30;position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:100%;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,#183b57,#081421 78%);color:var(--film-cream);font-family:Manrope,sans-serif;isolation:isolate}
@@ -39,8 +39,17 @@
 .trailer-player :is(button,input,select):focus-visible{outline:2px solid var(--film-sand);outline-offset:4px}
 .trailer-player [hidden]{display:none!important}@keyframes trailerSpin{to{rotate:360deg}}
 @media(max-width:760px){.trailer-player-heading{display:none}.trailer-controls-row{gap:6px}.trailer-controls{width:calc(100% - 24px);bottom:max(12px,env(safe-area-inset-bottom));padding:10px 10px 9px;border-radius:14px}.trailer-options{gap:4px}.trailer-volume,.trailer-quality{display:none}.trailer-time{font-size:10px;letter-spacing:0}.trailer-control{width:44px;height:44px}.trailer-control-primary{width:44px}.trailer-control svg{width:19px;height:19px}.trailer-player-header{padding:16px 16px 30px}.trailer-player-brand{font-size:15px}}
-@media(max-width:580px){.trailer-section{padding-top:0;padding-bottom:44px}.trailer-heading{gap:9px;margin-bottom:18px}.trailer-heading h2{font-size:22px}.trailer-preview{border-radius:16px}.trailer-play-icon{width:64px;height:64px;box-shadow:0 0 0 7px #d9b68d16,0 10px 25px #0005}.trailer-play-icon svg{width:21px;height:21px}.trailer-preview-bar{inset:auto 13px 12px;font-size:10px;gap:8px}.trailer-duration{font-size:9px;padding:4px 6px}.trailer-preview-dot{width:5px;height:5px}.trailer-center-play{width:66px;height:66px}.trailer-center-play svg{width:22px;height:22px}.trailer-skip{display:none}.trailer-time{font-size:10px}.trailer-speed{min-width:45px}.trailer-options{gap:2px}.trailer-controls-row{gap:4px}.trailer-close{width:44px;height:44px}.trailer-status{font-size:12px;bottom:120px}}
+@media(max-width:580px){.trailer-section{padding-top:0;padding-bottom:44px}.trailer-heading{gap:9px;margin-bottom:18px}.trailer-heading h2{font-size:22px}.trailer-preview{border-radius:16px}.trailer-play-icon{width:64px;height:64px;box-shadow:0 0 0 7px #d9b68d16,0 10px 25px #0005}.trailer-play-icon svg{width:21px;height:21px}.trailer-center-play{width:66px;height:66px}.trailer-center-play svg{width:22px;height:22px}.trailer-skip{display:none}.trailer-time{font-size:10px}.trailer-speed{min-width:45px}.trailer-options{gap:2px}.trailer-controls-row{gap:4px}.trailer-close{width:44px;height:44px}.trailer-status{font-size:12px;bottom:120px}}
 @media(pointer:coarse){.trailer-volume{display:none}}
 @media(prefers-reduced-motion:reduce){.trailer-preview>img,.trailer-play-icon,.trailer-controls,.trailer-player-header,.trailer-center-play{transition:none}.trailer-preview:hover>img{transform:none}.trailer-buffering span{animation-duration:2s}}
 
 .trailer-player[data-controls-visible="false"][data-playback="playing"] .trailer-player-header .trailer-close{pointer-events:none}
+
+/* The page passes through a short wind tunnel; the film itself stays still. */
+.trailer-flight{position:fixed;inset:0;z-index:90;overflow:hidden;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 45%,transparent 34%,rgba(7,25,42,.2) 100%);will-change:opacity}
+.trailer-flight i{position:absolute;left:var(--x);top:-55vh;width:2px;height:var(--h);border-radius:50%;background:linear-gradient(to top,transparent,rgba(242,220,192,.6) 35%,rgba(242,220,192,.12) 80%,transparent);box-shadow:0 0 5px rgba(219,190,150,.14);transform:translateY(160vh);animation:trailerWind var(--d) linear var(--delay) infinite;animation-play-state:paused;will-change:transform}
+.trailer-flight i:nth-child(3n){width:1px;opacity:.5}.trailer-flight i:nth-child(4n){width:3px;opacity:.65}
+.trailer-flight.is-flying i{animation-play-state:running}
+.trailer-section:focus{outline:none}
+@keyframes trailerWind{from{transform:translateY(165vh) scaleY(.65)}to{transform:translateY(-80vh) scaleY(1.15)}}
+@media(prefers-reduced-motion:reduce){.trailer-flight{display:none}.trailer-flight i{animation:none}}
