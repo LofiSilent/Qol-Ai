@@ -213,8 +213,9 @@ export async function loadAvatar(url, { onProgress, onPreparing, onReady, onErro
     if (OUTFIT === 'classic') addJacketDetails(model);
 
     const box = new THREE.Box3().setFromObject(model);
-    const h = box.max.y - box.min.y;
-    target.set(0, box.min.y + h * 0.7, 0);
+    // кадр считается от пола (подошвы в пакете убраны — они вне кадра), чтобы композиция не менялась
+    const h = box.max.y - Math.min(box.min.y, -0.029);
+    target.set(0, Math.min(box.min.y, -0.029) + h * 0.7, 0);
     dist = h * 1.2;
     onReady?.();
   } catch (error) { onError?.(error); }

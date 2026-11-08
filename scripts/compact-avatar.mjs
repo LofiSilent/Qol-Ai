@@ -1,12 +1,32 @@
-// Lossless classic-outfit package. Visible geometry, skeleton and animation buffers
-// are preserved exactly; hidden wardrobe meshes and their unused resources are removed.
-export function compactAvatar(source){
+// Classic-outfit package. Visible geometry, skeleton and animation buffers are preserved;
+// hidden wardrobe, geometry outside the camera frame and unused resources are removed.
+import{Geometry}from'./trim-geometry.mjs';
+export function compactAvatar(source,options={}){
  if(source.readUInt32LE(0)!==0x46546c67||source.readUInt32LE(4)!==2)throw Error('GLB 2 required');
- const jsonSize=source.readUInt32LE(12),g=JSON.parse(source.subarray(20,20+jsonSize)),binary=source.subarray(28+jsonSize);
+ const jsonSize=source.readUInt32LE(12),g=JSON.parse(source.subarray(20,20+jsonSize));let binary=source.subarray(28+jsonSize);
  if(g.buffers.length!==1||(g.extensionsUsed||[]).some(e=>e!=='KHR_materials_specular'))throw Error('Unexpected model layout');
  const parent=new Map();g.nodes.forEach((node,i)=>(node.children||[]).forEach(c=>parent.set(c,i)));
  const clothes=['Qol_Business_','Qol_Casual_Knit','Qol_casual_','Qol_Academic_','Qol_academic_','Fitted_formal_jacket_and_top'],shown=['Qol_Business_','Qol_casual_Sleeve_'],hidden=[];
  g.nodes.forEach((node,i)=>{if(node.mesh===undefined)return;const names=[node.name||'',g.meshes[node.mesh].name||'',g.nodes[parent.get(i)]?.name||''];const match=prefixes=>names.some(n=>prefixes.some(p=>n.startsWith(p)));if(match(clothes)&&!match(shown)){hidden.push(i);delete node.mesh;delete node.skin;delete node.weights;}});
+ // Never visible: the camera frames head to hips and only orbits (no zoom), so shoes and the lower legs cannot be seen.
+ // The MakeHuman jacket is a second, hidden wardrobe set whose node name uses spaces, so the prefix list above misses it.
+ g.nodes.forEach((node,i)=>{if(node.mesh===undefined)return;const names=[node.name||'',g.meshes[node.mesh].name||'',g.nodes[parent.get(i)]?.name||''];if(names.some(n=>n.startsWith('Sneakers')||n.startsWith('Fitted formal jacket and top')||n==='male_elegantsuit01')){hidden.push(i);delete node.mesh;delete node.skin;delete node.weights;}});
+ const trimReport={};
+ const geo=new Geometry(g,binary);
+ for(const mesh of g.meshes)mesh.primitives=mesh.primitives.filter(p=>g.materials[p.material]?.name!=='Hidden skin under blouse');
+ const trim=options.trim||{};
+ g.nodes.forEach(node=>{
+  if(node.mesh===undefined)return;const mesh=g.meshes[node.mesh];
+  for(const primitive of mesh.primitives){
+   if(trim.pantsBelowY!==undefined&&node.name==='Pants001')trimReport.pants=geo.rewrite(primitive,{keepTriangle:(a,b,c,pos)=>Math.max(pos[a*3+1],pos[b*3+1],pos[c*3+1])>=trim.pantsBelowY});
+   if(options.simplifier&&trim.hairRatio&&node.name==='Qol_Long_Hair')trimReport.hair=geo.rewrite(primitive,{simplify:({indices,positions,normals,uvs})=>{
+    const count=positions.length/3,attributes=new Float32Array(count*5);
+    for(let i=0;i<count;i++){attributes.set([normals[i*3],normals[i*3+1],normals[i*3+2],uvs[i*2],uvs[i*2+1]],i*5);}
+    const [out]=options.simplifier.simplifyWithAttributes(indices,positions,3,attributes,5,[0.6,0.6,0.6,1.5,1.5],null,Math.floor(indices.length*trim.hairRatio/3)*3,trim.hairError??0.01,['LockBorder']);
+    return out;}});
+  }
+ });
+ binary=geo.binary;
  const hiddenSet=new Set(hidden);for(const animation of g.animations||[])animation.channels=animation.channels.filter(c=>!(c.target.path==='weights'&&hiddenSet.has(c.target.node)));
  const select=(items,indices)=>{const sourceIndices=[...indices].sort((a,b)=>a-b),map=new Map(sourceIndices.map((old,i)=>[old,i]));return{items:sourceIndices.map(i=>items[i]),map,sourceIndices};};
  const meshes=select(g.meshes,new Set(g.nodes.filter(n=>n.mesh!==undefined).map(n=>n.mesh)));g.meshes=meshes.items;for(const n of g.nodes)if(n.mesh!==undefined)n.mesh=meshes.map.get(n.mesh);
@@ -28,5 +48,5 @@ export function compactAvatar(source){
  for(const a of g.accessors){if(a.bufferView!==undefined)a.bufferView=views.map.get(a.bufferView);if(a.sparse){a.sparse.indices.bufferView=views.map.get(a.sparse.indices.bufferView);a.sparse.values.bufferView=views.map.get(a.sparse.values.bufferView);}}
  for(const image of g.images)if(image.bufferView!==undefined)image.bufferView=views.map.get(image.bufferView);
  g.buffers[0].byteLength=offset;const json=Buffer.from(JSON.stringify(g)),jsonPadded=Buffer.concat([json,Buffer.alloc((4-json.length%4)%4,0x20)]),bin=Buffer.concat(parts),header=Buffer.alloc(20),binHeader=Buffer.alloc(8);header.writeUInt32LE(0x46546c67,0);header.writeUInt32LE(2,4);header.writeUInt32LE(28+jsonPadded.length+bin.length,8);header.writeUInt32LE(jsonPadded.length,12);header.writeUInt32LE(0x4e4f534a,16);binHeader.writeUInt32LE(bin.length,0);binHeader.writeUInt32LE(0x004e4942,4);
- return{buffer:Buffer.concat([header,jsonPadded,binHeader,bin]),report:{sourceBytes:source.length,outputBytes:header.length+jsonPadded.length+binHeader.length+bin.length,hiddenNodes:hidden,meshesKept:g.meshes.length,sourceAccessorByOutput:accessors.sourceIndices,sourceImageByOutput:images.sourceIndices}};
+ return{buffer:Buffer.concat([header,jsonPadded,binHeader,bin]),report:{trim:trimReport,sourceBytes:source.length,outputBytes:header.length+jsonPadded.length+binHeader.length+bin.length,hiddenNodes:hidden,meshesKept:g.meshes.length,sourceAccessorByOutput:accessors.sourceIndices,sourceImageByOutput:images.sourceIndices}};
 }
