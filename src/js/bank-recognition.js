@@ -50,10 +50,11 @@ export class RecordedSignCamera {
  async start(){
   this.stop();const version=++this.generation;this.setStatus('loading');let detector;
   try{
-   const [model,vision]=await Promise.all([fetch(this.modelUrl).then(r=>{if(!r.ok)throw Error('model');return r.json();}),import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21/vision_bundle.mjs')]);
+   const [model,vision]=await Promise.all([fetch(this.modelUrl).then(r=>{if(!r.ok)throw Error('model');return r.json();}),import('../vendor/mediapipe/vision_bundle.mjs').catch(()=>import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21/vision_bundle.mjs'))]);
    if(version!==this.generation)return;
-   const fs=await vision.FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21/wasm');
-   detector=await vision.HandLandmarker.createFromOptions(fs,{baseOptions:{delegate:'CPU',modelAssetPath:'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task'},runningMode:'VIDEO',numHands:2,minHandDetectionConfidence:.5,minHandPresenceConfidence:.5});
+   const attempts=[{wasm:'vendor/mediapipe/wasm',model:'assets/models/hand_landmarker.task'},{wasm:'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21/wasm',model:'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task'}];let lastError;
+   for(const attempt of attempts){try{const fs=await vision.FilesetResolver.forVisionTasks(attempt.wasm);detector=await vision.HandLandmarker.createFromOptions(fs,{baseOptions:{delegate:'CPU',modelAssetPath:attempt.model},runningMode:'VIDEO',numHands:2,minHandDetectionConfidence:.5,minHandPresenceConfidence:.5});break;}catch(error){lastError=error;}}
+   if(!detector)throw lastError;
    if(version!==this.generation){detector.close();return;}
    const stream=await navigator.mediaDevices.getUserMedia({video:{width:{ideal:1280},height:{ideal:720},facingMode:'user'},audio:false});
    if(version!==this.generation){stream.getTracks().forEach(t=>t.stop());detector.close();return;}

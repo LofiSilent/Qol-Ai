@@ -32,6 +32,10 @@ for (const file of ['build/three.module.js', 'examples/jsm/loaders/GLTFLoader.js
   await mkdir(join('dist/vendor/three', file, '..'), { recursive: true });
   await cp(join('node_modules/three', file === 'build/three.module.js' ? 'build/three.module.min.js' : file), join('dist/vendor/three', file));
 }
+// MediaPipe hand tracking (camera recognition): same-origin so it works offline in the app and does not depend on a CDN
+await mkdir('dist/vendor/mediapipe', { recursive: true });
+await cp('node_modules/@mediapipe/tasks-vision/vision_bundle.mjs', 'dist/vendor/mediapipe/vision_bundle.mjs');
+await cp('node_modules/@mediapipe/tasks-vision/wasm', 'dist/vendor/mediapipe/wasm', { recursive: true });
 await mkdir('dist/vendor/meshoptimizer', { recursive: true });
 await cp('node_modules/meshoptimizer/meshopt_decoder.mjs', 'dist/vendor/meshoptimizer/meshopt_decoder.mjs');
 await cp('node_modules/meshoptimizer/LICENSE.md', 'dist/vendor/meshoptimizer/LICENSE.md');
@@ -81,7 +85,7 @@ async function listFiles(dir, base = '') {
   }
   return out;
 }
-const precache = (await listFiles('dist')).filter(f => f !== 'sw.js' && !f.startsWith('_') && !f.startsWith('assets/video/') && !f.startsWith('system-alert/') && !/\.(png|map)$/.test(f) || /^assets\/icons\//.test(f));
+const precache = (await listFiles('dist')).filter(f => f !== 'sw.js' && !f.startsWith('_') && !f.startsWith('assets/video/') && !f.startsWith('vendor/mediapipe/') && !f.startsWith('assets/models/') && !f.startsWith('system-alert/') && !/\.(png|map)$/.test(f) || /^assets\/icons\//.test(f));
 let sw = await readFile('dist/sw.js', 'utf8');
 const versioned = f => (/^(js\/|data\/)/.test(f) || f === 'styles.css' || f === 'trailer.css') ? `${f}?v=${BUILD}` : f;
 await writeFile('dist/sw.js', sw.replace('__PRECACHE__', JSON.stringify(precache.map(versioned))));
