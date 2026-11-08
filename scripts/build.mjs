@@ -9,14 +9,14 @@ const BUILD = process.env.GITHUB_SHA?.slice(0, 8) || Date.now().toString(36);
 const APP = process.env.APP === '1';
 await rm('dist', { recursive: true, force: true });
 await mkdir('dist', { recursive: true });
-for (const entry of ['index.html', 'styles.css', 'trailer.css', 'js', 'data', 'assets', 'system-alert']) {
+for (const entry of ['index.html', 'styles.css', 'trailer.css', 'sw.js', 'js', 'data', 'assets', 'system-alert']) {
   await cp(`src/${entry}`, `dist/${entry}`, { recursive: true });
 }
 
 // Decode the same skeleton and motions, pruning only wardrobe already hidden at runtime.
 const source = await readFile('src/assets/model/avatar.glb');
 await MeshoptSimplifier.ready;
-const compact = compactAvatar(source, { simplifier: MeshoptSimplifier, trim: { pantsBelowY: 0.45, hairRatio: Number(process.env.HAIR_RATIO || 0.8) } });
+const compact = compactAvatar(source, { simplifier: MeshoptSimplifier, trim: { pantsBelowY: 0.45, hairRatio: Number(process.env.HAIR_RATIO || 0) } });
 const compressed = await compressAvatar(compact.buffer);
 const digest = createHash('sha256').update(compressed.buffer).digest('hex').slice(0, 12);
 const modelPath = `assets/model/avatar-fast-${digest}.glb`;
@@ -72,5 +72,17 @@ async function stamp(dir) {
   }
 }
 await stamp('dist');
+// Service worker: precache everything except video (large, range requests) and the Android-only bits.
+async function listFiles(dir, base = '') {
+  const out = [];
+  for (const item of await readdir(join(dir, base), { withFileTypes: true })) {
+    const rel = base ? `${base}/${item.name}` : item.name;
+    if (item.isDirectory()) out.push(...await listFiles(dir, rel)); else out.push(rel);
+  }
+  return out;
+}
+const precache = (await listFiles('dist')).filter(f => f !== 'sw.js' && !f.startsWith('assets/video/') && !f.startsWith('system-alert/') && !/\.(png|map)$/.test(f) || /^assets\/icons\//.test(f));
+let sw = await readFile('dist/sw.js', 'utf8');
+await writeFile('dist/sw.js', sw.replace('__PRECACHE__', JSON.stringify(precache)));
 console.log(JSON.stringify({ sourceModelBytes: source.length, trim: compact.report.trim, ...compressed.report, modelPath }));
 console.log(`Built ${APP ? 'app' : 'site'} into dist/ (version ${BUILD})`);
