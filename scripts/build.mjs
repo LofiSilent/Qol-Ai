@@ -1,6 +1,7 @@
 import { cp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
+import { MeshoptSimplifier } from 'meshoptimizer';
 import { compactAvatar } from './compact-avatar.mjs';
 import { compressAvatar } from './compress-avatar.mjs';
 
@@ -14,7 +15,8 @@ for (const entry of ['index.html', 'styles.css', 'trailer.css', 'js', 'data', 'a
 
 // Decode the same skeleton and motions, pruning only wardrobe already hidden at runtime.
 const source = await readFile('src/assets/model/avatar.glb');
-const compact = compactAvatar(source);
+await MeshoptSimplifier.ready;
+const compact = compactAvatar(source, { simplifier: MeshoptSimplifier, trim: { pantsBelowY: 0.45, hairRatio: Number(process.env.HAIR_RATIO || 0.55) } });
 const compressed = await compressAvatar(compact.buffer);
 const digest = createHash('sha256').update(compressed.buffer).digest('hex').slice(0, 12);
 const modelPath = `assets/model/avatar-fast-${digest}.glb`;
@@ -70,5 +72,5 @@ async function stamp(dir) {
   }
 }
 await stamp('dist');
-console.log(JSON.stringify({ sourceModelBytes: source.length, ...compressed.report, modelPath }));
+console.log(JSON.stringify({ sourceModelBytes: source.length, trim: compact.report.trim, ...compressed.report, modelPath }));
 console.log(`Built ${APP ? 'app' : 'site'} into dist/ (version ${BUILD})`);
