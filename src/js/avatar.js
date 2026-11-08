@@ -28,9 +28,9 @@ const ALL_CLOTHES = [...new Set(Object.values(OUTFITS).flat())];
 const OUTFIT = 'classic';
 // Цвета ткани (sRGB) для выбранного комплекта.
 const CLOTH_COLORS = {
-  'Qol tailored collar': '#17171a',   // пиджак
-  'Qol casual knit': '#17171a',       // рукава пиджака
-  'Qol ivory blouse': '#bebbb4',      // рубашка и манжеты
+  'Qol tailored collar': '#151517',   // пиджак
+  'Qol casual knit': '#151517',       // рукава пиджака
+  'Qol ivory blouse': '#f4f3f0',      // рубашка и манжеты
   'Qol academic vest': '#151517',
 };
 
@@ -74,11 +74,11 @@ const MATERIALS = {
   'Std_Nails': { envMapIntensity: 0.35 },
   'Std_Skin_Body.001': { roughness: 0.6, envMapIntensity: 0.35 },
   'Std_Skin_Arm.001': { roughness: 0.6, envMapIntensity: 0.35 },
-  'Qol black hair / unified satin': { color: '#2a1c14', roughness: 0.52, envMapIntensity: 0.9 },
-  'Qol tailored collar': { roughness: 0.74, sheen: ['#2f323b', 0.6] },
-  'Qol casual knit': { roughness: 0.74, sheen: ['#2f323b', 0.6] },
+  'Qol black hair / unified satin': { color: '#2a1c14', roughness: 0.42, envMapIntensity: 1.4 },
+  'Qol tailored collar': { roughness: 0.78 },
+  'Qol casual knit': { roughness: 0.78 },
   'Qol ivory blouse': { roughness: 0.7 },
-  'Matte black formal fabric': { roughness: 0.88, sheen: ['#2a2d35', 0.7] },
+  'Matte black formal fabric': { roughness: 0.82 },
 };
 // части тела, спрятанные под одеждой: в некоторых позах они торчат наружу (например, у шеи)
 const HIDDEN_MATERIALS = ['Hidden skin under blouse'];
@@ -94,97 +94,7 @@ function tuneMaterials(root) {
       if (t.color) m.color.set(t.color);
       if (t.roughness !== undefined) m.roughness = t.roughness;
       if (t.envMapIntensity !== undefined) m.envMapIntensity = t.envMapIntensity;
-      if (t.sheen && 'sheen' in m) { m.sheen = 1; m.sheenColor = new THREE.Color(t.sheen[0]); m.sheenRoughness = t.sheen[1]; }
     }
-  });
-}
-
-
-// ---------- волосы и линия роста ----------
-function tuneHair(root) {
-  root.traverse(o => {
-    if (!o.isMesh) return;
-    for (const m of [o.material].flat()) {
-      if (!m) continue;
-      if (m.name === 'Qol black hair / unified satin' && !m.userData.hairTuned) {
-        m.userData.hairTuned = true;
-        m.onBeforeCompile = shader => {
-          shader.vertexShader = shader.vertexShader
-            .replace('#include <common>', '#include <common>\nvarying vec2 vHairUv; varying float vHairY;')
-            .replace('#include <begin_vertex>', '#include <begin_vertex>\n  vHairUv = uv; vHairY = position.y;');
-          shader.fragmentShader = shader.fragmentShader
-            .replace('#include <common>', `#include <common>
-varying vec2 vHairUv; varying float vHairY;
-float hairHash(float x) { return fract(sin(x * 12.9898) * 43758.5453); }`)
-            .replace('#include <color_fragment>', `#include <color_fragment>
-  float sFine = hairHash(floor(vHairUv.x * 900.0));
-  float sMid = hairHash(floor(vHairUv.x * 180.0) + 7.0);
-  float strand = 0.65 * sFine + 0.35 * sMid;
-  float roots = smoothstep(1.30, 1.76, vHairY);
-  vec3 hairTip = vec3(0.062, 0.034, 0.02);
-  vec3 hairRoot = vec3(0.022, 0.013, 0.010);
-  diffuseColor.rgb = mix(hairTip, hairRoot, roots) * (0.78 + 0.44 * strand);
-  if (vHairY < 1.268 + 0.075 * hairHash(floor(vHairUv.x * 150.0) + 3.0)) discard;`)
-            .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
-  {
-    vec3 dpx = dFdx(-vViewPosition), dpy = dFdy(-vViewPosition);
-    vec2 dux = dFdx(vHairUv), duy = dFdy(vHairUv);
-    float dd = dux.y * duy.x - duy.y * dux.x;
-    vec3 Tv = normalize((dpx * duy.x - dpy * dux.x) / (abs(dd) > 1e-12 ? dd : 1e-12));
-    vec3 V = normalize(vViewPosition);
-    vec3 L1 = normalize((viewMatrix * vec4(1.4, 2.2, 2.6, 0.0)).xyz);
-    vec3 L2 = normalize((viewMatrix * vec4(-1.5, 2.2, -2.2, 0.0)).xyz);
-    float t1 = dot(Tv, normalize(L1 + V)); float t2 = dot(Tv, normalize(L2 + V));
-    float k1 = pow(sqrt(max(0.0, 1.0 - t1 * t1)), 70.0 + 50.0 * strand);
-    float k2 = pow(sqrt(max(0.0, 1.0 - t2 * t2)), 40.0);
-    float lit1 = smoothstep(-0.1, 0.4, dot(normal, L1)), lit2 = smoothstep(-0.1, 0.4, dot(normal, L2));
-    totalEmissiveRadiance += vec3(1.0, 0.78, 0.55) * (0.06 * k1 * lit1 + 0.035 * k2 * lit2) * (0.5 + strand);
-  }`);
-        };
-        m.needsUpdate = true;
-      }
-      if (m.name === 'Std_Skin_Head.001' && !m.userData.hairTuned) {
-        m.userData.hairTuned = true;
-        m.onBeforeCompile = shader => {
-          shader.vertexShader = shader.vertexShader
-            .replace('#include <common>', '#include <common>\nvarying float vHeadY; varying vec2 vHeadUv;')
-            .replace('#include <begin_vertex>', '#include <begin_vertex>\n  vHeadY = position.y; vHeadUv = uv;');
-          shader.fragmentShader = shader.fragmentShader
-            .replace('#include <common>', '#include <common>\nvarying float vHeadY; varying vec2 vHeadUv;')
-            .replace('#include <map_fragment>', `#include <map_fragment>
-  // мягкая линия роста волос: корни «подрисованы» на лбу пушистой границей вместо ровного края парика
-  float fuzz = fract(sin(dot(floor(vHeadUv * 520.0), vec2(12.9898, 78.233))) * 43758.5453);
-  float scalp = smoothstep(1.726 + 0.012 * fuzz, 1.752 + 0.012 * fuzz, vHeadY);
-  diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.03, 0.018, 0.013), scalp * 0.9);`);
-        };
-        m.needsUpdate = true;
-      }
-    }
-  });
-}
-
-// ---------- пиджак: убираем «живот» (в модели пиджак выпячивается ниже талии) ----------
-function flattenTorso(root) {
-  const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
-  // зона [y0..y1] целиком, плавное затухание за её краями; передняя поверхность не дальше cap
-  const jobs = {
-    Qol_Business_Jacket_Body: { cap: 0.112, y: [0.95, 1.17], fade: 0.05 },
-    Qol_Business_Ivory_Blouse: { cap: 0.108, y: [0.95, 1.17], fade: 0.05 },
-    Pants001: { cap: 0.096, y: [0.95, 1.14], fade: 0.06 },
-  };
-  root.traverse(o => {
-    const job = jobs[o.name];
-    if (!o.isMesh || !job || o.userData.flattened) return;
-    o.userData.flattened = true;
-    const p = o.geometry.attributes.position;
-    for (let i = 0; i < p.count; i++) {
-      const z = p.getZ(i), y = p.getY(i);
-      if (z <= job.cap) continue;
-      const ramp = smooth(job.y[0] - job.fade, job.y[0], y) * (1 - smooth(job.y[1], job.y[1] + job.fade, y));
-      const w = ramp * (1 - smooth(0.10, 0.20, Math.abs(p.getX(i))));
-      if (w > 0) p.setZ(i, z - (z - job.cap) * w);
-    }
-    p.needsUpdate = true;
   });
 }
 
@@ -214,9 +124,7 @@ export async function loadAvatar(url, { onProgress, onPreparing, onReady, onErro
       if (o.isMesh) o.frustumCulled = false;
     });
     applyOutfit(model);
-    flattenTorso(model);
     tuneMaterials(model);
-    tuneHair(model);
     model.traverse(o => { if (o.morphTargetDictionary && 'Eye_Blink' in o.morphTargetDictionary) faces.push(o); });
     mixer = new THREE.AnimationMixer(model);
     // The original full-body clip contains a bow. Use the same standing segment
@@ -264,13 +172,7 @@ function addJacketDetails(root) {
   if (!body || !shirt || !chest) return;
   shirt.material = shirt.material.clone();
   shirt.material.onBeforeCompile = shader => {
-    shader.vertexShader = shader.vertexShader
-      .replace('#include <common>', '#include <common>\nvarying vec3 vShirtPos;')
-      .replace('#include <begin_vertex>', '#include <begin_vertex>\n  vShirtPos = position;\n  transformed += objectNormal * (0.005 * smoothstep(1.49, 1.51, position.y) - 0.012 * (1.0 - smoothstep(1.475, 1.495, position.y)));');
-    // на плечах рубашка выглядывает из-под пиджака рваными краями — там красим её в цвет пиджака
-    shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', '#include <common>\nvarying vec3 vShirtPos;')
-      .replace('#include <color_fragment>', '#include <color_fragment>\n  if (vShirtPos.y > 1.38 && abs(vShirtPos.x) > 0.118) diffuseColor.rgb = vec3(0.009, 0.009, 0.011);');
+    shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\n  transformed += objectNormal * (0.005 * smoothstep(1.49, 1.51, position.y) - 0.012 * (1.0 - smoothstep(1.475, 1.495, position.y)));');
   };
   root.updateMatrixWorld(true);
 
