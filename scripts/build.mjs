@@ -9,7 +9,7 @@ const BUILD = process.env.GITHUB_SHA?.slice(0, 8) || Date.now().toString(36);
 const APP = process.env.APP === '1';
 await rm('dist', { recursive: true, force: true });
 await mkdir('dist', { recursive: true });
-for (const entry of ['index.html', 'styles.css', 'trailer.css', 'sw.js', '_headers', 'js', 'data', 'assets', 'system-alert']) {
+for (const entry of ['index.html', 'styles.css', 'trailer.css', 'sw.js', '_headers', '_redirects', 'js', 'data', 'assets', 'system-alert']) {
   await cp(`src/${entry}`, `dist/${entry}`, { recursive: true });
 }
 
