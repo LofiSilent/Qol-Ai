@@ -28,8 +28,8 @@ const ALL_CLOTHES = [...new Set(Object.values(OUTFITS).flat())];
 const OUTFIT = 'classic';
 // Цвета ткани (sRGB) для выбранного комплекта.
 const CLOTH_COLORS = {
-  'Qol tailored collar': '#151517',   // пиджак
-  'Qol casual knit': '#151517',       // рукава пиджака
+  'Qol tailored collar': '#17171a',   // пиджак
+  'Qol casual knit': '#17171a',       // рукава пиджака
   'Qol ivory blouse': '#f4f3f0',      // рубашка и манжеты
   'Qol academic vest': '#151517',
 };
@@ -74,11 +74,11 @@ const MATERIALS = {
   'Std_Nails': { envMapIntensity: 0.35 },
   'Std_Skin_Body.001': { roughness: 0.6, envMapIntensity: 0.35 },
   'Std_Skin_Arm.001': { roughness: 0.6, envMapIntensity: 0.35 },
-  'Qol black hair / unified satin': { color: '#2a1c14', roughness: 0.42, envMapIntensity: 1.4 },
-  'Qol tailored collar': { roughness: 0.78 },
-  'Qol casual knit': { roughness: 0.78 },
+  'Qol black hair / unified satin': { color: '#2a1c14', roughness: 0.52, envMapIntensity: 0.9 },
+  'Qol tailored collar': { roughness: 0.74, sheen: ['#2f323b', 0.6] },
+  'Qol casual knit': { roughness: 0.74, sheen: ['#2f323b', 0.6] },
   'Qol ivory blouse': { roughness: 0.7 },
-  'Matte black formal fabric': { roughness: 0.82 },
+  'Matte black formal fabric': { roughness: 0.88, sheen: ['#2a2d35', 0.7] },
 };
 // части тела, спрятанные под одеждой: в некоторых позах они торчат наружу (например, у шеи)
 const HIDDEN_MATERIALS = ['Hidden skin under blouse'];
@@ -94,7 +94,75 @@ function tuneMaterials(root) {
       if (t.color) m.color.set(t.color);
       if (t.roughness !== undefined) m.roughness = t.roughness;
       if (t.envMapIntensity !== undefined) m.envMapIntensity = t.envMapIntensity;
+      if (t.sheen && 'sheen' in m) { m.sheen = 1; m.sheenColor = new THREE.Color(t.sheen[0]); m.sheenRoughness = t.sheen[1]; }
     }
+  });
+}
+
+
+// ---------- волосы и линия роста ----------
+function tuneHair(root) {
+  root.traverse(o => {
+    if (!o.isMesh) return;
+    for (const m of [o.material].flat()) {
+      if (!m) continue;
+      if (m.name === 'Qol black hair / unified satin' && !m.userData.hairTuned) {
+        m.userData.hairTuned = true;
+        m.onBeforeCompile = shader => {
+          shader.vertexShader = shader.vertexShader
+            .replace('#include <common>', '#include <common>\nvarying vec2 vHairUv; varying float vHairY;')
+            .replace('#include <begin_vertex>', '#include <begin_vertex>\n  vHairUv = uv; vHairY = position.y;');
+          shader.fragmentShader = shader.fragmentShader
+            .replace('#include <common>', '#include <common>\nvarying vec2 vHairUv; varying float vHairY;')
+            .replace('#include <color_fragment>', `#include <color_fragment>
+  float strand = fract(sin(floor(vHairUv.x * 320.0) * 12.9898) * 43758.5453);
+  float roots = smoothstep(1.30, 1.76, vHairY);
+  vec3 hairTip = vec3(0.085, 0.048, 0.028);
+  vec3 hairRoot = vec3(0.022, 0.013, 0.010);
+  diffuseColor.rgb = mix(hairTip, hairRoot, roots) * (0.82 + 0.36 * strand);`);
+        };
+        m.needsUpdate = true;
+      }
+      if (m.name === 'Std_Skin_Head.001' && !m.userData.hairTuned) {
+        m.userData.hairTuned = true;
+        m.onBeforeCompile = shader => {
+          shader.vertexShader = shader.vertexShader
+            .replace('#include <common>', '#include <common>\nvarying float vHeadY; varying float vHeadZ;')
+            .replace('#include <begin_vertex>', '#include <begin_vertex>\n  vHeadY = position.y; vHeadZ = position.z;');
+          shader.fragmentShader = shader.fragmentShader
+            .replace('#include <common>', '#include <common>\nvarying float vHeadY; varying float vHeadZ;')
+            .replace('#include <map_fragment>', `#include <map_fragment>
+  float scalp = smoothstep(1.752, 1.775, vHeadY);
+  diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.03, 0.018, 0.013), scalp * 0.92);`);
+        };
+        m.needsUpdate = true;
+      }
+    }
+  });
+}
+
+// ---------- пиджак: убираем «живот» (в модели пиджак выпячивается ниже талии) ----------
+function flattenTorso(root) {
+  const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  // зона [y0..y1] целиком, плавное затухание за её краями; передняя поверхность не дальше cap
+  const jobs = {
+    Qol_Business_Jacket_Body: { cap: 0.112, y: [0.95, 1.17], fade: 0.05 },
+    Qol_Business_Ivory_Blouse: { cap: 0.108, y: [0.95, 1.17], fade: 0.05 },
+    Pants001: { cap: 0.096, y: [0.95, 1.14], fade: 0.06 },
+  };
+  root.traverse(o => {
+    const job = jobs[o.name];
+    if (!o.isMesh || !job || o.userData.flattened) return;
+    o.userData.flattened = true;
+    const p = o.geometry.attributes.position;
+    for (let i = 0; i < p.count; i++) {
+      const z = p.getZ(i), y = p.getY(i);
+      if (z <= job.cap) continue;
+      const ramp = smooth(job.y[0] - job.fade, job.y[0], y) * (1 - smooth(job.y[1], job.y[1] + job.fade, y));
+      const w = ramp * (1 - smooth(0.10, 0.20, Math.abs(p.getX(i))));
+      if (w > 0) p.setZ(i, z - (z - job.cap) * w);
+    }
+    p.needsUpdate = true;
   });
 }
 
@@ -124,7 +192,9 @@ export async function loadAvatar(url, { onProgress, onPreparing, onReady, onErro
       if (o.isMesh) o.frustumCulled = false;
     });
     applyOutfit(model);
+    flattenTorso(model);
     tuneMaterials(model);
+    tuneHair(model);
     model.traverse(o => { if (o.morphTargetDictionary && 'Eye_Blink' in o.morphTargetDictionary) faces.push(o); });
     mixer = new THREE.AnimationMixer(model);
     // The original full-body clip contains a bow. Use the same standing segment
