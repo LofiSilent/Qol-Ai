@@ -36,6 +36,17 @@ self.addEventListener('fetch', event => {
     })());
     return;
   }
+  if (url.pathname.includes('/vendor/mediapipe/') || url.pathname.includes('/assets/models/')) {
+    // тяжёлые файлы камеры (~17 МБ): кладём в кеш при первом использовании, дальше работают без сети
+    event.respondWith((async () => {
+      const cached = await caches.match(request);
+      if (cached) return cached;
+      const response = await fetch(request);
+      if (response.ok) (await caches.open(CACHE)).put(request, response.clone());
+      return response;
+    })());
+    return;
+  }
   event.respondWith((async () => {
     const exact = await caches.match(request);
     if (exact) return exact;

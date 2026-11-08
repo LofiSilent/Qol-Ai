@@ -63,6 +63,7 @@ jobs:
           npx cap add android
           npm run android:assets
           node scripts/android-signing.mjs
+          node scripts/android-manifest.mjs
           npx cap sync android
 
       - name: Set version

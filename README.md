@@ -21,8 +21,10 @@ npm run preview   # просмотр dist/
 Готовый APK: [Releases → android-latest](https://github.com/LofiSilent/Qol-Ai/releases/tag/android-latest).
 Собирается автоматически (`.github/workflows/android.yml`) после каждого изменения сайта в `main`.
 
-Приложение — это сайт внутри Capacitor (`kz.qolai.app`). three.js, шрифты и 3D-модель лежат внутри APK,
-поэтому приложение работает без интернета. Иконка и заставка генерируются из `assets/`.
+Приложение — это сайт внутри Capacitor (`kz.qolai.app`). three.js, шрифты, 3D-модель, трейлер и распознавание
+жестов (MediaPipe: wasm и модель руки) лежат внутри APK, поэтому приложение работает без интернета.
+Для распознавания жестов запрашивается доступ к камере (`scripts/android-manifest.mjs`).
+Язык и тема берутся с телефона. Иконка и заставка генерируются из `assets/`.
 
 Собрать локально (нужны Android Studio / Android SDK и JDK 21):
 
