@@ -200,7 +200,11 @@ followVisible([heroStage, studioStage], el => el !== studioStage || studioActive
 const avatarReady = new Promise((resolve, reject) => loadAvatar('assets/model/avatar.glb?v=__BUILD__', {
   onProgress: p => { const l = $('#loading'); if (l) l.textContent = p === null ? t('loading') : `${t('loading')} ${Math.round(Math.max(0, Math.min(1, p)) * 100)}%`; },
   onPreparing: () => { const l = $('#loading'); if (l) l.textContent = t('preparing3D'); },
-  onReady: () => { $('#loading')?.remove(); window.__ready = true; resolve(); },
+  onReady: () => {
+    $('#loading')?.remove(); window.__ready = true; resolve();
+    // постер аватара держим до первого кадра 3D, потом плавно убираем
+    requestAnimationFrame(() => requestAnimationFrame(() => { const p = $('#heroPoster'); if (p) { p.classList.add('gone'); setTimeout(() => p.remove(), 500); } }));
+  },
   onError: err => { const l = $('#loading'); if (l) l.textContent = t('loadError'); reject(err); },
 }));
 // The visible loading error is handled above; avoid an unhandled promise on slow/failed devices.
@@ -471,4 +475,21 @@ requestAnimationFrame(() => requestAnimationFrame(() => html.classList.remove('i
   if (!live.length || !('IntersectionObserver' in window)) { live.forEach(el => el.classList.add('live')); return; }
   const io = new IntersectionObserver(entries => entries.forEach(en => en.target.classList.toggle('live', en.isIntersecting)), { rootMargin: '80px' });
   live.forEach(el => io.observe(el));
+})();
+
+// трейлер: начинаем докачивать видео заранее — когда блок рядом с экраном или курсор на превью (не конкурирует с моделью при старте)
+(() => {
+  const video = $('#trailerVideo'), trigger = $('#trailerTrigger');
+  if (!video || !trigger) return;
+  const warm = () => {
+    if (!video.dataset.src || video.getAttribute('src')) return;
+    video.preload = 'auto';
+    video.src = video.dataset.src;
+    if (video.dataset.poster) video.poster = video.dataset.poster;
+  };
+  ['pointerenter', 'focus', 'touchstart'].forEach(e => trigger.addEventListener(e, warm, { once: true, passive: true }));
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => { if (entries.some(en => en.isIntersecting)) { io.disconnect(); window.__ready ? warm() : setTimeout(warm, 1500); } }, { rootMargin: '250px' });
+    io.observe(trigger);
+  }
 })();

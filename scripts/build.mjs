@@ -22,7 +22,7 @@ const digest = createHash('sha256').update(compressed.buffer).digest('hex').slic
 const modelPath = `assets/model/avatar-fast-${digest}.glb`;
 await writeFile(`dist/${modelPath}`, compressed.buffer);
 await rm('dist/assets/model/avatar.glb');
-await rm('dist/assets/video/qol-trailer-v7-poster.png');
+await rm('dist/assets/video/qol-trailer-v7-poster.png', { force: true });
 let main = await readFile('dist/js/main.js', 'utf8');
 main = main.replace('assets/model/avatar.glb?v=__BUILD__', modelPath);
 await writeFile('dist/js/main.js', main);
