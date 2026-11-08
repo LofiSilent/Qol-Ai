@@ -16,7 +16,7 @@ for (const entry of ['index.html', 'styles.css', 'trailer.css', 'js', 'data', 'a
 // Decode the same skeleton and motions, pruning only wardrobe already hidden at runtime.
 const source = await readFile('src/assets/model/avatar.glb');
 await MeshoptSimplifier.ready;
-const compact = compactAvatar(source, { simplifier: MeshoptSimplifier, trim: { pantsBelowY: 0.45, hairRatio: Number(process.env.HAIR_RATIO || 0.55) } });
+const compact = compactAvatar(source, { simplifier: MeshoptSimplifier, trim: { pantsBelowY: 0.45, hairRatio: Number(process.env.HAIR_RATIO || 0.8) } });
 const compressed = await compressAvatar(compact.buffer);
 const digest = createHash('sha256').update(compressed.buffer).digest('hex').slice(0, 12);
 const modelPath = `assets/model/avatar-fast-${digest}.glb`;
