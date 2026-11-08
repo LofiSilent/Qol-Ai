@@ -83,6 +83,7 @@ async function listFiles(dir, base = '') {
 }
 const precache = (await listFiles('dist')).filter(f => f !== 'sw.js' && !f.startsWith('_') && !f.startsWith('assets/video/') && !f.startsWith('system-alert/') && !/\.(png|map)$/.test(f) || /^assets\/icons\//.test(f));
 let sw = await readFile('dist/sw.js', 'utf8');
-await writeFile('dist/sw.js', sw.replace('__PRECACHE__', JSON.stringify(precache)));
+const versioned = f => (/^(js\/|data\/)/.test(f) || f === 'styles.css' || f === 'trailer.css') ? `${f}?v=${BUILD}` : f;
+await writeFile('dist/sw.js', sw.replace('__PRECACHE__', JSON.stringify(precache.map(versioned))));
 console.log(JSON.stringify({ sourceModelBytes: source.length, trim: compact.report.trim, ...compressed.report, modelPath }));
 console.log(`Built ${APP ? 'app' : 'site'} into dist/ (version ${BUILD})`);
