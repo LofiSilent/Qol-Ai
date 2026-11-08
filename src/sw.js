@@ -36,5 +36,11 @@ self.addEventListener('fetch', event => {
     })());
     return;
   }
-  event.respondWith((async () => (await caches.match(request, { ignoreSearch: true })) || fetch(request))());
+  event.respondWith((async () => {
+    const exact = await caches.match(request);
+    if (exact) return exact;
+    // файлы без ?v= (шрифты, иконки, модель с хэшем в имени) можно брать без учёта строки запроса
+    if (!url.searchParams.has('v')) { const loose = await caches.match(request, { ignoreSearch: true }); if (loose) return loose; }
+    return fetch(request);
+  })());
 });

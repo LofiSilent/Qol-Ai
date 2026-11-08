@@ -497,6 +497,9 @@ requestAnimationFrame(() => requestAnimationFrame(() => html.classList.remove('i
 // кеш сайта (service worker): регистрируем после загрузки 3D, чтобы не отнимать канал у модели
 (() => {
   if (!('serviceWorker' in navigator) || (location.protocol !== 'https:' && location.hostname !== 'localhost') || html.classList.contains('native-app') || telegram) return;
+  const hadController = !!navigator.serviceWorker.controller;
+  let reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadController && !reloaded) { reloaded = true; location.reload(); } });
   const register = () => navigator.serviceWorker.register('sw.js').catch(() => {});
   avatarReady.then(() => setTimeout(register, 1500), () => {});
 })();
