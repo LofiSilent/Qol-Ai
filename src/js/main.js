@@ -28,12 +28,20 @@ connectTelegram(app => {
 let camera = null;
 // ---------- язык ----------
 const requested = new URLSearchParams(location.search).get('lang');
-let lang = [requested, storage.get('qolai-lang')].find(l => LANGUAGES.includes(l)) || DEFAULT_LANGUAGE;
+// язык: ссылка (?lang=) → выбор пользователя → язык устройства (kk/ru/en) → казахский по умолчанию
+const deviceLanguage = () => {
+  for (const code of navigator.languages?.length ? navigator.languages : [navigator.language || '']) {
+    const short = String(code).slice(0, 2).toLowerCase();
+    if (LANGUAGES.includes(short)) return short;
+  }
+  return null;
+};
+let lang = [requested, storage.get('qolai-lang')].find(l => LANGUAGES.includes(l)) || deviceLanguage() || DEFAULT_LANGUAGE;
 const t = key => translations[lang][key] ?? translations[DEFAULT_LANGUAGE][key] ?? '';
 
-function setLang(next) {
+function setLang(next, persist = true) {
   lang = next;
-  storage.set('qolai-lang', lang);
+  if (persist) storage.set('qolai-lang', lang);
   html.lang = lang;
   $$('[data-i18n]').forEach(el => { const v = t(el.dataset.i18n); if (v) el.textContent = v; });
   $$('[data-i18n-html]').forEach(el => { const v = t(el.dataset.i18nHtml); if (v) el.innerHTML = v; });
@@ -62,12 +70,16 @@ $$('[data-lang]').forEach(btn => btn.addEventListener('click', () => {
   html.classList.add('lang-switching');
   setTimeout(() => { setLang(btn.dataset.lang); requestAnimationFrame(() => html.classList.remove('lang-switching')); }, 200);
 }));
-setLang(lang);
+setLang(lang, LANGUAGES.includes(requested));
 
 // ---------- тема ----------
 // в приложении по умолчанию — тема телефона, на сайте — светлая
-const systemTheme = html.classList.contains('native-app') && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+const systemTheme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 if (!telegram) html.dataset.theme = storage.get('qolai-theme') || systemTheme;
+// пока пользователь сам не выбирал тему, следуем за темой устройства (в том числе при её смене)
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', e => {
+  if (!telegram && !storage.get('qolai-theme')) html.dataset.theme = e.matches ? 'dark' : 'light';
+});
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const applyTheme = () => {
   html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
