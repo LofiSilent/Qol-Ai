@@ -9,3 +9,8 @@ test('full-sign capture survives an internal pause until the user finishes it',(
 test('a camera that stops advancing frames reports a stalled video feed',()=>withClock(set=>{const x=camera();x.c.lastVideo=x.video.currentTime;x.c.lastFrameAt=5;set(10);x.c.tick();assert.equal(x.statuses.at(-1),'waitingVideo');}));
 test('manual completion without hands reports no hands and stop cancels manual capture',()=>withClock(()=>{const x=camera();x.c.beginCapture();assert.equal(x.c.finishCapture(),null);assert.equal(x.statuses.at(-1),'nohand');x.c.beginCapture();x.c.stop();assert.equal(x.c.manual,false);assert.equal(x.statuses.at(-1),'stopped');assert.deepEqual(x.words,[]);}));
 test('camera processing never asks a canvas to draw landmark dots',()=>withClock(set=>{const x=camera();x.c.canvas={getContext(){throw Error('Landmark overlay must stay removed');}};x.c.detector={detectForVideo:()=>detection};set(10);x.video.currentTime=1;assert.doesNotThrow(()=>x.c.tick());assert.equal(x.statuses.at(-1),'capturing');}));
+
+test('a long sign can be recognized with six frames on a slow camera, but a brief fragment cannot',()=>withClock(()=>{
+ const x=camera(),frame=descriptor(detection);x.c.samples=Array.from({length:6},(_,i)=>({time:i*.3,frame}));assert.equal(x.c.completeCapture(10)?.label,'target');
+ x.c.lastEmit=0;x.c.samples=Array.from({length:6},(_,i)=>({time:i*.1,frame}));assert.equal(x.c.completeCapture(12),null);assert.equal(x.statuses.at(-1),'tooShort');
+}));

@@ -22,7 +22,7 @@ export function sequenceDistance(a,b){
  for(let i=1;i<=a.length;i++){const next=new Float64Array(b.length+1).fill(Infinity);for(let j=1;j<=b.length;j++)if(Math.abs(i/a.length-j/b.length)<=.3)next[j]=distance(a[i-1],b[j-1])+Math.min(prev[j],next[j-1],prev[j-1]);prev.set(next);}return prev[b.length]/Math.max(a.length,b.length);
 }
 function matchOrientation(frames,model){
- if(frames.length<10||!model?.prototypes?.length)return null;
+ if(frames.length<6||!model?.prototypes?.length)return null;
  const seq=Array.from({length:20},(_,i)=>frames[Math.round(i*(frames.length-1)/19)]),byLabel=new Map();
  for(const p of [...model.prototypes,...(model.negativePrototypes||[])]){const d=sequenceDistance(seq,p.frames);byLabel.set(p.label,Math.min(d,byLabel.get(p.label)??Infinity));}
  const ranked=[...byLabel].map(([label,distance])=>({label,distance})).sort((a,b)=>a.distance-b.distance);
@@ -46,9 +46,9 @@ export class RecordedSignCamera {
   this.manual=true;this.manualStartedAt=performance.now()/1000;this.samples=[];this.previous=null;this.feedbackUntil=0;this.setStatus('manualCapturing');return true;
  }
  completeCapture(now=performance.now()/1000){
-  const frames=(this.samples||[]).map(s=>s.frame);this.samples=[];this.previous=null;this.manual=false;this.feedbackUntil=now+2;
+  const samples=this.samples||[],frames=samples.map(s=>s.frame),span=samples.length>1?samples.at(-1).time-samples[0].time:0;this.samples=[];this.previous=null;this.manual=false;this.feedbackUntil=now+2;
   if(!frames.length){this.setStatus('nohand');return null;}
-  if(frames.length<10){this.setStatus('tooShort');return null;}
+  if(frames.length<6||(frames.length<10&&(!Number.isFinite(span)||span<1.2))){this.setStatus('tooShort');return null;}
   if(now-this.lastEmit<=1){this.setStatus('pause');return null;}
   let result;try{result=matchWord(frames,this.model);}catch{this.setStatus('error');return null;}
   this.setStatus(result?'recognized':'uncertain');
