@@ -16,3 +16,12 @@ test('mirrored camera input is recognized while mirrored negative gestures remai
  const model={labels:['question'],threshold:.18,margin:.035,prototypes:[{label:'question',frames:positive}],negativePrototypes:[{label:'other',frames:negative}]};
  assert.equal(matchWord(mirrorFrames(positive),model)?.label,'question');assert.equal(matchWord(mirrorFrames(negative),model),null);
 });
+
+test('a calibrated label threshold does not relax other labels or the ambiguity margin',()=>{
+ const frame=value=>[Array(65).fill(value),null],seq=value=>Array(20).fill(frame(value));
+ const model={labels:['commission','other'],threshold:.18,labelThresholds:{commission:.20},margin:.035,prototypes:[{label:'commission',frames:seq(0)},{label:'other',frames:seq(1)}]};
+ assert.equal(matchWord(seq(.19),model)?.label,'commission');
+ assert.equal(matchWord(seq(.81),model),null);
+ const ambiguous={...model,prototypes:[{label:'commission',frames:seq(0)},{label:'other',frames:seq(.02)}]};
+ assert.equal(matchWord(seq(.01),ambiguous),null);
+});

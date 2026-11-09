@@ -26,7 +26,8 @@ function matchOrientation(frames,model){
  const seq=Array.from({length:20},(_,i)=>frames[Math.round(i*(frames.length-1)/19)]),byLabel=new Map();
  for(const p of [...model.prototypes,...(model.negativePrototypes||[])]){const d=sequenceDistance(seq,p.frames);byLabel.set(p.label,Math.min(d,byLabel.get(p.label)??Infinity));}
  const ranked=[...byLabel].map(([label,distance])=>({label,distance})).sort((a,b)=>a.distance-b.distance);
- if(ranked.length<2||ranked[0].distance>model.threshold||ranked[1].distance-ranked[0].distance<model.margin)return null;
+ const specificThreshold=model.labelThresholds?.[ranked[0]?.label],threshold=Number.isFinite(specificThreshold)?specificThreshold:model.threshold;
+ if(ranked.length<2||ranked[0].distance>threshold||ranked[1].distance-ranked[0].distance<model.margin)return null;
  if(model.labels&&!model.labels.includes(ranked[0].label))return null;
  return ranked[0];
 }
