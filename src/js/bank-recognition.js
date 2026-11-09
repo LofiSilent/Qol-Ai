@@ -21,7 +21,7 @@ export function sequenceDistance(a,b){
  const prev=new Float64Array(b.length+1).fill(Infinity);prev[0]=0;
  for(let i=1;i<=a.length;i++){const next=new Float64Array(b.length+1).fill(Infinity);for(let j=1;j<=b.length;j++)if(Math.abs(i/a.length-j/b.length)<=.3)next[j]=distance(a[i-1],b[j-1])+Math.min(prev[j],next[j-1],prev[j-1]);prev.set(next);}return prev[b.length]/Math.max(a.length,b.length);
 }
-export function matchWord(frames,model){
+function matchOrientation(frames,model){
  if(frames.length<10||!model?.prototypes?.length)return null;
  const seq=Array.from({length:20},(_,i)=>frames[Math.round(i*(frames.length-1)/19)]),byLabel=new Map();
  for(const p of [...model.prototypes,...(model.negativePrototypes||[])]){const d=sequenceDistance(seq,p.frames);byLabel.set(p.label,Math.min(d,byLabel.get(p.label)??Infinity));}
@@ -30,6 +30,14 @@ export function matchWord(frames,model){
  if(model.labels&&!model.labels.includes(ranked[0].label))return null;
  return ranked[0];
 }
+// Some cameras deliver a mirrored image; test the corresponding handedness and coordinates.
+export function mirrorFrames(frames){
+ return frames.map(frame=>[frame[1],frame[0]].map(hand=>{
+  if(!hand)return null;
+  const mirrored=hand.slice();for(let i=0;i<63;i+=3)mirrored[i]=-mirrored[i];mirrored[63]=1-mirrored[63];return mirrored;
+ }));
+}
+export function matchWord(frames,model){return matchOrientation(frames,model)||matchOrientation(mirrorFrames(frames),model);}
 export class RecordedSignCamera {
  constructor({video,canvas,modelUrl,onStatus,onWord}){Object.assign(this,{video,canvas,modelUrl,onStatus,onWord});this.generation=0;this.stream=null;this.running=false;this.raf=0;this.manual=false;this.feedbackUntil=0;this.lastStatus=null;}
  setStatus(key){if(this.lastStatus!==key){this.lastStatus=key;this.onStatus?.(key);}}

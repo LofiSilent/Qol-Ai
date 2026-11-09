@@ -10,3 +10,9 @@ test('untracked hands and short captures cannot produce a recognized word',()=>{
 test('two indistinguishable labels are rejected rather than arbitrarily chosen',()=>{const frame=[Array(65).fill(0),null],frames=Array.from({length:20},()=>frame);const model={prototypes:[{label:'a',frames},{label:'b',frames}],threshold:.16,margin:.035};assert.equal(matchWord(frames,model),null);});
 
 test('camera matches complete recorded questions, preserving the three Russian outputs',()=>{assert.equal(cameraPhraseIndex('Карта готова?'),0);assert.equal(cameraPhraseIndex('Где подписать?'),1);assert.equal(cameraPhraseIndex('Есть комиссия?'),2);assert.equal(cameraPhraseIndex('Карта'),-1);assert.equal(cameraPhraseIndex('Комиссии'),-1);});
+test('mirrored camera input is recognized while mirrored negative gestures remain rejected',async()=>{
+ const {mirrorFrames}=await import('../src/js/bank-recognition.js');
+ const hand=Array.from({length:65},(_,i)=>i===63?.25:i===64?.4:(i%3===0?.12:.03)),other=hand.map((v,i)=>i<63?v+.9:v),positive=Array.from({length:20},()=>[hand,null]),negative=Array.from({length:20},()=>[other,null]);
+ const model={labels:['question'],threshold:.18,margin:.035,prototypes:[{label:'question',frames:positive}],negativePrototypes:[{label:'other',frames:negative}]};
+ assert.equal(matchWord(mirrorFrames(positive),model)?.label,'question');assert.equal(matchWord(mirrorFrames(negative),model),null);
+});
